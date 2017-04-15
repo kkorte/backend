@@ -97,20 +97,20 @@ class PaymentMethodController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($paymentMethodId)
     {
         return view('hideyo_backend::payment_method.edit')->with(
             array(
-                'paymentMethod' => $this->paymentMethod->find($id),
+                'paymentMethod' => $this->paymentMethod->find($paymentMethodId),
                 'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'),
                 'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')
             )
         );
     }
 
-    public function update($id)
+    public function update($paymentMethodId)
     {
-        $result  = $this->paymentMethod->updateById($this->request->all(), $id);
+        $result  = $this->paymentMethod->updateById($this->request->all(), $paymentMethodId);
 
         if (isset($result->id)) {
             Notification::success('The payment method was updated.');
@@ -124,9 +124,9 @@ class PaymentMethodController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($paymentMethodId)
     {
-        $result  = $this->paymentMethod->destroy($id);
+        $result  = $this->paymentMethod->destroy($paymentMethodId);
 
         if ($result) {
             Notification::success('The payment method was deleted.');

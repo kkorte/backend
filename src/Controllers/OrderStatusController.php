@@ -97,9 +97,9 @@ class OrderStatusController extends Controller
         );
     }
 
-    public function editSeo($id)
+    public function editSeo($orderStatusId)
     {
-        return view('hideyo_backend::order-status.edit_seo')->with(array('content' => $this->orderStatus->find($id)));
+        return view('hideyo_backend::order-status.edit_seo')->with(array('content' => $this->orderStatus->find($orderStatusId)));
     }
 
     public function update($orderStatusId)
@@ -118,9 +118,9 @@ class OrderStatusController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($orderStatusId)
     {
-        $result  = $this->orderStatus->destroy($id);
+        $result  = $this->orderStatus->destroy($orderStatusId);
 
         if ($result) {
             Notification::success('The order status was deleted.');
