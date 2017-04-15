@@ -17,8 +17,6 @@ class Invoice extends BaseModel
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['order_id', 'type', 'client_id', 'shop_id', 'price_with_tax', 'price_without_tax', 'bill_invoice_address_id', 'delivery_invoice_address_id',];
 
-
-
     public static function boot()
     {
 
