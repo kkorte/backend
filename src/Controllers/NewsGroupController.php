@@ -44,9 +44,9 @@ class NewsGroupController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::news_group.index')->with('newsGroup', $this->news->selectAll());
         }
+        
+        return view('hideyo_backend::news_group.index')->with('newsGroup', $this->news->selectAll());
     }
 
     public function create()

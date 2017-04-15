@@ -16,6 +16,9 @@ use Hideyo\Backend\Repositories\NewsGroupRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
+use Auth;
 
 class NewsController extends Controller
 {
@@ -31,17 +34,13 @@ class NewsController extends Controller
 
             $query = $this->news->getModel()->select(
                 [
-                
                 $this->news->getModel()->getTable().'.id',
                 $this->news->getModel()->getTable().'.title',
-
                 $this->news->getGroupModel()->getTable().'.title as newsgroup']
-            )->where($this->news->getModel()->getTable().'.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
-
-
+            )->where($this->news->getModel()->getTable().'.shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)
             ->with(array('newsGroup'))        ->leftJoin($this->news->getGroupModel()->getTable(), $this->news->getGroupModel()->getTable().'.id', '=', 'news_group_id');
             
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
             ->filterColumn('title', function ($query, $keyword) {
 
                 $query->where(
@@ -56,7 +55,7 @@ class NewsController extends Controller
             })
 
             ->addColumn('action', function ($query) {
-                $delete = \Form::deleteajax(url()->route('hideyo.news.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax(url()->route('hideyo.news.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('hideyo.news.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;
@@ -64,9 +63,9 @@ class NewsController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::news.index')->with('news', $this->news->selectAll());
         }
+        
+        return view('hideyo_backend::news.index')->with('news', $this->news->selectAll());
     }
 
     public function create()
@@ -92,7 +91,6 @@ class NewsController extends Controller
 
     public function edit($id)
     {
-    
         return view('hideyo_backend::news.edit')->with(array('news' => $this->news->find($id), 'groups' => $this->news->selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
@@ -133,7 +131,6 @@ class NewsController extends Controller
 
     public function destroy($id)
     {
-
         $result  = $this->news->destroy($id);
 
         if ($result) {

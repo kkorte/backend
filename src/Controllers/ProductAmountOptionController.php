@@ -17,10 +17,12 @@ use Hideyo\Backend\Repositories\ExtraFieldRepositoryInterface;
 use Hideyo\Backend\Repositories\AttributeGroupRepositoryInterface;
 use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
 
-use \Request;
-use \Notification;
-use \Redirect;
-use \Response;
+use Request;
+use Notification;
+use Redirect;
+use Response;
+use Datatables;
+use Form;
 
 class ProductAmountOptionController extends Controller
 {
@@ -46,19 +48,17 @@ class ProductAmountOptionController extends Controller
                 ['id', 'amount','default_on']
             )->where('product_id', '=', $productId);
             
-            $datatables = \Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
-                $delete = \Form::deleteajax('/admin/product/'.$productId.'/product-amount-option/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+            $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
+                $delete = Form::deleteajax('/admin/product/'.$productId.'/product-amount-option/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/product/'.$productId.'/product-amount-option/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
                 
                 return $link;
             });
 
             return $datatables->make(true);
-
-
-        } else {
-            return view('hideyo_backend::product-amount-option.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
         }
+        
+        return view('hideyo_backend::product-amount-option.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
     }
 
     public function create($productId)
@@ -85,18 +85,18 @@ class ProductAmountOptionController extends Controller
  
         if (isset($result->id)) {
             Notification::success('The product amount option is updated.');
-            return Redirect::route('admin.product.{productId}.product-amount-option.index', $productId);
+            return redirect()->route('admin.product.{productId}.product-amount-option.index', $productId);
         }
 
         if ($result) {
             foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
+                Notification::error($error);
             }
         } else {
-            \Notification::error('amount option already exist');
+            Notification::error('amount option already exist');
         }
         
-        return \Redirect::back()->withInput();
+        return redirect()->back()->withInput();
     }
 
     public function edit($productId, $id)
@@ -115,11 +115,11 @@ class ProductAmountOptionController extends Controller
         $result  = $this->productAmountOption->updateById(Request::all(), $productId, $id);
 
         if (!$result->id) {
-            return Redirect::back()->withInput()->withErrors($result->errors()->all());
+            return redirect()->back()->withInput()->withErrors($result->errors()->all());
         }
         
         Notification::success('The product amount option is updated.');
-        return Redirect::route('admin.product.{productId}.product-amount-option.index', $productId);
+        return redirect()->route('admin.product.{productId}.product-amount-option.index', $productId);
     }
 
     public function destroy($productId, $id)
@@ -128,7 +128,7 @@ class ProductAmountOptionController extends Controller
 
         if ($result) {
             Notification::success('The product amount option is deleted.');
-            return Redirect::route('admin.product.{productId}.product-amount-option.index', $productId);
+            return redirect()->route('admin.product.{productId}.product-amount-option.index', $productId);
         }
     }
 }

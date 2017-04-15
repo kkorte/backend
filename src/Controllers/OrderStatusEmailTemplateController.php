@@ -14,6 +14,8 @@ use Hideyo\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class OrderStatusEmailTemplateController extends Controller
 {
@@ -35,20 +37,18 @@ class OrderStatusEmailTemplateController extends Controller
                 ['id', 'title', 'subject']
             )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
             ->addColumn('action', function ($query) {
-                $delete = \Form::deleteajax('/admin/order-status-email-template/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/order-status-email-template/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/order-status-email-template/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;
             });
 
             return $datatables->make(true);
-
-
-        } else {
-            return view('hideyo_backend::order-status-email-template.index')->with(array('orderHtmlTemplate' =>  $this->orderHtmlTemplate->selectAll()));
         }
+        
+        return view('hideyo_backend::order-status-email-template.index')->with(array('orderHtmlTemplate' =>  $this->orderHtmlTemplate->selectAll()));
     }
 
     public function create()

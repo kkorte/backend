@@ -14,6 +14,8 @@ use Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class ProductCategoryImageController extends Controller
 {
@@ -31,17 +33,13 @@ class ProductCategoryImageController extends Controller
                 ['id','file', 'product_category_id']
             )->where('product_category_id', '=', $productCategoryId);
             
-            $datatables = \Datatables::of($image)
+            $datatables = Datatables::of($image)
 
             ->addColumn('thumb', function ($image) use ($productCategoryId) {
-
-
                 return '<img src="/files/product_category/100x100/'.$image->product_category_id.'/'.$image->file.'"  />';
             })
-
-
             ->addColumn('action', function ($image) use ($productCategoryId) {
-                $delete = \Form::deleteajax('/admin/product-category/'.$productCategoryId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/product-category/'.$productCategoryId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/product-category/'.$productCategoryId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
 
                 return $link;
@@ -51,9 +49,9 @@ class ProductCategoryImageController extends Controller
         
 
 
-        } else {
-            return view('hideyo_backend::product_category_image.index')->with(array('productCategory' => $productCategory));
         }
+        
+        return view('hideyo_backend::product_category_image.index')->with(array('productCategory' => $productCategory));
     }
 
     public function create($productCategoryId)
@@ -65,7 +63,6 @@ class ProductCategoryImageController extends Controller
 
     public function store(Request $request, $productCategoryId)
     {
-
         $result  = $this->productCategory->createImage($request->all(), $productCategoryId);
  
         if (isset($result->id)) {

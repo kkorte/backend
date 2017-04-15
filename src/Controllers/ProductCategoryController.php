@@ -17,6 +17,8 @@ use Hideyo\Backend\Repositories\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Auth;
+use Datatables;
+use Form;
 
 class ProductCategoryController extends Controller
 {
@@ -32,9 +34,9 @@ class ProductCategoryController extends Controller
 
             $productCategory = $this->productCategory->getModel()->select(
                 ['id', 'active','shop_id','parent_id', 'redirect_product_category_id','title', 'meta_title', 'meta_description']
-            )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($productCategory)
+            $datatables = Datatables::of($productCategory)
 
             ->addColumn('image', function ($productCategory) {
                 if ($productCategory->productCategoryImages->count()) {
@@ -81,33 +83,21 @@ class ProductCategoryController extends Controller
 
 
             ->addColumn('action', function ($productCategory) {
-                $delete = \Form::deleteajax(url()->route('hideyo.product-category.destroy', $productCategory->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $productCategory->title);
+                $delete = Form::deleteajax(url()->route('hideyo.product-category.destroy', $productCategory->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $productCategory->title);
                 $link = '<a href="'.url()->route('hideyo.product-category.edit', $productCategory->id).'" class="btn btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;
             });
 
             return $datatables->make(true);
-
-
-        } else {
-            return view('hideyo_backend::product_category.index')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(Auth::guard('hideyobackend')->user()->shop->id)->toArray()));
         }
+        
+        return view('hideyo_backend::product_category.index')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(Auth::guard('hideyobackend')->user()->shop->id)->toArray()));
     }
-
-    public function reDirectoryAllImages()
-    {
-    
-        $this->productCategoryImage->reDirectoryAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
-
-        return redirect()->route('hideyo.product-category.index');
-    }
-
 
     public function refactorAllImages()
     {
         $this->productCategoryImage->refactorAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
-
         return redirect()->route('hideyo.product-category.index');
     }
 

@@ -13,6 +13,8 @@ use Hideyo\Backend\Repositories\NewsRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class NewsImageController extends Controller
 {
@@ -34,7 +36,7 @@ class NewsImageController extends Controller
                 'file', 'news_id']
             )->where('news_id', '=', $newsId);
             
-            $datatables = \Datatables::of($image)
+            $datatables = Datatables::of($image)
 
             ->addColumn('thumb', function ($image) use ($newsId) {
 
@@ -44,18 +46,16 @@ class NewsImageController extends Controller
 
 
             ->addColumn('action', function ($image) use ($newsId) {
-                $delete = \Form::deleteajax('/admin/news/'.$newsId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/news/'.$newsId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/news/'.$newsId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
 
                 return $link;
             });
 
             return $datatables->make(true);
-
-
-        } else {
-            return view('hideyo_backend::news_image.index')->with(array('news' => $news));
         }
+        
+        return view('hideyo_backend::news_image.index')->with(array('news' => $news));
     }
 
     public function create($newsId)
@@ -74,7 +74,7 @@ class NewsImageController extends Controller
             return redirect()->route('hideyo.news.{newsId}.images.index', $newsId);
         } else {
             foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
+                Notification::error($error);
             }
             return redirect()->back()->withInput()->withErrors($result);
         }
@@ -95,7 +95,7 @@ class NewsImageController extends Controller
             return redirect()->route('hideyo.news.{newsId}.images.index', $newsId);
         } else {
             foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
+                Notification::error($error);
             }
             return redirect()->back()->withInput()->withErrors($result);
         }

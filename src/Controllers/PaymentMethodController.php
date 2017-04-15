@@ -16,6 +16,8 @@ use Hideyo\Backend\Repositories\OrderStatusRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
+use Datatables;
+use Auth;
 
 class PaymentMethodController extends Controller
 {
@@ -39,7 +41,7 @@ class PaymentMethodController extends Controller
                 ['id', 'title', 'order_confirmed_order_status_id', 'payment_completed_order_status_id', 'payment_failed_order_status_id']
             )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->with(array('orderConfirmedOrderStatus', 'orderPaymentCompletedOrderStatus', 'orderPaymentFailedOrderStatus'));
             
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
 
             ->addColumn('orderconfirmed', function ($query) {
                 if ($query->orderConfirmedOrderStatus) {
@@ -64,9 +66,9 @@ class PaymentMethodController extends Controller
 
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::payment_method.index')->with('paymentMethod', $this->paymentMethod->selectAll());
         }
+        
+        return view('hideyo_backend::payment_method.index')->with('paymentMethod', $this->paymentMethod->selectAll());
     }
 
     public function create()
@@ -84,12 +86,12 @@ class PaymentMethodController extends Controller
         $result  = $this->paymentMethod->create($this->request->all());
 
         if (isset($result->id)) {
-            \Notification::success('The payment method was inserted.');
+            Notification::success('The payment method was inserted.');
             return redirect()->route('hideyo.payment-method.index');
         }
         
         foreach ($result->errors()->all() as $error) {
-            \Notification::error($error);
+            Notification::error($error);
         }
         
         return redirect()->back()->withInput();
@@ -111,11 +113,11 @@ class PaymentMethodController extends Controller
         $result  = $this->paymentMethod->updateById($this->request->all(), $id);
 
         if (isset($result->id)) {
-            \Notification::success('The payment method was updated.');
+            Notification::success('The payment method was updated.');
             return redirect()->route('hideyo.payment-method.index');
         } else {
             foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
+                Notification::error($error);
             }
         }
 

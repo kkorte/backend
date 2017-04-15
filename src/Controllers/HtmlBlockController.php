@@ -13,6 +13,8 @@ use Hideyo\Backend\Repositories\HtmlBlockRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class HtmlBlockController extends Controller
 {
@@ -33,7 +35,7 @@ class HtmlBlockController extends Controller
                 'title', 'image_file_name', 'position']
             )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
 
             ->addColumn('active', function ($query) {
                 if ($query->active) {
@@ -48,7 +50,7 @@ class HtmlBlockController extends Controller
                 }
             })
             ->addColumn('action', function ($query) {
-                $delete = \Form::deleteajax(url()->route('hideyo.html-block.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax(url()->route('hideyo.html-block.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 
                 $copy = '<a href="/admin/html-block/'.$query->id.'/copy" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Copy</a>';
 
@@ -59,9 +61,9 @@ class HtmlBlockController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::html-block.index')->with('htmlBlock', $this->htmlBlock->selectAll());
         }
+        
+        return view('hideyo_backend::html-block.index')->with('htmlBlock', $this->htmlBlock->selectAll());
     }
 
     public function create()
@@ -72,7 +74,6 @@ class HtmlBlockController extends Controller
     public function copy($htmlBlockId)
     {
         $htmlBlock = $this->htmlBlock->find($htmlBlockId);
-
 
         return view('hideyo_backend::html-block.copy')->with(
             array(
@@ -114,15 +115,11 @@ class HtmlBlockController extends Controller
         return redirect()->back()->withInput();
     }
 
-
     public function changeActive($htmlBlockId)
     {
         $result = $this->htmlBlock->changeActive($htmlBlockId);
-
-
         return response()->json($result);
     }
-
 
     public function edit($id)
     {
@@ -155,7 +152,6 @@ class HtmlBlockController extends Controller
             Notification::error($error);
         }
         
-       
         return redirect()->back()->withInput();
     }
 
