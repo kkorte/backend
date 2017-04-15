@@ -61,15 +61,14 @@ class SendingMethod extends Model
         return $this->belongsTo('Hideyo\Backend\Models\Shop');
     }
 
-
     public function setTotalPriceDiscountStartDateAttribute($value)
     {
+        $this->attributes['total_price_discount_start_date'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['total_price_discount_start_date'] = $value;
-        } else {
-            $this->attributes['total_price_discount_start_date'] = null;
         }
     }
 
@@ -78,9 +77,9 @@ class SendingMethod extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function setTotalPriceDiscountEndDateAttribute($value)
@@ -99,8 +98,8 @@ class SendingMethod extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 }

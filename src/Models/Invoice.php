@@ -48,7 +48,7 @@ class Invoice extends Model
 
     public function products()
     {
-        return $this->hasMany('Hideyo\Shop\Models\InvoiceRule');
+        return $this->hasMany('Hideyo\Backend\Models\InvoiceRule');
     }
 
     public function client()
@@ -65,19 +65,18 @@ class Invoice extends Model
 
     public function invoiceAddress()
     {
-        return $this->hasMany('Hideyo\Shop\Models\InvoiceAddress');
+        return $this->hasMany('Hideyo\Backend\Models\InvoiceAddress');
     }
 
     public function invoiceDeliveryAddress()
     {
-        return $this->hasOne('Hideyo\Shop\Models\InvoiceAddress', 'id', 'delivery_invoice_address_id');
+        return $this->hasOne('Hideyo\Backend\Models\InvoiceAddress', 'id', 'delivery_invoice_address_id');
     }
 
     public function invoiceBillAddress()
     {
-        return $this->hasOne('Hideyo\Shop\Models\InvoiceAddress', 'id', 'bill_invoice_address_id');
+        return $this->hasOne('Hideyo\Backend\Models\InvoiceAddress', 'id', 'bill_invoice_address_id');
     }
-
 
     public function taxTotal()
     {
@@ -88,7 +87,6 @@ class Invoice extends Model
     {
         return number_format($this->total_discount, 2, '.', '');
     }
-
 
     public function getPriceWithTaxNumberFormat()
     {
@@ -105,8 +103,6 @@ class Invoice extends Model
     {
         return number_format($this->price_without_tax, 2, '.', '');
     }
-
-
 
     public function taxDetails()
     {

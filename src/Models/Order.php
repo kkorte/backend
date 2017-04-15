@@ -96,8 +96,6 @@ class Order extends Model
         return $this->belongsTo('Hideyo\Backend\Models\Coupon');
     }
 
-
-
     public function invoice()
     {
         return $this->hasOne('Hideyo\Backend\Models\Invoice');

@@ -50,12 +50,11 @@ class Coupon extends Model
 
     public function setPublishedAtAttribute($value)
     {
+        $this->attributes['published_at'] = null;
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['published_at'] = $value;
-        } else {
-            $this->attributes['published_at'] = null;
         }
     }
 
@@ -64,20 +63,20 @@ class Coupon extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
 
     public function setUnPublishedAtAttribute($value)
     {
+        $this->attributes['unpublished_at'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['unpublished_at'] = $value;
-        } else {
-            $this->attributes['unpublished_at'] = null;
         }
     }
 
@@ -86,17 +85,17 @@ class Coupon extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function setCouponGroupIdAttribute($value)
     {
+        $this->attributes['coupon_group_id'] = null;
+
         if ($value) {
             $this->attributes['coupon_group_id'] = $value;
-        } else {
-            $this->attributes['coupon_group_id'] = null;
         }
     }
 }

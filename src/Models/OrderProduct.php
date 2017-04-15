@@ -54,8 +54,6 @@ class OrderProduct extends Model
         return number_format($this->original_total_price_without_tax, 2, '.', '');
     }
 
-
-
     public function getPriceWithTaxNumberFormat()
     {
         return number_format($this->price_with_tax, 2, '.', '');
@@ -72,14 +70,11 @@ class OrderProduct extends Model
         return number_format($this->total_price_without_tax, 2, '.', '');
     }
 
-
-
     public function getTotalPriceWithTaxNumberFormat()
     {
         return number_format($this->total_price_with_tax, 2, '.', '');
     }
     
-
     public function productAttribute()
     {
         return $this->belongsTo('Hideyo\Backend\Models\ProductAttribute');

@@ -52,12 +52,10 @@ class PaymentMethod extends Model
         return $this->belongsTo('Hideyo\Backend\Models\TaxRate');
     }
 
-
     public function orderConfirmedOrderStatus()
     {
         return $this->belongsTo('Hideyo\Backend\Models\OrderStatus', 'order_confirmed_order_status_id');
     }
-
 
     public function orderPaymentCompletedOrderStatus()
     {
@@ -69,9 +67,6 @@ class PaymentMethod extends Model
         return $this->belongsTo('Hideyo\Backend\Models\OrderStatus', 'payment_failed_order_status_id');
     }
 
-
-
-
     public function shop()
     {
         return $this->belongsTo('Hideyo\Backend\Models\Shop');
@@ -79,12 +74,12 @@ class PaymentMethod extends Model
 
     public function setTotalPriceDiscountStartDateAttribute($value)
     {
+        $this->attributes['total_price_discount_start_date'] = null;
+        
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['total_price_discount_start_date'] = $value;
-        } else {
-            $this->attributes['total_price_discount_start_date'] = null;
         }
     }
 
@@ -93,19 +88,19 @@ class PaymentMethod extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function setTotalPriceDiscountEndDateAttribute($value)
     {
+        $this->attributes['total_price_discount_end_date'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['total_price_discount_end_date'] = $value;
-        } else {
-            $this->attributes['total_price_discount_end_date'] = null;
         }
     }
 
@@ -114,8 +109,8 @@ class PaymentMethod extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 }

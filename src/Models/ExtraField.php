@@ -39,10 +39,10 @@ class ExtraField extends Model
 
     public function setProductCategoryIdAttribute($value)
     {
+        $this->attributes['product_category_id'] = null;
+
         if ($value) {
             $this->attributes['product_category_id'] = $value;
-        } else {
-            $this->attributes['product_category_id'] = null;
         }
     }
 }

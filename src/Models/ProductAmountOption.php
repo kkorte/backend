@@ -25,22 +25,22 @@ class ProductAmountOption extends Model
 
     public function setDiscountValueAttribute($value)
     {
+        $this->attributes['discount_value'] = null;
+
         if ($value) {
             $this->attributes['discount_value'] = $value;
-        } else {
-            $this->attributes['discount_value'] = null;
         }
     }
 
     public function setDiscountStartDateAttribute($value)
     {
+        $this->attributes['discount_start_date'] = null;
+
         if ($value) {
             $date = explode('/', $value);
 
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['discount_start_date'] = $value;
-        } else {
-            $this->attributes['discount_start_date'] = null;
         }
     }
 
@@ -49,19 +49,19 @@ class ProductAmountOption extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function setDiscountEndDateAttribute($value)
     {
+        $this->attributes['discount_end_date'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['discount_end_date'] = $value;
-        } else {
-            $this->attributes['discount_end_date'] = null;
         }
     }
 
@@ -70,21 +70,19 @@ class ProductAmountOption extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function setAmountAttribute($value)
     {
+        $this->attributes['amount'] = null;
+
         if ($value) {
             $this->attributes['amount'] = (int) $value;
-        } else {
-            $this->attributes['amount'] = null;
         }
     }
-
-  
 
     public function product()
     {

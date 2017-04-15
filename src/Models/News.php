@@ -37,6 +37,8 @@ class News extends Model
     
     public function setPublishedAtAttribute($value)
     {
+        $this->attributes['published_at'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             if (isset($date[2])) {
@@ -45,8 +47,6 @@ class News extends Model
             } else {
                 $this->attributes['published_at'] = $value;
             }
-        } else {
-            $this->attributes['published_at'] = null;
         }
     }
 
@@ -55,9 +55,9 @@ class News extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function newsImages()
@@ -72,10 +72,10 @@ class News extends Model
 
     public function setNewsGroupIdAttribute($value)
     {
+        $this->attributes['news_group_id'] = null;
+
         if ($value) {
             $this->attributes['news_group_id'] = $value;
-        } else {
-            $this->attributes['news_group_id'] = null;
         }
     }
 }

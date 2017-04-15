@@ -78,10 +78,10 @@ class Content extends Model
 
     public function setContentGroupIdAttribute($value)
     {
+        $this->attributes['content_group_id'] = null;
+        
         if ($value) {
             $this->attributes['content_group_id'] = $value;
-        } else {
-            $this->attributes['content_group_id'] = null;
         }
     }
 }
