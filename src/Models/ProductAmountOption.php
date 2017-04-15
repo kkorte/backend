@@ -23,15 +23,6 @@ class ProductAmountOption extends Model
         parent::__construct($attributes);
     }
 
-    public function setDiscountValueAttribute($value)
-    {
-        $this->attributes['discount_value'] = null;
-
-        if ($value) {
-            $this->attributes['discount_value'] = $value;
-        }
-    }
-
     public function setDiscountStartDateAttribute($value)
     {
         $this->attributes['discount_start_date'] = null;
@@ -73,15 +64,6 @@ class ProductAmountOption extends Model
         }
         
         return null;
-    }
-
-    public function setAmountAttribute($value)
-    {
-        $this->attributes['amount'] = null;
-
-        if ($value) {
-            $this->attributes['amount'] = (int) $value;
-        }
     }
 
     public function product()

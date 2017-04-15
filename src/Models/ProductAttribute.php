@@ -23,15 +23,6 @@ class ProductAttribute extends Model
         parent::__construct($attributes);
     }
 
-    public function setDiscountValueAttribute($value)
-    {
-        $this->attributes['discount_value'] = null;
-
-        if ($value) {
-            $this->attributes['discount_value'] = $value;
-        }
-    }
-
     public function setDiscountStartDateAttribute($value)
     {
         $this->attributes['discount_start_date'] = null;
@@ -85,28 +76,9 @@ class ProductAttribute extends Model
         return $this->hasMany('Hideyo\Backend\Models\ProductAttributeImage');
     }
 
-
     public function productAttributeCombinations()
     {
         return $this->hasMany('Hideyo\Backend\Models\ProductAttributeCombination');
-    }
-
-    public function setAmountAttribute($value)
-    {
-        $this->attributes['amount'] = 0;
-
-        if ($value) {
-            $this->attributes['amount'] = (int) $value;
-        }
-    }
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = null;
-
-        if ($value) {
-            $this->attributes['price'] = $value;
-        }
     }
 
     public function taxRate()

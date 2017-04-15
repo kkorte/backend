@@ -75,13 +75,4 @@ class Content extends Model
     {
         return $this->hasMany('Hideyo\Backend\Models\ContentImage');
     }
-
-    public function setContentGroupIdAttribute($value)
-    {
-        $this->attributes['content_group_id'] = null;
-        
-        if ($value) {
-            $this->attributes['content_group_id'] = $value;
-        }
-    }
 }

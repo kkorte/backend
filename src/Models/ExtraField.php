@@ -36,13 +36,4 @@ class ExtraField extends Model
     {
         return $this->hasMany('Hideyo\Backend\Models\ExtraFieldDefaultValue');
     }
-
-    public function setProductCategoryIdAttribute($value)
-    {
-        $this->attributes['product_category_id'] = null;
-
-        if ($value) {
-            $this->attributes['product_category_id'] = $value;
-        }
-    }
 }

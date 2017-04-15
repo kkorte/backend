@@ -30,12 +30,12 @@ class SendingMethod extends Model
 
     public function getPriceDetails()
     {
+        $taxRate = 0;
+        $price_inc = 0;
+
         if (isset($this->taxRate->rate)) {
             $taxRate = $this->taxRate->rate;
             $price_inc = (($this->taxRate->rate / 100) * $this->price) + $this->price;
-        } else {
-            $taxRate = 0;
-            $price_inc = 0;
         }
 
         return array(

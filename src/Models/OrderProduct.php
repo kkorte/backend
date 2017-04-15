@@ -27,7 +27,6 @@ class OrderProduct extends Model
         return $this->belongsTo('Hideyo\Backend\Models\Order');
     }
 
-
     public function product()
     {
         return $this->belongsTo('Hideyo\Backend\Models\Product');
@@ -63,7 +62,6 @@ class OrderProduct extends Model
     {
         return number_format($this->price_without_tax, 2, '.', '');
     }
-
 
     public function getTotalPriceWithoutTaxNumberFormat()
     {

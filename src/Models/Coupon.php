@@ -68,7 +68,6 @@ class Coupon extends Model
         return null;
     }
 
-
     public function setUnPublishedAtAttribute($value)
     {
         $this->attributes['unpublished_at'] = null;
@@ -88,14 +87,5 @@ class Coupon extends Model
         }
         
         return null;
-    }
-
-    public function setCouponGroupIdAttribute($value)
-    {
-        $this->attributes['coupon_group_id'] = null;
-
-        if ($value) {
-            $this->attributes['coupon_group_id'] = $value;
-        }
     }
 }

@@ -121,7 +121,6 @@ class Order extends Model
         return $this->hasOne('Hideyo\Backend\Models\OrderPaymentMethod');
     }
 
-
     public function taxTotal()
     {
         return number_format($this->price_with_tax - $this->price_without_tax, 2, '.', '');

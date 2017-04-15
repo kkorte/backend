@@ -41,10 +41,10 @@ class News extends Model
 
         if ($value) {
             $date = explode('/', $value);
+            $this->attributes['published_at'] = $value;
+
             if (isset($date[2])) {
                 $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
-                $this->attributes['published_at'] = $value;
-            } else {
                 $this->attributes['published_at'] = $value;
             }
         }
@@ -68,14 +68,5 @@ class News extends Model
     public function newsGroup()
     {
         return $this->belongsTo('Hideyo\Backend\Models\NewsGroup');
-    }
-
-    public function setNewsGroupIdAttribute($value)
-    {
-        $this->attributes['news_group_id'] = null;
-
-        if ($value) {
-            $this->attributes['news_group_id'] = $value;
-        }
     }
 }

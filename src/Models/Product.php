@@ -66,32 +66,6 @@ class Product extends Model
         return $list instanceof Collection ? $list->all() : $list;
     }
     
-
-    public function beforeValidate()
-    {
-        $this->sluggify();
-    }
-    
-    public function setDiscountValueAttribute($value)
-    {
-        $this->attributes['discount_value'] = null;
-
-        if ($value) {
-            $this->attributes['discount_value'] = $value;
-        }
-    }
-
-
-    public function setBrandIdAttribute($value)
-    {
-        $this->attributes['brand_id'] = null;
-
-        if ($value) {
-            $this->attributes['brand_id'] = $value;
-        }
-    }
-
-
     public function setDiscountStartDateAttribute($value)
     {
         $this->attributes['discount_start_date'] = null;
