@@ -5,7 +5,6 @@ It's still beta. The code is not optimal and clean. In the next month we will im
 
 Author: Matthijs Neijenhuijs
 
-
 ## Installation
 
 First install laravel and have a database connection running up: https://laravel.com/docs/5.4/installation
@@ -37,7 +36,6 @@ $this->call(UserTableSeeder::class);
 after:
 
 Model::unguard();
-
 ```
 
 ----
