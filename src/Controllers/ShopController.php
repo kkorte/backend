@@ -29,7 +29,8 @@ class ShopController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->shop->getModel();
+            $query = $this->shop->getModel()
+            ->select(['id', 'title', 'logo_file_name']);
             $datatables = Datatables::of($query)
 
             ->addColumn('action', function ($query) {
@@ -45,9 +46,9 @@ class ShopController extends Controller
             });
 
             return $datatables->make(true);
+        } else {
+            return view('hideyo_backend::shop.index')->with('shop', $this->shop->selectAll());
         }
-        
-        return view('hideyo_backend::shop.index')->with('shop', $this->shop->selectAll());
     }
 
     public function create()

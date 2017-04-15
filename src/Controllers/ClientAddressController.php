@@ -74,9 +74,9 @@ class ClientAddressController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::client_address.index')->with(array('client' => $client));
         }
+        
+        return view('hideyo_backend::client_address.index')->with(array('client' => $client));
     }
 
     public function create($clientId)

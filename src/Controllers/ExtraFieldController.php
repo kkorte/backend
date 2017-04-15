@@ -15,6 +15,8 @@ use Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface;
 
 use Request;
 use Notification;
+use Datatables;
+use Form;
 
 class ExtraFieldController extends Controller
 {
@@ -34,7 +36,7 @@ class ExtraFieldController extends Controller
             ->select(['id', 'all_products','title'])
             ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
 
             ->addColumn('category', function ($query) {
                 if ($query->categories) {
@@ -47,7 +49,7 @@ class ExtraFieldController extends Controller
                 }
             })
             ->addColumn('action', function ($query) {
-                $delete = \Form::deleteajax(url()->route('hideyo.extra-field.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax(url()->route('hideyo.extra-field.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('hideyo.extra-field-values.index', $query->id).'" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>'.$query->values->count().' values</a>
                  <a href="'.url()->route('hideyo.extra-field.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
                 '.$delete;
@@ -59,13 +61,13 @@ class ExtraFieldController extends Controller
 
 
         } else {
-            return \View::make('hideyo_backend::extra-field.index')->with('extraField', $this->extraField->selectAll());
+            return view('hideyo_backend::extra-field.index')->with('extraField', $this->extraField->selectAll());
         }
     }
 
     public function create()
     {
-        return \View::make('hideyo_backend::extra-field.create')->with(array('productCategories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('hideyo_backend::extra-field.create')->with(array('productCategories' => $this->productCategory->selectAll()->pluck('title', 'id')));
     }
 
     public function store()
@@ -86,7 +88,7 @@ class ExtraFieldController extends Controller
 
     public function edit($id)
     {
-        return \View::make('hideyo_backend::extra-field.edit')->with(array('extraField' => $this->extraField->find($id), 'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('hideyo_backend::extra-field.edit')->with(array('extraField' => $this->extraField->find($id), 'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id')));
     }
 
     public function update($id)

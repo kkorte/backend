@@ -49,10 +49,10 @@ class AttributeController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::attribute.index')
-            ->with('attributeGroup', $this->attributeGroup->find($attributeGroupId));
         }
+        
+        return view('hideyo_backend::attribute.index')
+            ->with('attributeGroup', $this->attributeGroup->find($attributeGroupId));
     }
 
     /**

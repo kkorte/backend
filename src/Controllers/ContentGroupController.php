@@ -13,7 +13,8 @@ use Hideyo\Backend\Repositories\ContentRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
-
+use Datatables;
+use Form;
 
 class ContentGroupController extends Controller
 {
@@ -33,18 +34,18 @@ class ContentGroupController extends Controller
             ->select(['id', 'title'])
             ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
 
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
             ->addColumn('action', function ($query) {
-                $delete = \Form::deleteajax(url()->route('hideyo.content-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax(url()->route('hideyo.content-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('hideyo.content-group.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::content_group.index')->with('contentGroup', $this->content->selectAll());
         }
+        
+        return view('hideyo_backend::content_group.index')->with('contentGroup', $this->content->selectAll());
     }
 
     public function create()

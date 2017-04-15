@@ -13,6 +13,8 @@ use Hideyo\Backend\Repositories\FaqItemRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class FaqItemController extends Controller
 {
@@ -38,12 +40,12 @@ class FaqItemController extends Controller
             ->leftJoin('faq_item_group', 'faq_item_group.id', '=', 'faq_item.faq_item_group_id')
             ->where('faq_item.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
 
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
             ->addColumn('faqitemgroup', function ($query) {
                 return $query->grouptitle;
             })
             ->addColumn('action', function ($query) {
-                $delete = \Form::deleteajax('/admin/faq/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/faq/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/faq/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;

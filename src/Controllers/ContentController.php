@@ -60,9 +60,9 @@ class ContentController extends Controller
             return $datatables->make(true);
 
 
-        } else {
-            return view('hideyo_backend::content.index')->with('content', $this->content->selectAll());
         }
+        
+        return view('hideyo_backend::content.index')->with('content', $this->content->selectAll());
     }
 
     public function create()

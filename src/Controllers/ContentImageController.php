@@ -13,6 +13,8 @@ use Hideyo\Backend\Repositories\ContentRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class ContentImageController extends Controller
 {
@@ -34,22 +36,22 @@ class ContentImageController extends Controller
                 'file', 'content_id']
             )->where('content_id', '=', $contentId);
             
-            $datatables = \Datatables::of($image)
+            $datatables = Datatables::of($image)
 
             ->addColumn('thumb', function ($image) use ($contentId) {
                 return '<img src="/files/content/100x100/'.$image->content_id.'/'.$image->file.'"  />';
             })
             ->addColumn('action', function ($image) use ($contentId) {
-                $delete = \Form::deleteajax('/admin/content/'.$contentId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/content/'.$contentId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/content/'.$contentId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
 
                 return $link;
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::content_image.index')->with(array('content' => $content));
         }
+        
+        return view('hideyo_backend::content_image.index')->with(array('content' => $content));
     }
 
     public function create($contentId)

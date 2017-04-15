@@ -12,6 +12,8 @@ use Hideyo\Backend\Repositories\ExtraFieldRepositoryInterface;
 
 use Request;
 use Notification;
+use Datatables;
+use Form;
 
 class ExtraFieldDefaultValueController extends Controller
 {
@@ -31,8 +33,8 @@ class ExtraFieldDefaultValueController extends Controller
                 'value']
             )->where('extra_field_id', '=', $extraFieldId);
             
-            $datatables = \Datatables::of($query)->addColumn('action', function ($query) use ($extraFieldId) {
-                $delete = \Form::deleteajax(url()->route('hideyo.extra-field-values.destroy', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+            $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($extraFieldId) {
+                $delete = Form::deleteajax(url()->route('hideyo.extra-field-values.destroy', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = ' <a href="'.url()->route('hideyo.extra-field-values.edit', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
                 '.$delete;
             

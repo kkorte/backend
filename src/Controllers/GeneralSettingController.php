@@ -5,6 +5,7 @@ use Hideyo\Backend\Repositories\GeneralSettingRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
 use Form;
 
 class GeneralSettingController extends Controller
@@ -27,7 +28,7 @@ class GeneralSettingController extends Controller
                 'name', 'value']
             )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($query)->addColumn('action', function ($query) {
+            $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $delete = Form::deleteajax(url()->route('hideyo.general-setting.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('hideyo.general-setting.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$delete;
                 return $link;
@@ -39,9 +40,9 @@ class GeneralSettingController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::general-setting.index')->with('generalSetting', $this->generalSetting->selectAll());
         }
+        
+        return view('hideyo_backend::general-setting.index')->with('generalSetting', $this->generalSetting->selectAll());
     }
 
     public function create()
