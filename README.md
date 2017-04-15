@@ -1,3 +1,8 @@
+Hideyo is making open-source e-commerce solutions in Laravel. Contact us at info@hideyo.io. 
+
+It's still beta. The code is not optimal and clean. In the next month we will improve it. 
+
+
 ## Installation
 
 First install and have a database connection running up laravel: https://laravel.com/docs/5.4/installation
