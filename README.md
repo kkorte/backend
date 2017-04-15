@@ -40,7 +40,7 @@ Model::unguard();
 
 ----
 
-go to /resources/assets/vendor/hideyobackend in command line and fire:
+go to /resources/assets/vendor/hideyobackend in command line generate the stylesheet and javascript with:
 ```bash
 npm install
 bower update
