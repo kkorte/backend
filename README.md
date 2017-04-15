@@ -50,7 +50,7 @@ gulp
 ---
 
 
-Before you can login in the backend you need a user connected to a shop. Seeding will help you 
+Before you can login in the backend you need a default user. Seeding will help you: 
 ```bash
 php artisan db:seed 
 ```
