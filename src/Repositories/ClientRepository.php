@@ -9,6 +9,7 @@ use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
 use Mail;
 use Config;
 use Carbon\Carbon;
+use Validator;
 
 class ClientRepository implements ClientRepositoryInterface
 {
@@ -59,7 +60,7 @@ class ClientRepository implements ClientRepositoryInterface
     public function create(array $attributes)
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -103,7 +104,7 @@ class ClientRepository implements ClientRepositoryInterface
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
 
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = Validator::make($attributes, $this->rules($id));
 
         if ($validator->fails()) {
             return $validator;

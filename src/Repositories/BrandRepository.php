@@ -9,6 +9,7 @@ use Hideyo\Backend\Repositories\RedirectRepositoryInterface;
 use Image;
 use File;
 use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Validator;
  
 class BrandRepository implements BrandRepositoryInterface
 {
@@ -50,7 +51,7 @@ class BrandRepository implements BrandRepositoryInterface
     public function create(array $attributes)
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -76,7 +77,7 @@ class BrandRepository implements BrandRepositoryInterface
             'rank' => 'required'
         );
 
-        $validator = \Validator::make($attributes, $rules);
+        $validator = Validator::make($attributes, $rules);
 
         if ($validator->fails()) {
             return $validator;
@@ -124,7 +125,7 @@ class BrandRepository implements BrandRepositoryInterface
 
     public function updateById(array $attributes, $id)
     {
-        $validator = \Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($id, $attributes));
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
         if ($validator->fails()) {
             return $validator;

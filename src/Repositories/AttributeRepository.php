@@ -4,10 +4,10 @@ namespace Hideyo\Backend\Repositories;
 use Hideyo\Backend\Models\Attribute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Validator;
  
 class AttributeRepository implements AttributeRepositoryInterface
 {
-
     protected $model;
 
     public function __construct(Attribute $model)
@@ -37,7 +37,7 @@ class AttributeRepository implements AttributeRepositoryInterface
     public function create(array $attributes, $attributeGroupId)
     {
         $attributes['attribute_group_id'] = $attributeGroupId;
-        $validator = \Validator::make($attributes, $this->rules());
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -52,7 +52,7 @@ class AttributeRepository implements AttributeRepositoryInterface
     public function updateById(array $attributes, $attributeGroupId, $id)
     {
         $attributes['attribute_group_id'] = $attributeGroupId;
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = Validator::make($attributes, $this->rules($id));
 
         if ($validator->fails()) {
             return $validator;

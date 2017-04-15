@@ -9,6 +9,7 @@ use File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Validator;
  
 class ContentRepository implements ContentRepositoryInterface
 {
@@ -77,7 +78,7 @@ class ContentRepository implements ContentRepositoryInterface
     public function create(array $attributes)
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -98,7 +99,7 @@ class ContentRepository implements ContentRepositoryInterface
     public function createGroup(array $attributes)
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rulesGroup());
+        $validator = Validator::make($attributes, $this->rulesGroup());
 
         if ($validator->fails()) {
             return $validator;
@@ -125,7 +126,7 @@ class ContentRepository implements ContentRepositoryInterface
             'rank' => 'required'
         );
 
-        $validator = \Validator::make($attributes, $rules);
+        $validator = Validator::make($attributes, $rules);
 
         if ($validator->fails()) {
             return $validator;
@@ -175,7 +176,7 @@ class ContentRepository implements ContentRepositoryInterface
 
     public function updateById(array $attributes, $id)
     {
-        $validator = \Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($id, $attributes));
 
         if ($validator->fails()) {
             return $validator;
@@ -199,7 +200,7 @@ class ContentRepository implements ContentRepositoryInterface
 
     public function updateGroupById(array $attributes, $id)
     {
-        $validator = \Validator::make($attributes, $this->rulesGroup($id, $attributes));
+        $validator = Validator::make($attributes, $this->rulesGroup($id, $attributes));
 
         if ($validator->fails()) {
             return $validator;

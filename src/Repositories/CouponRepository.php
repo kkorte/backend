@@ -6,6 +6,7 @@ use Hideyo\Backend\Models\CouponGroup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
+use Validator;
  
 class CouponRepository implements CouponRepositoryInterface
 {
@@ -61,7 +62,7 @@ class CouponRepository implements CouponRepositoryInterface
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
 
-        $validator = \Validator::make($attributes, $this->rules());
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -94,7 +95,7 @@ class CouponRepository implements CouponRepositoryInterface
     public function createGroup(array $attributes)
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rulesGroup());
+        $validator = Validator::make($attributes, $this->rulesGroup());
 
         if ($validator->fails()) {
             return $validator;
@@ -114,7 +115,7 @@ class CouponRepository implements CouponRepositoryInterface
         $this->model = $this->find($id);
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
 
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = Validator::make($attributes, $this->rules($id));
 
         if ($validator->fails()) {
             return $validator;
@@ -162,7 +163,7 @@ class CouponRepository implements CouponRepositoryInterface
 
     public function updateGroupById(array $attributes, $id)
     {
-        $validator = \Validator::make($attributes, $this->rulesGroup($id, $attributes));
+        $validator = Validator::make($attributes, $this->rulesGroup($id, $attributes));
 
         if ($validator->fails()) {
             return $validator;
