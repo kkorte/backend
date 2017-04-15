@@ -86,14 +86,14 @@ class ContentController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($contentId)
     {
-        return view('hideyo_backend::content.edit')->with(array('content' => $this->content->find($id), 'groups' => $this->content->selectGroupAll()->pluck('title', 'id')->toArray()));
+        return view('hideyo_backend::content.edit')->with(array('content' => $this->content->find($contentId), 'groups' => $this->content->selectGroupAll()->pluck('title', 'id')->toArray()));
     }
 
-    public function editSeo($id)
+    public function editSeo($contentId)
     {
-        return view('hideyo_backend::content.edit_seo')->with(array('content' => $this->content->find($id)));
+        return view('hideyo_backend::content.edit_seo')->with(array('content' => $this->content->find($contentId)));
     }
 
     public function update($contentId)
@@ -123,9 +123,9 @@ class ContentController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($contentId)
     {
-        $result  = $this->content->destroy($id);
+        $result  = $this->content->destroy($contentId);
 
         if ($result) {
             Notification::success('The content was deleted.');

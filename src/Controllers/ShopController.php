@@ -72,14 +72,14 @@ class ShopController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($shopId)
     {
-        return view('hideyo_backend::shop.edit')->with(array('shop' => $this->shop->find($id)));
+        return view('hideyo_backend::shop.edit')->with(array('shop' => $this->shop->find($shopId)));
     }
 
-    public function update($id)
+    public function update($shopId)
     {
-        $result  = $this->shop->updateById($this->request->all(), $id);
+        $result  = $this->shop->updateById($this->request->all(), $shopId);
 
         if (isset($result->id)) {
             Notification::success('The shop was updated.');
@@ -93,9 +93,9 @@ class ShopController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($shopId)
     {
-        $result  = $this->shop->destroy($id);
+        $result  = $this->shop->destroy($shopId);
 
         if ($result) {
             Notification::success('The shop was deleted.');

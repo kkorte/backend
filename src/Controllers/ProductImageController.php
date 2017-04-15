@@ -71,10 +71,10 @@ class ProductImageController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($productId, $id)
+    public function edit($productId, $productImageId)
     {
         $product = $this->product->find($productId);
-        $productImage = $this->product->findImage($id);
+        $productImage = $this->product->findImage($productImageId);
         $lists = $this->generateAttributeLists($product);
         $selectedProductAttributes = array();
         $selectedAttributes = array();
@@ -124,9 +124,9 @@ class ProductImageController extends Controller
         return array('productAttributesList' => $productAttributesList, 'attributesList' => $attributesList);
     }
 
-    public function update($productId, $id)
+    public function update($productId, $productImageId)
     {
-        $result  = $this->product->updateImageById($this->request->all(), $productId, $id);
+        $result  = $this->product->updateImageById($this->request->all(), $productId, $productImageId);
 
         if (!$result->id) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
@@ -136,9 +136,9 @@ class ProductImageController extends Controller
         return redirect()->route('hideyo.product.image.index', $productId);
     }
 
-    public function destroy($productId, $id)
+    public function destroy($productId, $productImageId)
     {
-        $result  = $this->product->destroyImage($id);
+        $result  = $this->product->destroyImage($productImageId);
 
         if ($result) {
             Notification::success('The product image is deleted.');

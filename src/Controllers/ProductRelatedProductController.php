@@ -67,14 +67,14 @@ class ProductRelatedProductController extends Controller
         return redirect()->route('hideyo.product.related-product.index', $productId);
     }
 
-    public function edit($id)
+    public function edit($productRelatedProductId)
     {
-        return view('hideyo_backend::product_related_product.edit')->with(array('productRelatedProduct' => ProductImage::find($id), 'categories' => $this->productRelatedProduct->selectAll()->pluck('title', 'id')));
+        return view('hideyo_backend::product_related_product.edit')->with(array('productRelatedProduct' => ProductImage::find($productRelatedProductId), 'categories' => $this->productRelatedProduct->selectAll()->pluck('title', 'id')));
     }
 
-    public function update($id)
+    public function update($productRelatedProductId)
     {
-        $result  = $this->productRelatedProduct->updateById($this->generateInput(), $id);
+        $result  = $this->productRelatedProduct->updateById($this->generateInput(), $productRelatedProductId);
 
         if (!$result->id) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
@@ -84,9 +84,9 @@ class ProductRelatedProductController extends Controller
         }
     }
 
-    public function destroy($productId, $id)
+    public function destroy($productId, $productRelatedProductId)
     {
-        $result  = $this->productRelatedProduct->destroy($id);
+        $result  = $this->productRelatedProduct->destroy($productRelatedProductId);
 
         if ($result) {
             Notification::success('The related product is deleted.');

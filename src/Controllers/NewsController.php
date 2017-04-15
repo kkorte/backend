@@ -89,9 +89,9 @@ class NewsController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($newsId)
     {
-        return view('hideyo_backend::news.edit')->with(array('news' => $this->news->find($id), 'groups' => $this->news->selectAllGroups()->pluck('title', 'id')->toArray()));
+        return view('hideyo_backend::news.edit')->with(array('news' => $this->news->find($newsId), 'groups' => $this->news->selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
     public function reDirectoryAllImages()
@@ -108,14 +108,14 @@ class NewsController extends Controller
         return redirect()->route('hideyo.news.index');
     }
 
-    public function editSeo($id)
+    public function editSeo($newsId)
     {
-        return view('hideyo_backend::news.edit_seo')->with(array('news' => $this->news->find($id)));
+        return view('hideyo_backend::news.edit_seo')->with(array('news' => $this->news->find($newsId)));
     }
     
-    public function update($id)
+    public function update($newsId)
     {
-        $result  = $this->news->updateById($this->request->all(), $id);
+        $result  = $this->news->updateById($this->request->all(), $newsId);
 
         if (isset($result->id)) {
             Notification::success('The news was updated.');
@@ -129,9 +129,9 @@ class NewsController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($newsId)
     {
-        $result  = $this->news->destroy($id);
+        $result  = $this->news->destroy($newsId);
 
         if ($result) {
             Notification::success('The news was deleted.');

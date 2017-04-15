@@ -80,24 +80,24 @@ class ClientController extends Controller
         return view('hideyo_backend::client.create')->with(array());
     }
 
-    public function getActivate($id)
+    public function getActivate($clientId)
     {
 
-        return view('hideyo_backend::client.activate')->with(array('client' => $this->client->find($id), 'addresses' => $this->clientAddress->selectAllByClientId($id)->pluck('firstname', 'id')));
+        return view('hideyo_backend::client.activate')->with(array('client' => $this->client->find($clientId), 'addresses' => $this->clientAddress->selectAllByClientId($clientId)->pluck('firstname', 'id')));
     }
 
-    public function getDeActivate($id)
+    public function getDeActivate($clientId)
     {
 
-        return view('hideyo_backend::client.de-activate')->with(array('client' => $this->client->find($id), 'addresses' => $this->clientAddress->selectAllByClientId($id)->pluck('firstname', 'id')));
+        return view('hideyo_backend::client.de-activate')->with(array('client' => $this->client->find($clientId), 'addresses' => $this->clientAddress->selectAllByClientId($clientId)->pluck('firstname', 'id')));
     }
 
 
-    public function postActivate($id)
+    public function postActivate($clientId)
     {
         $input = $this->request->all();
 
-        $result  = $this->client->activate($id);
+        $result  = $this->client->activate($clientId);
 
 
         $shop  = Auth::guard('hideyobackend')->user()->shop;
@@ -125,9 +125,9 @@ class ClientController extends Controller
     }
 
 
-    public function postDeActivate($id)
+    public function postDeActivate($clientId)
     {
-        $result  = $this->client->deactivate($id);
+        $result  = $this->client->deactivate($clientId);
         Notification::success('The client was deactivate.');
         return redirect()->route('hideyo.client.index');
     }
@@ -148,9 +148,9 @@ class ClientController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($clientId)
     {
-        $addresses = $this->clientAddress->selectAllByClientId($id);
+        $addresses = $this->clientAddress->selectAllByClientId($clientId);
 
         $addressesList = array();
 
@@ -165,7 +165,7 @@ class ClientController extends Controller
             }
         }
 
-        return view('hideyo_backend::client.edit')->with(array('client' => $this->client->find($id), 'addresses' => $addressesList));
+        return view('hideyo_backend::client.edit')->with(array('client' => $this->client->find($clientId), 'addresses' => $addressesList));
     }
 
     public function getExport()
@@ -223,9 +223,9 @@ class ClientController extends Controller
 
 
 
-    public function update($id)
+    public function update($clientId)
     {
-        $result  = $this->client->updateById($this->request->all(), $id);
+        $result  = $this->client->updateById($this->request->all(), $clientId);
         $input = $this->request->all();
         if (isset($result->id)) {
             if ($result->active) {
@@ -262,9 +262,9 @@ class ClientController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($clientId)
     {
-        $result  = $this->client->destroy($id);
+        $result  = $this->client->destroy($clientId);
 
         if ($result) {
             Notification::success('The client was deleted.');

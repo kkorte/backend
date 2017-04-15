@@ -66,9 +66,9 @@ class CouponGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($couponGroupId)
     {
-        return view('hideyo_backend::coupon-group.edit')->with(array('couponGroup' => $this->coupon->findGroup($id)));
+        return view('hideyo_backend::coupon-group.edit')->with(array('couponGroup' => $this->coupon->findGroup($couponGroupId)));
     }
 
     public function update($couponGroupId)
@@ -97,9 +97,9 @@ class CouponGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($couponGroupId)
     {
-        $result  = $this->coupon->destroyGroup($id);
+        $result  = $this->coupon->destroyGroup($couponGroupId);
 
         if ($result) {
             Notification::success('The coupon was deleted.');

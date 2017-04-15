@@ -77,11 +77,11 @@ class RedirectController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($redirectId)
     {
                 $shops = $this->shop->selectAll()->pluck('title', 'id');
         return view('hideyo_backend::redirect.edit')->with(array(
-            'redirect' => $this->redirect->find($id),
+            'redirect' => $this->redirect->find($redirectId),
             'shops' => $shops
         ));
     }
@@ -133,9 +133,9 @@ class RedirectController extends Controller
         })->download('xls');
     }
 
-    public function update($id)
+    public function update($redirectId)
     {
-        $result  = $this->redirect->updateById(Request::all(), $id);
+        $result  = $this->redirect->updateById(Request::all(), $redirectId);
 
         if (isset($result->id)) {
             \Notification::success('The redirect was updated.');
@@ -149,9 +149,9 @@ class RedirectController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($redirectId)
     {
-        $result  = $this->redirect->destroy($id);
+        $result  = $this->redirect->destroy($redirectId);
 
         if ($result) {
             Notification::success('Redirect item is deleted.');

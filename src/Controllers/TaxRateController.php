@@ -56,14 +56,14 @@ class TaxRateController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($taxRateId)
     {
-        return view('hideyo_backend::tax_rate.edit')->with(array('taxRate' => $this->taxRate->find($id)));
+        return view('hideyo_backend::tax_rate.edit')->with(array('taxRate' => $this->taxRate->find($taxRateId)));
     }
 
-    public function update($id)
+    public function update($taxRateId)
     {
-        $result  = $this->taxRate->updateById($this->request->all(), $id);
+        $result  = $this->taxRate->updateById($this->request->all(), $taxRateId);
 
         if (isset($result->id)) {
             Notification::success('The tax rate was updated.');
@@ -76,9 +76,9 @@ class TaxRateController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($taxRateId)
     {
-        $result  = $this->taxRate->destroy($id);
+        $result  = $this->taxRate->destroy($taxRateId);
         if ($result) {
             Notification::error('The tax_rate was deleted.');
             return redirect()->route('hideyo.tax-rate.index');

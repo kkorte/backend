@@ -76,15 +76,15 @@ class ProductCategoryImageController extends Controller
         }
     }
 
-    public function edit(Request $request, $productCategoryId, $id)
+    public function edit(Request $request, $productCategoryId, $productCategoryImageId)
     {
         $productCategory = $this->productCategory->find($productCategoryId);
-        return view('hideyo_backend::product_category_image.edit')->with(array('productCategoryImage' => $this->productCategory->findImage($id), 'productCategory' => $productCategory));
+        return view('hideyo_backend::product_category_image.edit')->with(array('productCategoryImage' => $this->productCategory->findImage($productCategoryImageId), 'productCategory' => $productCategory));
     }
 
-    public function update(Request $request, $productCategoryId, $id)
+    public function update(Request $request, $productCategoryId, $productCategoryImageId)
     {
-        $result  = $this->productCategory->updateImageById($request->all(), $productCategoryId, $id);
+        $result  = $this->productCategory->updateImageById($request->all(), $productCategoryId, $productCategoryImageId);
 
         if (isset($result->id)) {
             Notification::success('The category image was updated.');
@@ -97,9 +97,9 @@ class ProductCategoryImageController extends Controller
         }
     }
 
-    public function destroy($productCategoryId, $id)
+    public function destroy($productCategoryId, $productCategoryImageId)
     {
-        $result  = $this->productCategory->destroyImage($id);
+        $result  = $this->productCategory->destroyImage($productCategoryImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

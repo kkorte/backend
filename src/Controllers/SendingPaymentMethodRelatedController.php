@@ -89,16 +89,16 @@ class SendingPaymentMethodRelatedController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit($sendingPaymentRelatedId)
     {
         return view('hideyo_backend::sending_payment_method_related.edit')->with(array(
-            'sendingPaymentMethodRelated' => $this->sendingPaymentMethodRelated->find($id)
+            'sendingPaymentMethodRelated' => $this->sendingPaymentMethodRelated->find($sendingPaymentRelatedId)
             ));
     }
 
-    public function update($id)
+    public function update($sendingPaymentRelatedId)
     {
-        $result  = $this->sendingPaymentMethodRelated->updateById(Request::all(), $id);
+        $result  = $this->sendingPaymentMethodRelated->updateById(Request::all(), $sendingPaymentRelatedId);
 
         if (isset($result->id)) {
             Notification::success('The order template was updated.');

@@ -74,20 +74,20 @@ class SendingMethodController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($sendingMethodId)
     {    
         return view('hideyo_backend::sending_method.edit')->with(
             array(
                 'taxRates'          => $this->taxRate->selectAll()->pluck('title', 'id'),
-                'sendingMethod'     => $this->sendingMethod->find($id),
+                'sendingMethod'     => $this->sendingMethod->find($sendingMethodId),
                 'paymentMethods'    => $this->paymentMethod->selectAll()->pluck('title', 'id'),
             )
         );
     }
 
-    public function update($id)
+    public function update($sendingMethodId)
     {
-        $result  = $this->sendingMethod->updateById($this->request->all(), $id);
+        $result  = $this->sendingMethod->updateById($this->request->all(), $sendingMethodId);
 
         if (isset($result->id)) {
             Notification::success('The sending method was updated.');
@@ -101,9 +101,9 @@ class SendingMethodController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($sendingMethodId)
     {
-        $result  = $this->sendingMethod->destroy($id);
+        $result  = $this->sendingMethod->destroy($sendingMethodId);
 
         if ($result) {
             Notification::success('The sending method was deleted.');

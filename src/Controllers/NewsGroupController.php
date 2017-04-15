@@ -70,9 +70,9 @@ class NewsGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($newsGroupId)
     {
-        return view('hideyo_backend::news_group.edit')->with(array('newsGroup' => $this->news->findGroup($id)));
+        return view('hideyo_backend::news_group.edit')->with(array('newsGroup' => $this->news->findGroup($newsGroupId)));
     }
 
     public function update($newsGroupId)
@@ -99,9 +99,9 @@ class NewsGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($newsGroupId)
     {
-        $result  = $this->news->destroyGroup($id);
+        $result  = $this->news->destroyGroup($newsGroupId);
 
         if ($result) {
             Notification::success('The news group was deleted.');

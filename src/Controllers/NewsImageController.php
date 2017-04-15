@@ -80,15 +80,15 @@ class NewsImageController extends Controller
         }
     }
 
-    public function edit($newsId, $id)
+    public function edit($newsId, $newsImageId)
     {
         $news = $this->news->find($newsId);
-        return view('hideyo_backend::news_image.edit')->with(array('newsImage' => $this->news->findImage($id), 'news' => $news));
+        return view('hideyo_backend::news_image.edit')->with(array('newsImage' => $this->news->findImage($newsImageId), 'news' => $news));
     }
 
-    public function update($newsId, $id)
+    public function update($newsId, $newsImageId)
     {
-        $result  = $this->news->updateImageById($this->request->all(), $newsId, $id);
+        $result  = $this->news->updateImageById($this->request->all(), $newsId, $newsImageId);
 
         if (isset($result->id)) {
             Notification::success('The news image was updated.');
@@ -101,9 +101,9 @@ class NewsImageController extends Controller
         }
     }
 
-    public function destroy($newsId, $id)
+    public function destroy($newsId, $newsImageId)
     {
-        $result  = $this->news->destroyImage($id);
+        $result  = $this->news->destroyImage($newsImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

@@ -116,10 +116,10 @@ class ProductCategoryController extends Controller
         }
     }
 
-    public function ajaxCategory(Request $request, $id)
+    public function ajaxCategory(Request $request, $productCategoryId)
     {
         if ($request->wantsJson()) {
-            return response()->json($this->productCategory->find($id));
+            return response()->json($this->productCategory->find($productCategoryId));
         }
     }
 
@@ -158,39 +158,39 @@ class ProductCategoryController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($productCategoryId)
     {
-        $category =$this->productCategory->find($id);
-        return view('hideyo_backend::product_category.edit')->with(array('productCategory' => $this->productCategory->find($id), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        $category =$this->productCategory->find($productCategoryId);
+        return view('hideyo_backend::product_category.edit')->with(array('productCategory' => $this->productCategory->find($productCategoryId), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
     }
 
-    public function editHighlight($id)
+    public function editHighlight($productCategoryId)
     {
-        $category =$this->productCategory->find($id);
+        $category =$this->productCategory->find($productCategoryId);
         $products = $this->product->selectAll()->pluck('title', 'id');
-        return view('hideyo_backend::product_category.edit-highlight')->with(array('products' => $products, 'productCategory' => $this->productCategory->find($id), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('hideyo_backend::product_category.edit-highlight')->with(array('products' => $products, 'productCategory' => $this->productCategory->find($productCategoryId), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
     }
 
 
-    public function editSeo($id)
+    public function editSeo($productCategoryId)
     {
-        return view('hideyo_backend::product_category.edit_seo')->with(array('productCategory' => $this->productCategory->find($id), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('hideyo_backend::product_category.edit_seo')->with(array('productCategory' => $this->productCategory->find($productCategoryId), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $productCategoryId)
     {
-        $result  = $this->productCategory->updateById($this->generateInput($request->all()), $id);
+        $result  = $this->productCategory->updateById($this->generateInput($request->all()), $productCategoryId);
 
         if (isset($result->id)) {
             if ($request->get('seo')) {
                 Notification::success('Category seo was updated.');
-                return redirect()->route('hideyo.product-category.edit_seo', $id);
+                return redirect()->route('hideyo.product-category.edit_seo', $productCategoryId);
             } elseif ($request->get('highlight')) {
                 Notification::success('Highlight was updated.');
-                return redirect()->route('hideyo.product-category.edit.hightlight', $id);
+                return redirect()->route('hideyo.product-category.edit.hightlight', $productCategoryId);
             } else {
                 Notification::success('Category was updated.');
-                return redirect()->route('hideyo.product-category.edit', $id);
+                return redirect()->route('hideyo.product-category.edit', $productCategoryId);
             }
         }
 
@@ -201,9 +201,9 @@ class ProductCategoryController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($productCategoryId)
     {
-        $result  = $this->productCategory->destroy($id);
+        $result  = $this->productCategory->destroy($productCategoryId);
 
         if ($result) {
             Notification::success('Category was deleted.');
@@ -234,8 +234,8 @@ class ProductCategoryController extends Controller
 
     public function ajaxChildrenTree(Request $request)
     {
-        $id = $request->get('id');
-        $category = $this->productCategory->find($id);
+        $productCategoryId = $request->get('id');
+        $category = $this->productCategory->find($productCategoryId);
 
         foreach ($category->children()->get() as $key => $row) {
             $children = false;
@@ -261,9 +261,9 @@ class ProductCategoryController extends Controller
 
     public function ajaxMoveNode(Request $request)
     {
-        $id = $request->get('id');
+        $productCategoryId = $request->get('id');
         $position = $request->get('position');
-        $node = $this->productCategory->find($id);
+        $node = $this->productCategory->find($productCategoryId);
         $parent = $request->get('parent');
 
         if ($parent != '#') {
@@ -285,7 +285,7 @@ class ProductCategoryController extends Controller
             $node->makeRoot();
         }
 
-        $node = $this->productCategory->find($id);
+        $node = $this->productCategory->find($productCategoryId);
         $arrayPosition = $node->siblingsAndSelf()->get()->toArray();
 
         $positionToMove = $arrayPosition[$position];

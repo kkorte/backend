@@ -69,14 +69,14 @@ class ContentGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($contentGroupId)
     {
-        return view('hideyo_backend::content_group.edit')->with(array('contentGroup' => $this->content->findGroup($id)));
+        return view('hideyo_backend::content_group.edit')->with(array('contentGroup' => $this->content->findGroup($contentGroupId)));
     }
 
-    public function editSeo($id)
+    public function editSeo($contentGroupId)
     {
-        return view('hideyo_backend::content_group.edit_seo')->with(array('contentGroup' => $this->content->find($id)));
+        return view('hideyo_backend::content_group.edit_seo')->with(array('contentGroup' => $this->content->find($contentGroupId)));
     }
 
     public function update($contentGroupId)
@@ -105,12 +105,12 @@ class ContentGroupController extends Controller
 
     /**
      * Remove the specified resource from storage
-     * @param  int  $id
+     * @param  int  $contentGroupId
      * @return Redirect
      */
-    public function destroy($id)
+    public function destroy($contentGroupId)
     {
-        $result  = $this->content->destroyGroup($id);
+        $result  = $this->content->destroyGroup($contentGroupId);
 
         if ($result) {
             Notification::success('The content was deleted.');

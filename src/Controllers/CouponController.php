@@ -99,11 +99,11 @@ class CouponController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($couponId)
     {
         return view('hideyo_backend::coupon.edit')->with(
             array(
-            'coupon' => $this->coupon->find($id),
+            'coupon' => $this->coupon->find($couponId),
             'products' => $this->product->selectAll()->pluck('title', 'id'),
             'groups' => $this->coupon->selectAllGroups()->pluck('title', 'id')->toArray(),
             'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id'),
@@ -113,9 +113,9 @@ class CouponController extends Controller
         );
     }
 
-    public function update($id)
+    public function update($couponId)
     {
-        $result  = $this->coupon->updateById($this->request->all(), $id);
+        $result  = $this->coupon->updateById($this->request->all(), $couponId);
 
         if (isset($result->id)) {
             Notification::success('The coupon method was updated.');
@@ -128,9 +128,9 @@ class CouponController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($couponId)
     {
-        $result  = $this->coupon->destroy($id);
+        $result  = $this->coupon->destroy($couponId);
 
         if ($result) {
             Notification::success('The coupon was deleted.');

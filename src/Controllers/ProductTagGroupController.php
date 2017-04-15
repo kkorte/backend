@@ -72,18 +72,18 @@ class ProductTagGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($productTagGroupId)
     {
     
         return view('hideyo_backend::product_tag_group.edit')->with(array(
             'products' => $this->product->selectAll()->pluck('title', 'id'),
-            'productTagGroup' => $this->productTagGroup->find($id)
+            'productTagGroup' => $this->productTagGroup->find($productTagGroupId)
             ));
     }
 
-    public function update($id)
+    public function update($productTagGroupId)
     {
-        $result  = $this->productTagGroup->updateById(\Request::all(), $id);
+        $result  = $this->productTagGroup->updateById(\Request::all(), $productTagGroupId);
 
         if (isset($result->id)) {
             Notification::success('The product group tag was updated.');
@@ -97,9 +97,9 @@ class ProductTagGroupController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($productTagGroupId)
     {
-        $result  = $this->productTagGroup->destroy($id);
+        $result  = $this->productTagGroup->destroy($productTagGroupId);
 
         if ($result) {
             Notification::success('The product group tag was deleted.');
