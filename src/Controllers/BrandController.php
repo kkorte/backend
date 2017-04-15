@@ -59,14 +59,14 @@ class BrandController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function editSeo($id)
+    public function editSeo($brandId)
     {
-        return view('hideyo_backend::brand.edit_seo')->with(array('brand' => $this->brand->find($id)));
+        return view('hideyo_backend::brand.edit_seo')->with(array('brand' => $this->brand->find($brandId)));
     }
 
-    public function edit($id)
+    public function edit($brandId)
     {
-        return view('hideyo_backend::brand.edit')->with(array('brand' => $this->brand->find($id)));
+        return view('hideyo_backend::brand.edit')->with(array('brand' => $this->brand->find($brandId)));
     }
 
     public function update($brandId)
@@ -93,9 +93,9 @@ class BrandController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($brandId)
     {
-        $result  = $this->brand->destroy($id);
+        $result  = $this->brand->destroy($brandId);
         if ($result) {
             Notification::error('The brand was deleted.');
             return redirect()->route('hideyo.brand.index');

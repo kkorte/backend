@@ -44,23 +44,23 @@ class Product extends Model
     protected function getExistingSlugs($slug)
     {
         $config = $this->getSluggableConfig();
-        $save_to = $config['save_to'];
-        $include_trashed = $config['include_trashed'];
+        $saveTo = $config['save_to'];
+        $includeTrashed = $config['include_trashed'];
 
         $instance = new static;
 
-        $query = $instance->where($save_to, 'LIKE', $slug . '%');
+        $query = $instance->where($saveTo, 'LIKE', $slug . '%');
 
         // @overriden - changed this to scope unique slugs per user
         $query = $query->where('shop_id', $this->shop_id);
 
         // include trashed models if required
-        if ($include_trashed && $this->usesSoftDeleting()) {
+        if ($includeTrashed && $this->usesSoftDeleting()) {
             $query = $query->withTrashed();
         }
 
         // get a list of all matching slugs
-        $list = $query->pluck($save_to, $this->getKeyName())->toArray();
+        $list = $query->pluck($saveTo, $this->getKeyName())->toArray();
 
         // Laravel 5.0/5.1 check
         return $list instanceof Collection ? $list->all() : $list;
@@ -138,14 +138,14 @@ class Product extends Model
     {
 
         if ($this->price) {
+            $taxRate = 0;
+            $priceInc = 0;
+            $taxValue = 0;
+
             if (isset($this->taxRate->rate)) {
                 $taxRate = $this->taxRate->rate;
                 $priceInc = (($this->taxRate->rate / 100) * $this->price) + $this->price;
                 $taxValue = $priceInc - $this->price;
-            } else {
-                $taxRate = 0;
-                $priceInc = 0;
-                $taxValue = 0;
             }
 
             $discountPriceInc = false;
@@ -154,20 +154,18 @@ class Product extends Model
             if ($this->discount_value) {
                 if ($this->discount_type == 'amount') {
                     $discountPriceInc = $priceInc - $this->discount_value;
-
+                     $discountPriceEx = $discountPriceInc / 1.21;
                     if ($this->shop->wholesale) {
                         $discountPriceEx = $this->price - $this->discount_value;
-                    } else {
-                        $discountPriceEx = $discountPriceInc / 1.21;
                     }
                 } elseif ($this->discount_type == 'percent') {
+                    $tax = ($this->discount_value / 100) * $priceInc;
+                    $discountPriceInc = $priceInc - $tax;
+                    $discountPriceEx = $discountPriceInc / 1.21;
+
                     if ($this->shop->wholesale) {
                         $discount = ($this->discount_value / 100) * $this->price;
                         $discountPriceEx = $this->price - $discount;
-                    } else {
-                        $tax = ($this->discount_value / 100) * $priceInc;
-                        $discountPriceInc = $priceInc - $tax;
-                        $discountPriceEx = $discountPriceInc / 1.21;
                     }
                 }
                 $discountTaxRate = $discountPriceInc - $discountPriceEx;
@@ -197,9 +195,9 @@ class Product extends Model
                 'discount_value' => $this->discount_value,
                 'amount' => $this->amount
             );
-        } else {
-            return null;
         }
+        
+        return null;    
     }
 
     public function shop()
