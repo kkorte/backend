@@ -62,4 +62,4 @@ php artisan db:seed
 
 ## License
 
-MIT
+GNU AFFERO GENERAL PUBLIC LICENSE
