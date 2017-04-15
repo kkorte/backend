@@ -20,6 +20,8 @@ use Notification;
 use Mail;
 use Excel;
 use Auth;
+use Form;
+use Datatables;
 
 class ClientController extends Controller
 {

@@ -50,9 +50,9 @@ class AttributeGroupController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::attribute-group.index');
         }
+            
+        return view('hideyo_backend::attribute-group.index');
     }
 
     /**

@@ -13,6 +13,8 @@ use Hideyo\Backend\Repositories\BrandRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Form;
+use Datatables;
 
 class BrandImageController extends Controller
 {
@@ -31,21 +33,21 @@ class BrandImageController extends Controller
             ->select(['id','file', 'brand_id'])
             ->where('brand_id', '=', $brandId);
             
-            $datatables = \Datatables::of($image)
+            $datatables = Datatables::of($image)
 
             ->addColumn('thumb', function ($image) use ($brandId) {
                 return '<img src="/files/brand/100x100/'.$image->brand_id.'/'.$image->file.'"  />';
             })
             ->addColumn('action', function ($image) use ($brandId) {
-                $delete = \Form::deleteajax('/admin/brand/'.$brandId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/brand/'.$brandId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="/admin/brand/'.$brandId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
                 return $link;
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::brand_image.index')->with(array( 'brand' => $brand));
         }
+        
+        return view('hideyo_backend::brand_image.index')->with(array( 'brand' => $brand));
     }
 
     public function create($brandId)
@@ -63,7 +65,7 @@ class BrandImageController extends Controller
             return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
         } else {
             foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
+                Notification::error($error);
             }
             return redirect()->back()->withInput()->withErrors($result);
         }
@@ -84,7 +86,7 @@ class BrandImageController extends Controller
             return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
         } else {
             foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
+                Notification::error($error);
             }
             return redirect()->back()->withInput()->withErrors($result);
         }
