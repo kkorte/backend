@@ -43,10 +43,11 @@ Model::unguard();
 ----
 
 go to /resources/assets/vendor/hideyobackend in command line and fire:
-
+```bash
 npm install
 bower update
 gulp 
+```
 
 ---
 
