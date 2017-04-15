@@ -67,7 +67,7 @@ class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInte
         return $this->updateEntity($attributes);
     }
 
-    public function updateEntity(array $attributes = array())
+    private function updateEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->model->fill($attributes);

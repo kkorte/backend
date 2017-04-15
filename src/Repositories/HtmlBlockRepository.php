@@ -178,7 +178,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    public function updateEntity(array $attributes = array())
+    private function updateEntity(array $attributes = array())
     {
 
         $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;

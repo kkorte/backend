@@ -161,7 +161,7 @@ class UserRepository implements UserRepositoryInterface
         return $this->updateEntity($attributes, $avatar);
     }
 
-    public function updateEntity(array $attributes = array(), $avatar)
+    private function updateEntity(array $attributes = array(), $avatar)
     {
 
 

@@ -200,7 +200,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         return $result;
     }
 
-    public function updateEntity(array $attributes = array())
+    private function updateEntity(array $attributes = array())
     {
         if (!isset($attributes['parent_id'])) {
             $attributes['parent_id'] = null;

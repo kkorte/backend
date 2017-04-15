@@ -274,7 +274,7 @@ class ProductRepository implements ProductRepositoryInterface
         return $result;
     }
 
-    public function updateEntity(array $attributes = array())
+    private function updateEntity(array $attributes = array())
     {
 
         if (empty($attributes['leading_atrribute_group_id'])) {

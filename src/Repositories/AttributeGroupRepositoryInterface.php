@@ -9,7 +9,7 @@ interface AttributeGroupRepositoryInterface
 
     public function updateById(array $attributes, $id);
     
-    public function updateEntity(array $attributes = array());
+    private function updateEntity(array $attributes = array());
 
     public function destroy($id);
 
