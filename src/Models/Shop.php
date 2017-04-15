@@ -2,11 +2,10 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
-use \Auth;
 
-class Shop extends Model
+class Shop extends BaseModel
 {
 
     use Sluggable;
@@ -36,11 +35,7 @@ class Shop extends Model
         ];
     }
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
     
     public function beforeValidate()
     {

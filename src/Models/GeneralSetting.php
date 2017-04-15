@@ -2,9 +2,9 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 
-class GeneralSetting extends Model
+class GeneralSetting extends BaseModel
 {
     /**
      * The database table used by the model.
@@ -15,9 +15,5 @@ class GeneralSetting extends Model
 
 	protected $fillable = ['id', 'name', 'value', 'text_value', 'shop_id'];
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 }

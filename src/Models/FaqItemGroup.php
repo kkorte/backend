@@ -2,10 +2,10 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class FaqItemGroup extends Model
+class FaqItemGroup extends BaseModel
 {
     use Sluggable;
 
@@ -28,11 +28,7 @@ class FaqItemGroup extends Model
         ];
     }
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 
     public function faqItems()
     {

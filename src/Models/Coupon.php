@@ -2,10 +2,10 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
-class Coupon extends Model
+class Coupon extends BaseModel
 {
     /**
      * The database table used by the model.
@@ -17,11 +17,7 @@ class Coupon extends Model
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['active', 'permanent', 'coupon_group_id', 'title', 'value', 'code', 'type', 'discount_way', 'published_at', 'unpublished_at', 'shop_id', 'modified_by_user_id'];
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 
     public function products()
     {

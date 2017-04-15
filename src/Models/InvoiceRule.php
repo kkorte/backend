@@ -2,9 +2,9 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 
-class InvoiceRule extends Model
+class InvoiceRule extends BaseModel
 {
     protected $table = 'invoice_rule';
 

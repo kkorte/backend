@@ -2,10 +2,11 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
+
 use Carbon\Carbon;
 
-class Order extends Model
+class Order extends BaseModel
 {
     /**
      * The database table used by the model.
@@ -17,11 +18,7 @@ class Order extends Model
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['id', 'validated', 'client_id', 'shop_id', 'price_with_tax', 'price_without_tax', 'total_discount', 'coupon_id', 'coupon_title',  'coupon_discount_way', 'coupon_type', 'coupon_value', 'coupon_code', 'coupon_group_title', 'bill_order_address_id', 'delivery_order_address_id', 'order_status_id', 'mollie_payment_id', 'comments', 'present_gender', 'present_occassion', 'present_message', 'browser_detect'];
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 
     public static function boot()
     {

@@ -2,9 +2,9 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 
-class Language extends Model  
+class Language extends BaseModel  
 {
 
     protected $table = 'language';

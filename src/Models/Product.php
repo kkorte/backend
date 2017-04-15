@@ -2,12 +2,12 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Carbon\Carbon;
 use Elasticquent\ElasticquentTrait;
 
-class Product extends Model
+class Product extends BaseModel
 {
     use ElasticquentTrait, Sluggable;
 
@@ -28,12 +28,6 @@ class Product extends Model
                 'source' => 'title'
             ]
         ];
-    }
-
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
     }
 
     function getIndexName()

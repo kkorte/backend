@@ -2,10 +2,10 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
-class ProductAmountOption extends Model
+class ProductAmountOption extends BaseModel
 {
     /**
      * The database table used by the model.
@@ -17,11 +17,7 @@ class ProductAmountOption extends Model
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['product_id',  'amount', 'discount_type', 'discount_value', 'discount_start_date', 'discount_end_date', 'modified_by_user_id'];
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 
     public function setDiscountStartDateAttribute($value)
     {

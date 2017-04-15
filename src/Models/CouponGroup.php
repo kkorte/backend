@@ -2,10 +2,10 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class CouponGroup extends Model
+class CouponGroup extends BaseModel
 {
     use Sluggable;
 
@@ -19,11 +19,7 @@ class CouponGroup extends Model
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['id', 'title', 'shop_id'];
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 
 
     public function sluggable()

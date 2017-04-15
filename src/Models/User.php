@@ -2,7 +2,7 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -31,7 +31,7 @@ class User extends Authenticatable
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
+        $this->table = config()->get('hideyo.db_prefix').$this->table;  
         parent::__construct($attributes);
     }
     

@@ -2,9 +2,9 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 
-class OrderStatus extends Model
+class OrderStatus extends BaseModel
 {
     /**
      * The database table used by the model.

@@ -2,11 +2,9 @@
 
 namespace Hideyo\Backend\Models;
 
-use LaravelBook\Ardent\Ardent;
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Hideyo\Backend\Models\BaseModel;
 
-class ProductSubProductCategory extends Model
+class ProductSubProductCategory extends BaseModel
 {
     /**
      * The database table used by the model.
@@ -18,11 +16,7 @@ class ProductSubProductCategory extends Model
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['category_id', 'product_id'];
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
+
 
     public function shop()
     {

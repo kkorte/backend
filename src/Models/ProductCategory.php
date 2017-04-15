@@ -2,10 +2,7 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Cviebrock\EloquentSluggable\Sluggable;
-
 use Baum\Node;
 
 class ProductCategory extends Node
@@ -35,7 +32,7 @@ class ProductCategory extends Node
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
+        $this->table = config()->get('hideyo.db_prefix').$this->table;  
         parent::__construct($attributes);
     }
 

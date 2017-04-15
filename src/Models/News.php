@@ -2,11 +2,11 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Carbon\Carbon;
 
-class News extends Model
+class News extends BaseModel
 {
     use Sluggable;
 
@@ -29,12 +29,6 @@ class News extends Model
         ];
     }
 
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
-    
     public function setPublishedAtAttribute($value)
     {
         $this->attributes['published_at'] = null;

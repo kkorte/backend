@@ -2,9 +2,9 @@
 
 namespace Hideyo\Backend\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hideyo\Backend\Models\BaseModel;
 
-class OrderPaymentMethod extends Model
+class OrderPaymentMethod extends BaseModel
 {
     /**
      * The database table used by the model.
@@ -15,12 +15,6 @@ class OrderPaymentMethod extends Model
 
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['order_id', 'payment_method_id', 'title', 'price_with_tax', 'price_without_tax', 'tax_rate', 'tax_rate_id', 'percent_of_total', 'payment_external'];
-
-    public function __construct(array $attributes = array())
-    {
-        $this->table = config()->get('hideyo.db_prefix').$this->table;
-        parent::__construct($attributes);
-    }
 
     public function order()
     {
