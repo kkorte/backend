@@ -60,11 +60,6 @@ Before you can login to the backend you need a default user. Laravel seeding wil
 php artisan db:seed 
 ```
 
-## Contributor
-
-MIT
-
-
 ## License
 
 MIT
