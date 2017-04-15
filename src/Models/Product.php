@@ -74,32 +74,32 @@ class Product extends Model
     
     public function setDiscountValueAttribute($value)
     {
+        $this->attributes['discount_value'] = null;
+
         if ($value) {
             $this->attributes['discount_value'] = $value;
-        } else {
-            $this->attributes['discount_value'] = null;
         }
     }
 
 
     public function setBrandIdAttribute($value)
     {
+        $this->attributes['brand_id'] = null;
+
         if ($value) {
             $this->attributes['brand_id'] = $value;
-        } else {
-            $this->attributes['brand_id'] = null;
         }
     }
 
 
     public function setDiscountStartDateAttribute($value)
     {
+        $this->attributes['discount_start_date'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['discount_start_date'] = $value;
-        } else {
-            $this->attributes['discount_start_date'] = null;
         }
     }
 
@@ -108,19 +108,19 @@ class Product extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function setDiscountEndDateAttribute($value)
     {
+        $this->attributes['discount_end_date'] = null;    
+        
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['discount_end_date'] = $value;
-        } else {
-            $this->attributes['discount_end_date'] = null;
         }
     }
 
@@ -129,9 +129,9 @@ class Product extends Model
         if ($value) {
             $date = explode('-', $value);
             return $date[2].'/'.$date[1].'/'.$date[0];
-        } else {
-            return null;
         }
+        
+        return null;
     }
 
     public function getPriceDetails()
@@ -140,39 +140,39 @@ class Product extends Model
         if ($this->price) {
             if (isset($this->taxRate->rate)) {
                 $taxRate = $this->taxRate->rate;
-                $price_inc = (($this->taxRate->rate / 100) * $this->price) + $this->price;
-                $tax_value = $price_inc - $this->price;
+                $priceInc = (($this->taxRate->rate / 100) * $this->price) + $this->price;
+                $taxValue = $priceInc - $this->price;
             } else {
                 $taxRate = 0;
-                $price_inc = 0;
-                $tax_value = 0;
+                $priceInc = 0;
+                $taxValue = 0;
             }
 
-            $discount_price_inc = false;
-            $discount_price_ex = false;
+            $discountPriceInc = false;
+            $discountPriceEx = false;
             $discountTaxRate = 0;
             if ($this->discount_value) {
                 if ($this->discount_type == 'amount') {
-                    $discount_price_inc = $price_inc - $this->discount_value;
+                    $discountPriceInc = $priceInc - $this->discount_value;
 
                     if ($this->shop->wholesale) {
-                        $discount_price_ex = $this->price - $this->discount_value;
+                        $discountPriceEx = $this->price - $this->discount_value;
                     } else {
-                        $discount_price_ex = $discount_price_inc / 1.21;
+                        $discountPriceEx = $discountPriceInc / 1.21;
                     }
                 } elseif ($this->discount_type == 'percent') {
                     if ($this->shop->wholesale) {
                         $discount = ($this->discount_value / 100) * $this->price;
-                        $discount_price_ex = $this->price - $discount;
+                        $discountPriceEx = $this->price - $discount;
                     } else {
-                        $tax = ($this->discount_value / 100) * $price_inc;
-                        $discount_price_inc = $price_inc - $tax;
-                        $discount_price_ex = $discount_price_inc / 1.21;
+                        $tax = ($this->discount_value / 100) * $priceInc;
+                        $discountPriceInc = $priceInc - $tax;
+                        $discountPriceEx = $discountPriceInc / 1.21;
                     }
                 }
-                $discountTaxRate = $discount_price_inc - $discount_price_ex;
-                $discount_price_inc = $discount_price_inc;
-                $discount_price_ex = $discount_price_ex;
+                $discountTaxRate = $discountPriceInc - $discountPriceEx;
+                $discountPriceInc = $discountPriceInc;
+                $discountPriceEx = $discountPriceEx;
             }
 
             $commercialPrice = null;
@@ -183,16 +183,16 @@ class Product extends Model
             return array(
                 'orginal_price_ex_tax'  => $this->price,
                 'orginal_price_ex_tax_number_format'  => number_format($this->price, 2, '.', ''),
-                'orginal_price_inc_tax' => $price_inc,
-                'orginal_price_inc_tax_number_format' => number_format($price_inc, 2, '.', ''),
+                'orginal_price_inc_tax' => $priceInc,
+                'orginal_price_inc_tax_number_format' => number_format($priceInc, 2, '.', ''),
                 'commercial_price_number_format' => $commercialPrice,
                 'tax_rate' => $taxRate,
-                'tax_value' => $tax_value,
+                'tax_value' => $taxValue,
                 'currency' => 'EU',
-                'discount_price_inc' => $discount_price_inc,
-                'discount_price_inc_number_format' => number_format($discount_price_inc, 2, '.', ''),
-                'discount_price_ex' => $discount_price_ex,
-                'discount_price_ex_number_format' => number_format($discount_price_ex, 2, '.', ''),
+                'discount_price_inc' => $discountPriceInc,
+                'discount_price_inc_number_format' => number_format($discountPriceInc, 2, '.', ''),
+                'discount_price_ex' => $discountPriceEx,
+                'discount_price_ex_number_format' => number_format($discountPriceEx, 2, '.', ''),
                 'discount_tax_value' => $discountTaxRate,
                 'discount_value' => $this->discount_value,
                 'amount' => $this->amount
@@ -212,7 +212,6 @@ class Product extends Model
         return $this->belongsTo('Hideyo\Backend\Models\AttributeGroup', 'leading_atrribute_group_id');
     }
     
-
     public function extraFields()
     {
         return $this->hasMany('Hideyo\Backend\Models\ProductExtraFieldValue');
@@ -250,7 +249,6 @@ class Product extends Model
             $query->where('active', '=', '1');
         })->where('product.active', '=', '1');
     }
-
 
     public function productImages()
     {
