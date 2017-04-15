@@ -25,21 +25,21 @@ class SendingMethod extends BaseModel
     public function getPriceDetails()
     {
         $taxRate = 0;
-        $price_inc = 0;
+        $priceInc = 0;
 
         if (isset($this->taxRate->rate)) {
             $taxRate = $this->taxRate->rate;
-            $price_inc = (($this->taxRate->rate / 100) * $this->price) + $this->price;
+            $priceInc = (($this->taxRate->rate / 100) * $this->price) + $this->price;
         }
 
         return array(
             'orginal_price_ex_tax' => $this->price,
-            'orginal_price_inc_tax' => $price_inc,
+            'orginal_price_inc_tax' => $priceInc,
             'orginal_price_ex_tax_number_format' => number_format($this->price, 2, '.', ''),
-            'orginal_price_inc_tax_number_format' => number_format($price_inc, 2, '.', ''),
+            'orginal_price_inc_tax_number_format' => number_format($priceInc, 2, '.', ''),
             'tax_rate' => $taxRate,
-            'tax_value' => $price_inc - $this->price,
-            'tax_value_number_format' => number_format(($price_inc - $this->price), 2, '.', ''),
+            'tax_value' => $priceInc - $this->price,
+            'tax_value_number_format' => number_format(($priceInc - $this->price), 2, '.', ''),
             'currency' => $this->shop->currency_code,
 
         );
@@ -78,13 +78,13 @@ class SendingMethod extends BaseModel
 
     public function setTotalPriceDiscountEndDateAttribute($value)
     {
+        $this->attributes['total_price_discount_end_date'] = null;
+
         if ($value) {
             $date = explode('/', $value);
             $value = Carbon::createFromDate($date[2], $date[1], $date[0])->toDateTimeString();
             $this->attributes['total_price_discount_end_date'] = $value;
-        } else {
-            $this->attributes['total_price_discount_end_date'] = null;
-        }
+        }   
     }
 
     public function getTotalPriceDiscountEndDateAttribute($value)
