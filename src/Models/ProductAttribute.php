@@ -17,8 +17,6 @@ class ProductAttribute extends BaseModel
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['product_id', 'reference_code', 'default_on', 'price', 'commercial_price', 'amount', 'tax_rate_id', 'discount_type', 'discount_value', 'discount_start_date', 'discount_end_date', 'discount_promotion', 'modified_by_user_id'];
 
-
-
     public function setDiscountStartDateAttribute($value)
     {
         $this->attributes['discount_start_date'] = null;
