@@ -5,7 +5,7 @@ It's still beta. The code is not optimal and clean. In the next month we will im
 
 ## Installation
 
-First install and have a database connection running up laravel: https://laravel.com/docs/5.4/installation
+First install laravel and have a database connection running up: https://laravel.com/docs/5.4/installation
 
 Install via [composer](https://getcomposer.org/) - In the terminal:
 ```bash
