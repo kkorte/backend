@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Image;
 use File;
 use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Validator;
+use Auth;
 
 class NewsRepository implements NewsRepositoryInterface
 {
@@ -76,14 +78,14 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -96,8 +98,8 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function createImage(array $attributes, $newsId)
     {
-        $userId = \Auth::guard('hideyobackend')->user()->id;
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $userId = Auth::guard('hideyobackend')->user()->id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
 
@@ -112,7 +114,7 @@ class NewsRepository implements NewsRepositoryInterface
             'rank' => 'required'
         );
 
-        $validator = \Validator::make($attributes, $rules);
+        $validator = Validator::make($attributes, $rules);
 
         if ($validator->fails()) {
             return $validator;
@@ -152,14 +154,14 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function createGroup(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rulesGroup());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rulesGroup());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
             
         $this->modelGroup->fill($attributes);
         $this->modelGroup->save();
@@ -202,13 +204,13 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function updateById(array $attributes, $id)
     {
-        $validator = \Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($id, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
     }
@@ -226,7 +228,7 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function updateImageById(array $attributes, $newsId, $id)
     {
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->modelImage = $this->findImage($id);
         return $this->updateImageEntity($attributes);
     }
@@ -244,13 +246,13 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function updateGroupById(array $attributes, $id)
     {
-        $validator = \Validator::make($attributes, $this->rulesGroup($id, $attributes));
+        $validator = Validator::make($attributes, $this->rulesGroup($id, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->modelGroup = $this->findGroup($id);
         return $this->updateGroupEntity($attributes);
     }
@@ -277,7 +279,7 @@ class NewsRepository implements NewsRepositoryInterface
         }
 
         $directory = app_path() . "/storage/files/news/".$this->model->id;
-        \File::deleteDirectory($directory);
+        File::deleteDirectory($directory);
 
         return $this->model->delete();
     }
@@ -289,16 +291,16 @@ class NewsRepository implements NewsRepositoryInterface
     {
         $this->modelImage = $this->findImage($id);
         $filename = storage_path() ."/app/files/news/".$this->modelImage->news_id."/".$this->modelImage->file;
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
-        if (\File::exists($filename)) {
-            \File::delete($filename);
+        if (File::exists($filename)) {
+            File::delete($filename);
             if ($shop->square_thumbnail_sizes) {
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        \File::delete(public_path() . "/files/news/".$value."/".$this->modelImage->news_id."/".$this->modelImage->file);
+                        File::delete(public_path() . "/files/news/".$value."/".$this->modelImage->news_id."/".$this->modelImage->file);
                     }
                 }
             }
