@@ -321,9 +321,7 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function selectByLimitAndOrderBy($shopId, $limit, $orderBy)
     {
-
         $dt = Carbon::now('Europe/Amsterdam');
-
 
         return $this->model->with(
             array('newsImages' => function ($query) {
@@ -351,7 +349,6 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->model;
     }
 
-
     public function findGroup($id)
     {
         return $this->modelGroup->find($id);
@@ -362,7 +359,6 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->modelGroup;
     }
 
-
     public function findImage($id)
     {
         return $this->modelImage->find($id);
@@ -372,5 +368,4 @@ class NewsRepository implements NewsRepositoryInterface
     {
         return $this->modelImage;
     }
-
 }
