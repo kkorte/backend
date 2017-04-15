@@ -1,0 +1,39 @@
+{
+    "name": "hideyo/backend",
+    "description": "laravel e-commerce platform",
+    "authors": [
+        {
+            "name": "Matthijs Neijenhuijs",
+            "email": "matthijs@dutchbridge.nl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5",
+        "edvinaskrucas/notification": "5.*",
+        "cviebrock/eloquent-sluggable": "4.2.*",
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "barryvdh/laravel-debugbar": "^2.1",
+        "laravelcollective/html": "^5.2",
+        "baum/baum": "~1.1",
+        "intervention/image": "~2.3",
+        "intervention/imagecache": "^2.3",
+        "felixkiss/uniquewith-validator": "2.*",
+        "nesbot/carbon": "~1.14",
+        "predis/predis": "~1.1@dev",
+        "maatwebsite/excel": "~2.1.0",
+        "elasticquent/elasticquent": "dev-master",
+        "khill/lavacharts": "~3.0",
+        "tylercd100/lern": "^3.6",
+        "unisharp/laravel-ckeditor": "^4.5",
+        "unisharp/laravel-filemanager": "^1.6"
+    },
+
+
+    "autoload": {    
+        "psr-4": {
+            "Hideyo\\Backend\\": "src/"
+        }
+    }
+
+}
