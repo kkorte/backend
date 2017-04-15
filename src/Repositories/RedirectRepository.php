@@ -23,7 +23,7 @@ class RedirectRepository implements RedirectRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'url' => 'required|unique_with:'.$this->model->getTable().', shop_id'

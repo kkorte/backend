@@ -42,7 +42,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'order_id' => 'required|unique:invoice',

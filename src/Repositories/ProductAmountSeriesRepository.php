@@ -22,7 +22,7 @@ class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInte
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'series_value' => 'required',

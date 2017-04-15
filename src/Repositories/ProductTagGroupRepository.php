@@ -21,7 +21,7 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'tag' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'

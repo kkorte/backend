@@ -3,7 +3,7 @@ namespace Hideyo\Backend\Repositories;
 
 interface AttributeGroupRepositoryInterface
 {
-    public function rules($id = false);
+    private function rules($id = false);
 
     public function create(array $attributes);
 

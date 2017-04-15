@@ -22,7 +22,7 @@ class UserRepository implements UserRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false, $attributes = false)
+    private function rules($id = false, $attributes = false)
     {
         $rules = array(
             'email'         => 'required|between:4,65|unique_with:'.$this->model->getTable(),

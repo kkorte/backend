@@ -21,7 +21,7 @@ class AttributeRepository implements AttributeRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         if ($id) {
             return [
@@ -63,7 +63,7 @@ class AttributeRepository implements AttributeRepositoryInterface
         }
     }
 
-    public function updateEntity(array $attributes = array())
+    private function updateEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->model->fill($attributes);

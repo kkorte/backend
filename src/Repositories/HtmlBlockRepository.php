@@ -25,7 +25,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false, $attributes = false)
+    private function rules($id = false, $attributes = false)
     {
 
         $rules = array(

@@ -25,7 +25,7 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
@@ -38,7 +38,7 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
         return $rules;
     }
 
-    public function rulesValue($id = false)
+    private function rulesValue($id = false)
     {
         if ($id) {
             return [

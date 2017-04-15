@@ -190,8 +190,8 @@ class BrandRepository implements BrandRepositoryInterface
         $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
-        if (\File::exists($filename)) {
-            \File::delete($filename);
+        if (File::exists($filename)) {
+            File::delete($filename);
             if ($shop->square_thumbnail_sizes) {
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {

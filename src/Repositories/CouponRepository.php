@@ -25,7 +25,7 @@ class CouponRepository implements CouponRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
@@ -42,7 +42,7 @@ class CouponRepository implements CouponRepositoryInterface
         return $rules;
     }
 
-    public function rulesGroup($id = false, $attributes = false)
+    private function rulesGroup($id = false, $attributes = false)
     {
 
         $rules = array(

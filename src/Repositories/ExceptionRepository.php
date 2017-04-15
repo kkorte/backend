@@ -23,7 +23,7 @@ class ExceptionRepository implements ExceptionRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'name' => 'required|between:4,65|unique_with:general_setting, shop_id'

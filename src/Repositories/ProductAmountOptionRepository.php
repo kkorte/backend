@@ -22,7 +22,7 @@ class ProductAmountOptionRepository implements ProductAmountOptionRepositoryInte
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'amount' => 'required'

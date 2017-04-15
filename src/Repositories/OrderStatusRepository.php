@@ -21,7 +21,7 @@ class OrderStatusRepository implements OrderStatusRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */  
-    public function rules($id = false)
+    private function rules($id = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:payment_method, shop_id'

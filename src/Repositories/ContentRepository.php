@@ -30,7 +30,7 @@ class ContentRepository implements ContentRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false, $attributes = false)
+    private function rules($id = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -55,7 +55,7 @@ class ContentRepository implements ContentRepositoryInterface
      *
      * @return array
      */
-    public function rulesGroup($id = false, $attributes = false)
+    private function rulesGroup($id = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -112,7 +112,6 @@ class ContentRepository implements ContentRepositoryInterface
    
         return $this->modelGroup;
     }
-
 
     public function createImage(array $attributes, $contentId)
     {
@@ -172,8 +171,6 @@ class ContentRepository implements ContentRepositoryInterface
         }
     }
 
-
-
     public function updateById(array $attributes, $id)
     {
         $validator = Validator::make($attributes, $this->rules($id, $attributes));
@@ -187,7 +184,7 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    public function updateEntity(array $attributes = array())
+    private function updateEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->model->fill($attributes);
@@ -211,7 +208,7 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->updateGroupEntity($attributes);
     }
 
-    public function updateGroupEntity(array $attributes = array())
+    private function updateGroupEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->modelGroup->fill($attributes);
@@ -221,8 +218,6 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->modelGroup;
     }
 
-
-
     public function updateImageById(array $attributes, $contentId, $id)
     {
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
@@ -230,7 +225,7 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->updateImageEntity($attributes);
     }
 
-    public function updateImageEntity(array $attributes = array())
+    private function updateImageEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->modelImage->fill($attributes);
@@ -239,7 +234,6 @@ class ContentRepository implements ContentRepositoryInterface
 
         return $this->modelImage;
     }
-
 
     public function destroy($id)
     {
@@ -280,8 +274,6 @@ class ContentRepository implements ContentRepositoryInterface
 
         return $this->modelImage->delete();
     }
-
-
 
     public function destroyGroup($id)
     {
