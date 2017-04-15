@@ -51,8 +51,8 @@ class ContentController extends Controller
                 return $content->contenttitle;
             })
             ->addColumn('action', function ($content) {
-                $delete = Form::deleteajax(url()->route('hideyo.content.destroy', $content->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.content.edit', $content->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.content.destroy', $content->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = '<a href="'.url()->route('hideyo.content.edit', $content->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $link;
             });

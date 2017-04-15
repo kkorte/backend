@@ -27,8 +27,8 @@ class BrandController extends Controller
             ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($brand)->addColumn('action', function ($query) {
-                $delete = Form::deleteajax(url()->route('hideyo.brand.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $query->title);
-                $link = '<a href="'.url()->route('hideyo.brand.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.brand.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $query->title);
+                $link = '<a href="'.url()->route('hideyo.brand.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $link;
             });

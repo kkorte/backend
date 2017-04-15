@@ -46,8 +46,8 @@ class NewsImageController extends Controller
 
 
             ->addColumn('action', function ($image) use ($newsId) {
-                $delete = Form::deleteajax('/admin/news/'.$newsId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="/admin/news/'.$newsId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax('/admin/news/'.$newsId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = '<a href="/admin/news/'.$newsId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
 
                 return $link;
             });

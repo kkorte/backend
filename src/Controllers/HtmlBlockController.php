@@ -50,11 +50,11 @@ class HtmlBlockController extends Controller
                 }
             })
             ->addColumn('action', function ($query) {
-                $delete = Form::deleteajax(url()->route('hideyo.html-block.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $deleteLink = Form::deleteajax(url()->route('hideyo.html-block.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 
                 $copy = '<a href="/admin/html-block/'.$query->id.'/copy" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Copy</a>';
 
-                $link = '<a href="'.url()->route('hideyo.html-block.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> '.$copy.' '.$delete;
+                $link = '<a href="'.url()->route('hideyo.html-block.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> '.$copy.' '.$deleteLink;
             
                 return $link;
             });

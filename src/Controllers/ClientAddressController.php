@@ -67,8 +67,8 @@ class ClientAddressController extends Controller
                 }
             })
             ->addColumn('action', function ($addresses) use ($clientId) {
-                $delete = Form::deleteajax(url()->route('hideyo.client-address.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.client-address.edit', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.client-address.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = '<a href="'.url()->route('hideyo.client-address.edit', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $link;
             });

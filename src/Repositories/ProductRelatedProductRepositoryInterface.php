@@ -3,7 +3,6 @@ namespace Hideyo\Backend\Repositories;
 
 interface ProductRelatedProductRepositoryInterface
 {
-
     public function create(array $attributes, $productParentId);
     
     public function selectAll();

@@ -55,8 +55,8 @@ class ClientController extends Controller
             })
 
             ->addColumn('action', function ($clients) {
-                $delete = \Form::deleteajax(url()->route('hideyo.client.destroy', $clients->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.client.edit', $clients->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$delete;
+                $deleteLink = \Form::deleteajax(url()->route('hideyo.client.destroy', $clients->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = '<a href="'.url()->route('hideyo.client.edit', $clients->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$deleteLink;
             
                 if (!$clients->active || !$clients->confirmed) {
                     $link .= ' <a href="'.url()->route('hideyo.client.activate', $clients->id).'" class="btn btn-default btn-sm btn-info">activate</a>';

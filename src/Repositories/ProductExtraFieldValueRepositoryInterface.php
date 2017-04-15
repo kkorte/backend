@@ -3,9 +3,7 @@ namespace Hideyo\Backend\Repositories;
 
 interface ProductExtraFieldValueRepositoryInterface
 {
-
     public function create(array $attributes, $productParentId);
-
     
     public function selectAll();
     

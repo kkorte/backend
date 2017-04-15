@@ -3,7 +3,6 @@ namespace Hideyo\Backend\Repositories;
 
 interface InvoiceRepositoryInterface
 {
-
     public function create(array $attributes);
 
     public function updateById(array $attributes, $id);

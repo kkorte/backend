@@ -3,17 +3,15 @@ namespace Hideyo\Backend\Repositories;
 
 interface ProductRepositoryInterface
 {
-
     public function create(array $attributes);
 
     public function createCopy(array $attributes, $productId);
-
 
     public function updateById(array $attributes, $id);
     
     public function selectAll();
 
-    function selectAllByShopId($shopId);
+    public function selectAllByShopId($shopId);
 
     public function selectAllExport();
 
@@ -37,6 +35,5 @@ interface ProductRepositoryInterface
 
     public function changeAmount($productId, $amount);
 
-
-    function selectByLimitAndOrderBy($shopId, $limit, $orderBy);
+    public function selectByLimitAndOrderBy($shopId, $limit, $orderBy);
 }

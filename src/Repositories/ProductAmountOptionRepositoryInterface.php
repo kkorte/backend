@@ -3,7 +3,6 @@ namespace Hideyo\Backend\Repositories;
 
 interface ProductAmountOptionRepositoryInterface
 {
-
     public function create(array $attributes, $productId);
 
     public function updateById(array $attributes, $productId, $id);

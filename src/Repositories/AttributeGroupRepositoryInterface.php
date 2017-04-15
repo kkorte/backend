@@ -3,14 +3,10 @@ namespace Hideyo\Backend\Repositories;
 
 interface AttributeGroupRepositoryInterface
 {
-    private function rules($id = false);
-
     public function create(array $attributes);
 
     public function updateById(array $attributes, $id);
     
-    private function updateEntity(array $attributes = array());
-
     public function destroy($id);
 
     public function selectAll();

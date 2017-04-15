@@ -24,8 +24,8 @@ class TaxRateController extends Controller
         if ($this->request->wantsJson()) {
             $query = $this->taxRate->getModel()->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id);
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
-                $delete = Form::deleteajax(url()->route('hideyo.tax-rate.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.tax-rate.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.tax-rate.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));
+                $link = '<a href="'.url()->route('hideyo.tax-rate.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
                 return $link;
             });
 

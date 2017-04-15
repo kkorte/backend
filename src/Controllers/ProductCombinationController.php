@@ -49,8 +49,8 @@ class ProductCombinationController extends Controller
             )->where('product_id', '=', $productId);
 
             $datatables = \Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
-                $delete = \Form::deleteajax(url()->route('hideyo.product.combination.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.product.combination.edit', array('productId' => $productId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = \Form::deleteajax(url()->route('hideyo.product.combination.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = '<a href="'.url()->route('hideyo.product.combination.edit', array('productId' => $productId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $link;
             })

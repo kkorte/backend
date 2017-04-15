@@ -3,13 +3,10 @@ namespace Hideyo\Backend\Repositories;
 
 interface ProductCombinationRepositoryInterface
 {
-
     public function create(array $attributes, $productParentId);
     
     public function updateById(array $attributes, $productId, $id);
     
-    private function updateEntity(array $attributes = array());
-
     public function destroy($id);
 
     public function selectAllByProductId($productId);

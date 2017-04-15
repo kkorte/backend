@@ -26,8 +26,8 @@ class LanguageController extends BaseController
             return \Datatable::collection($this->language->selectAll())
                 ->showColumns('id', 'language')
                 ->addColumn('actions', function ($model) {
-                    $delete = \Form::deleteajax('/language/'. $model->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-icon btn-danger'));
-                    $link = '<a href="/language/'.$model->id.'/edit" class="btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                    $deleteLink = \Form::deleteajax('/language/'. $model->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-icon btn-danger'));
+                    $link = '<a href="/language/'.$model->id.'/edit" class="btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 
                     return $link;
                 })

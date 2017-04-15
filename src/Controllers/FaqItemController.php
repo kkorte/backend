@@ -45,8 +45,8 @@ class FaqItemController extends Controller
                 return $query->grouptitle;
             })
             ->addColumn('action', function ($query) {
-                $delete = Form::deleteajax('/admin/faq/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="/admin/faq/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax('/admin/faq/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = '<a href="/admin/faq/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $link;
             });

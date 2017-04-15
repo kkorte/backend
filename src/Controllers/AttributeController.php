@@ -41,8 +41,8 @@ class AttributeController extends Controller
             
             $datatables = \Datatables::of($query)
             ->addColumn('action', function ($query) use ($attributeGroupId) {
-                $delete = \Form::deleteajax(url()->route('hideyo.attribute.destroy', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = ' <a href="'.url()->route('hideyo.attribute.edit', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>'.$delete;
+                $deleteLink = \Form::deleteajax(url()->route('hideyo.attribute.destroy', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $link = ' <a href="'.url()->route('hideyo.attribute.edit', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>'.$deleteLink;
             
                 return $link;
             });

@@ -3,7 +3,6 @@ namespace Hideyo\Backend\Repositories;
 
 interface ClientRepositoryInterface
 {
-
     public function create(array $attributes);
 
     public function updateById(array $attributes, $id);
@@ -33,8 +32,6 @@ interface ClientRepositoryInterface
     public function validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, $shopId);
 
     public function resetPasswordByConfirmationCodeAndEmail(array $attributes, $shopId);
-
-
 
     public function activate($id);
 

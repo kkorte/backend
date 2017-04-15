@@ -42,9 +42,9 @@ class ProductRelatedProductController extends Controller
                     return $query->Product->title;
                 })
                 ->addColumn('action', function ($query) use ($productId) {
-                    $delete = \Form::deleteajax(url()->route('hideyo.product.related-product.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                    $deleteLink = \Form::deleteajax(url()->route('hideyo.product.related-product.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                     
-                    return $delete;
+                    return $deleteLink;
                 });
 
                 return $datatables->make(true);

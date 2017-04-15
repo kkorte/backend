@@ -150,7 +150,7 @@ class OrderController extends Controller
                     }
                 })
                 ->addColumn('action', function ($order) {
-                    $delete = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                    $deleteLink = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                     $download = '<a href="/admin/order/'.$order->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
                     $label = "";
                     if($order->orderLabel()->count()) {
@@ -258,7 +258,7 @@ class OrderController extends Controller
                     }
                 })
                 ->addColumn('action', function ($order) {
-                    $delete = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                    $deleteLink = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                     $download = '<a href="/admin/order/'.$order->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
                 
                     $label = "";

@@ -210,10 +210,10 @@ class ProductController extends Controller
 
 
             ->addColumn('action', function ($product) {
-                $delete = \Form::deleteajax(url()->route('hideyo.product.destroy', $product->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $product->title);
+                $deleteLink = \Form::deleteajax(url()->route('hideyo.product.destroy', $product->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $product->title);
                 $copy = '<a href="'.url()->route('hideyo.product.copy', $product->id).'" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Copy</a>';
 
-                $link = '<a href="'.url()->route('hideyo.product.edit', $product->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$copy.' '.$delete;
+                $link = '<a href="'.url()->route('hideyo.product.edit', $product->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$copy.' '.$deleteLink;
 
                 return $link;
             });

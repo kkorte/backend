@@ -3,7 +3,6 @@ namespace Hideyo\Backend\Repositories;
 
 interface ClientAddressRepositoryInterface
 {
-
     public function create(array $attributes, $clientId);
     
     public function updateById(array $attributes, $clientId, $id);

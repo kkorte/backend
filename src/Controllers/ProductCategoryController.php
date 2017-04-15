@@ -83,8 +83,8 @@ class ProductCategoryController extends Controller
 
 
             ->addColumn('action', function ($productCategory) {
-                $delete = Form::deleteajax(url()->route('hideyo.product-category.destroy', $productCategory->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $productCategory->title);
-                $link = '<a href="'.url()->route('hideyo.product-category.edit', $productCategory->id).'" class="btn btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.product-category.destroy', $productCategory->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $productCategory->title);
+                $link = '<a href="'.url()->route('hideyo.product-category.edit', $productCategory->id).'" class="btn btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $link;
             });
