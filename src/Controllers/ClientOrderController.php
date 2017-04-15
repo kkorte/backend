@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
  * ClientAddressController
  *
  * This is the controller for the shop clients orders
- * @author Matthijs Neijenhuijs <matthijs@Dutchbridge.nl>
- * @version 1.0
+ * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
+ * @version 0.1
  */
 
 use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
@@ -15,6 +15,8 @@ use Hideyo\Backend\Repositories\ClientRepositoryInterface;
 use Hideyo\Backend\Repositories\OrderRepositoryInterface;
 
 use Illuminate\Http\Request;
+use Form;
+use Datatables;
 
 class ClientOrderController extends Controller
 {
@@ -32,14 +34,12 @@ class ClientOrderController extends Controller
         if ($this->request->wantsJson()) {
 
             $order = $this->order->getModel()->select(
-                [
-                
-                'id', 'created_at', 'generated_custom_order_id', 'order_status_id', 'client_id', 'delivery_order_address_id', 'bill_order_address_id',
+                ['id', 'created_at', 'generated_custom_order_id', 'order_status_id', 'client_id', 'delivery_order_address_id', 'bill_order_address_id',
                 'price_with_tax']
             )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('client_id', '=', $clientId);
             
             
-            $datatables = \Datatables::of($order)
+            $datatables = Datatables::of($order)
 
             ->addColumn('status', function ($order) {
                 if ($order->orderStatus) {
@@ -88,41 +88,9 @@ class ClientOrderController extends Controller
                 }
             })
             ->addColumn('action', function ($order) {
-                $delete = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $download = '<a href="/admin/order/'.$order->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
                 $link = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download;
-            
-                return $link;
-            });
-
-            return $datatables->make(true);
-
-
-            $order = Order::select(
-                [
-                
-                'id', 'order_status_id',
-                'price_with_tax']
-            )->with(array('orderStatus'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('client_id', '=', $clientId);
-            
-            
-            $datatables = \Datatables::of($order)
-
-            ->addColumn('status', function ($order) {
-                if ($order->orderStatus) {
-                     return $order->orderStatus->title;
-                }
-            })
-            ->addColumn('email', function ($order) {
-                if ($order->client) {
-                     return $order->client->email;
-                }
-            })
-
-            ->addColumn('action', function ($order) {
-                $delete = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $download = '<a href="/admin/order/'.$order->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
-                $link = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download.$delete;
             
                 return $link;
             });

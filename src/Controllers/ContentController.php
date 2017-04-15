@@ -15,6 +15,8 @@ use Hideyo\Backend\Repositories\ContentRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Form;
+use Datatables;
 
 class ContentController extends Controller
 {
@@ -40,7 +42,7 @@ class ContentController extends Controller
 
             ->with(array('contentGroup'))        ->leftJoin($this->content->getGroupModel()->getTable(), $this->content->getGroupModel()->getTable().'.id', '=', $this->content->getModel()->getTable().'.content_group_id');
             
-            $datatables = \Datatables::of($content)
+            $datatables = Datatables::of($content)
 
             ->filterColumn('title', function ($query, $keyword) {
                 $query->whereRaw("content.title like ?", ["%{$keyword}%"]);
@@ -49,7 +51,7 @@ class ContentController extends Controller
                 return $content->contenttitle;
             })
             ->addColumn('action', function ($content) {
-                $delete = \Form::deleteajax(url()->route('hideyo.content.destroy', $content->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax(url()->route('hideyo.content.destroy', $content->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('hideyo.content.edit', $content->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;

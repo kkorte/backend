@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
  * ClientAddressController
  *
  * This is the controller for the client addresses
- * @author Matthijs Neijenhuijs <matthijs@Dutchbridge.nl>
- * @version 1.0
+ * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
+ * @version 0.1
  */
 
 use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
@@ -15,6 +15,8 @@ use Hideyo\Backend\Repositories\ClientRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
+use Form;
+use Datatables;
 
 class ClientAddressController extends Controller
 {
@@ -45,7 +47,7 @@ class ClientAddressController extends Controller
                 'lastname']
             )->with(array('clientDeliveryAddress', 'clientBillAddress'))->where('client_id', '=', $clientId);
             
-            $datatables = \Datatables::of($addresses)
+            $datatables = Datatables::of($addresses)
             ->addColumn('housenumber', function ($addresses) use ($clientId) {
                 return $addresses->housenumber.$addresses->housenumber_suffix;
             })
@@ -65,7 +67,7 @@ class ClientAddressController extends Controller
                 }
             })
             ->addColumn('action', function ($addresses) use ($clientId) {
-                $delete = \Form::deleteajax(url()->route('hideyo.client-address.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $delete = Form::deleteajax(url()->route('hideyo.client-address.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('hideyo.client-address.edit', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             
                 return $link;
@@ -80,13 +82,11 @@ class ClientAddressController extends Controller
     public function create($clientId)
     {
         $client = $this->client->find($clientId);
-
         return view('hideyo_backend::client_address.create')->with(array('client' => $client));
     }
 
     public function store($clientId)
     {
-
         $result  = $this->clientAddress->create($this->request->all(), $clientId);
  
         if ($result->id) {
