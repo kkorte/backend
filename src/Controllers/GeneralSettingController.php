@@ -65,14 +65,14 @@ class GeneralSettingController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($generalSettingId)
     {
-        return view('hideyo_backend::general-setting.edit')->with(array('generalSetting' => $this->generalSetting->find($id)));
+        return view('hideyo_backend::general-setting.edit')->with(array('generalSetting' => $this->generalSetting->find($generalSettingId)));
     }
 
-    public function update($id)
+    public function update($generalSettingId)
     {
-        $result  = $this->generalSetting->updateById($this->request->all(), $id);
+        $result  = $this->generalSetting->updateById($this->request->all(), $generalSettingId);
 
         if (isset($result->id)) {
             Notification::success('The general setting was updated.');
@@ -85,9 +85,9 @@ class GeneralSettingController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($generalSettingId)
     {
-        $result  = $this->generalSetting->destroy($id);
+        $result  = $this->generalSetting->destroy($generalSettingId);
         if ($result) {
             Notification::error('The general setting was deleted.');
             return redirect()->route('hideyo.general-setting.index');

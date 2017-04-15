@@ -80,16 +80,16 @@ class FaqItemController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($id)
+    public function edit($faqItemId)
     {
 
         $groups = $this->faq->selectAllGroups()->pluck('title', 'id')->toArray();
-        return view('hideyo_backend::faq-item.edit')->with(array('faq' => $this->faq->find($id), 'groups' => $groups));
+        return view('hideyo_backend::faq-item.edit')->with(array('faq' => $this->faq->find($faqItemId), 'groups' => $groups));
     }
 
-    public function editSeo($id)
+    public function editSeo($faqItemId)
     {
-        return view('hideyo_backend::faq-item.edit_seo')->with(array('faq' => $this->faq->find($id)));
+        return view('hideyo_backend::faq-item.edit_seo')->with(array('faq' => $this->faq->find($faqItemId)));
     }
 
     public function update($faqId)
@@ -117,9 +117,9 @@ class FaqItemController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function destroy($id)
+    public function destroy($faqItemId)
     {
-        $result  = $this->faq->destroy($id);
+        $result  = $this->faq->destroy($faqItemId);
 
         if ($result) {
             Notification::success('The faq was deleted.');
