@@ -29,7 +29,7 @@ class BrandRepository implements BrandRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    public function rules($id = false, $attributes = false)
+    private function rules($id = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -143,7 +143,7 @@ class BrandRepository implements BrandRepositoryInterface
         return $result;
     }
 
-    public function updateEntity(array $attributes = array())
+    private updateEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->model->fill($attributes);
@@ -160,7 +160,7 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->updateImageEntity($attributes);
     }
 
-    public function updateImageEntity(array $attributes = array())
+    private function updateImageEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->modelImage->fill($attributes);
