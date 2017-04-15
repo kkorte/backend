@@ -110,9 +110,9 @@ class InventoryController extends Controller
                 $deleteLink = \Form::deleteajax('/product/'. $product->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                  $copy = '<a href="/admin/product/'.$product->id.'/copy" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Copy</a>';
             
-                $link = '<a href="/admin/product/'.$product->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  ';
+                $links = '<a href="/admin/product/'.$product->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  ';
             
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

@@ -157,13 +157,13 @@ class OrderController extends Controller
                         $label = '<a href="/admin/order/'.$order->id.'/download-label" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Label</a>  ';
                     }      
              
-                    $link = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download.' '.$label;
+                    $links = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download.' '.$label;
                 
 
 
 
 
-                    return $link;
+                    return $links;
                 });
 
                 return $datatables->make(true);
@@ -267,9 +267,9 @@ class OrderController extends Controller
                     }      
              
                     
-                    $link = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download.' '.$label;
+                    $links = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download.' '.$label;
                 
-                    return $link;
+                    return $links;
                 });
 
                 return $datatables->make(true);

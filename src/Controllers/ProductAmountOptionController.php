@@ -50,9 +50,9 @@ class ProductAmountOptionController extends Controller
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
                 $deleteLink = Form::deleteajax('/admin/product/'.$productId.'/product-amount-option/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="/admin/product/'.$productId.'/product-amount-option/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                $links = '<a href="/admin/product/'.$productId.'/product-amount-option/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

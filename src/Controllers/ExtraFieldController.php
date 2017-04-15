@@ -50,11 +50,11 @@ class ExtraFieldController extends Controller
             })
             ->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('hideyo.extra-field.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.extra-field-values.index', $query->id).'" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>'.$query->values->count().' values</a>
+                $links = '<a href="'.url()->route('hideyo.extra-field-values.index', $query->id).'" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>'.$query->values->count().' values</a>
                  <a href="'.url()->route('hideyo.extra-field.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
                 '.$deleteLink;
             
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

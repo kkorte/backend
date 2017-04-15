@@ -27,9 +27,9 @@ class LanguageController extends BaseController
                 ->showColumns('id', 'language')
                 ->addColumn('actions', function ($model) {
                     $deleteLink = \Form::deleteajax('/language/'. $model->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-icon btn-danger'));
-                    $link = '<a href="/language/'.$model->id.'/edit" class="btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                    $links = '<a href="/language/'.$model->id.'/edit" class="btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 
-                    return $link;
+                    return $links;
                 })
                 ->searchColumns('language')
                 ->orderColumns('id', 'language')

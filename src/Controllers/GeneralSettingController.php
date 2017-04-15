@@ -30,8 +30,8 @@ class GeneralSettingController extends Controller
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('hideyo.general-setting.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.general-setting.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
-                return $link;
+                $links = '<a href="'.url()->route('hideyo.general-setting.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
+                return $links;
             });
 
 

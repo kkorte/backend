@@ -76,9 +76,9 @@ class SendingPaymentMethodRelatedController extends Controller
 
 
             ->addColumn('action', function ($query) {
-                $link = '<a href="'.url()->route('hideyo.sending-payment-method-related.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>';
+                $links = '<a href="'.url()->route('hideyo.sending-payment-method-related.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>';
             
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

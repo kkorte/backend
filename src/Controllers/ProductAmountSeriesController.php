@@ -56,9 +56,9 @@ class ProductAmountSeriesController extends Controller
             })
             ->addColumn('action', function ($query) use ($productId) {
                 $deleteLink = Form::deleteajax(url()->route('hideyo.product.amount-series.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.product.amount-series.edit', array('productId' => $productId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                $links = '<a href="'.url()->route('hideyo.product.amount-series.edit', array('productId' => $productId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

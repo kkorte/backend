@@ -40,8 +40,8 @@ class BrandImageController extends Controller
             })
             ->addColumn('action', function ($image) use ($brandId) {
                 $deleteLink = Form::deleteajax('/admin/brand/'.$brandId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="/admin/brand/'.$brandId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
-                return $link;
+                $links = '<a href="/admin/brand/'.$brandId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                return $links;
             });
 
             return $datatables->make(true);

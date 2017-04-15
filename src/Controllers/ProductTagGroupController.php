@@ -36,9 +36,9 @@ class ProductTagGroupController extends Controller
             
             $datatables = \Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax(url()->route('hideyo.product-tag-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $link = '<a href="'.url()->route('hideyo.product-tag-group.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                $links = '<a href="'.url()->route('hideyo.product-tag-group.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

@@ -54,9 +54,9 @@ class HtmlBlockController extends Controller
                 
                 $copy = '<a href="/admin/html-block/'.$query->id.'/copy" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Copy</a>';
 
-                $link = '<a href="'.url()->route('hideyo.html-block.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> '.$copy.' '.$deleteLink;
+                $links = '<a href="'.url()->route('hideyo.html-block.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> '.$copy.' '.$deleteLink;
             
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);

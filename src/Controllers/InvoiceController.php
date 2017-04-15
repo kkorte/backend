@@ -54,9 +54,9 @@ class InvoiceController extends Controller
             ->addColumn('action', function ($invoice) {
                 $deleteLink = \Form::deleteajax('/invoice/'. $invoice->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $download = '<a href="/invoice/'.$invoice->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
-                $link = '<a href="/invoice/'.$invoice->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download;
+                $links = '<a href="/invoice/'.$invoice->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download;
             
-                return $link;
+                return $links;
             });
 
             return $datatables->make(true);
