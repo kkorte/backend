@@ -11,8 +11,6 @@ class OrderPaymentLog extends BaseModel
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['order_id', 'type', 'log'];
 
-
-
     public function order()
     {
         return $this->belongsTo('Hideyo\Backend\Models\Order');

@@ -16,8 +16,6 @@ class OrderSendingMethod extends BaseModel
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['order_id', 'sending_method_id', 'title', 'price_with_tax', 'price_without_tax', 'tax_rate', 'weight', 'tax_rate_id'];
 
-
-
     public function order()
     {
         return $this->belongsTo('Hideyo\Backend\Models\Order');
