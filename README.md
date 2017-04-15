@@ -1,3 +1,4 @@
+## Hideyo e-commerce backend
 Hideyo is making open-source e-commerce solutions in Laravel. Contact us at info@hideyo.io. 
 
 It's still beta. The code is not optimal and clean. In the next month we will improve it. 
