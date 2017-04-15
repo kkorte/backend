@@ -13,6 +13,8 @@ use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
 use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
 use DB;
 use Request;
+use Datatables;
+use Notification;
 
 class SendingPaymentMethodRelatedController extends Controller
 {
@@ -30,7 +32,7 @@ class SendingPaymentMethodRelatedController extends Controller
                     config()->get('hideyo.db_prefix').'sending_method.title as sending_method_title', 
                     config()->get('hideyo.db_prefix').'sending_payment_method_related.*'])
                ->where(config()->get('hideyo.db_prefix').'sending_method.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
 
             ->addColumn('payment_method', function ($query) {
                   return $query->payment_method_title;
@@ -99,11 +101,11 @@ class SendingPaymentMethodRelatedController extends Controller
         $result  = $this->sendingPaymentMethodRelated->updateById(Request::all(), $id);
 
         if (isset($result->id)) {
-            \Notification::success('The order template was updated.');
-            return \Redirect::route('hideyo.sending-payment-method-related.index');
+            Notification::success('The order template was updated.');
+            return redirect()->route('hideyo.sending-payment-method-related.index');
         }
         
-        \Notification::error($result->errors()->all());
-        return \Redirect::back()->withInput();
+        Notification::error($result->errors()->all());
+        return redirect()->back()->withInput();
     }
 }

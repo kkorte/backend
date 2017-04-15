@@ -30,8 +30,6 @@ class UserController extends Controller
         ShopRepositoryInterface $shop
     ) {
         $this->user         = $user;
- 
- 
         $this->shop         = $shop;
     }
 
