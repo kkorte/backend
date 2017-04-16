@@ -32,7 +32,6 @@ class ProductCombinationController extends Controller
     ) {
         $this->productCombination = $productCombination;
         $this->product = $product;
-
         $this->attributeGroup = $attributeGroup;
         $this->taxRate = $taxRate;
     }
@@ -41,7 +40,6 @@ class ProductCombinationController extends Controller
     {
         $product = $this->product->find($productId);
         if (Request::wantsJson()) {
-
 
             $query = $this->productCombination->getModel()->select(
                 ['id', 'tax_rate_id', 'amount', 'price', 'product_id', 'reference_code',
@@ -61,46 +59,47 @@ class ProductCombinationController extends Controller
 
             ->addColumn('price', function ($query) {
                 if ($query->price) {
+
+                    $taxRate = 0;
+                    $priceInc = 0;
+                    $taxValue = 0;
+
                     if (isset($query->taxRate->rate)) {
                         $taxRate = $query->taxRate->rate;
-                        $price_inc = (($query->taxRate->rate / 100) * $query->price) + $query->price;
-                        $tax_value = $price_inc - $query->price;
-                    } else {
-                        $taxRate = 0;
-                        $price_inc = 0;
-                        $tax_value = 0;
+                        $priceInc = (($query->taxRate->rate / 100) * $query->price) + $query->price;
+                        $taxValue = $priceInc - $query->price;
                     }
 
-                    $discount_price_inc = false;
-                    $discount_price_ex = false;
+                    $discountPriceInc = false;
+                    $discountPriceEx = false;
                     $discountTaxRate = 0;
                     if ($query->discount_value) {
                         if ($query->discount_type == 'amount') {
-                            $discount_price_inc = $price_inc - $query->discount_value;
-                            $discount_price_ex = $discount_price_inc / 1.21;
+                            $discountPriceInc = $priceInc - $query->discount_value;
+                            $discountPriceEx = $discountPriceInc / 1.21;
                         } elseif ($query->discount_type == 'percent') {
-                            $tax = ($query->discount_value / 100) * $price_inc;
-                            $discount_price_inc = $price_inc - $tax;
-                            $discount_price_ex = $discount_price_inc / 1.21;
+                            $tax = ($query->discount_value / 100) * $priceInc;
+                            $discountPriceInc = $priceInc - $tax;
+                            $discountPriceEx = $discountPriceInc / 1.21;
                         }
-                        $discountTaxRate = $discount_price_inc - $discount_price_ex;
-                        $discount_price_inc = $discount_price_inc;
-                        $discount_price_ex = $discount_price_ex;
+                        $discountTaxRate = $discountPriceInc - $discountPriceEx;
+                        $discountPriceInc = $discountPriceInc;
+                        $discountPriceEx = $discountPriceEx;
                     }
 
 
                     $output = array(
                         'orginal_price_ex_tax'  => $query->price,
                         'orginal_price_ex_tax_number_format'  => number_format($query->price, 2, '.', ''),
-                        'orginal_price_inc_tax' => $price_inc,
-                        'orginal_price_inc_tax_number_format' => number_format($price_inc, 2, '.', ''),
+                        'orginal_price_inc_tax' => $priceInc,
+                        'orginal_price_inc_tax_number_format' => number_format($priceInc, 2, '.', ''),
                         'tax_rate' => $taxRate,
-                        'tax_value' => $tax_value,
+                        'tax_value' => $taxValue,
                         'currency' => 'EU',
-                        'discount_price_inc' => $discount_price_inc,
-                        'discount_price_inc_number_format' => number_format($discount_price_inc, 2, '.', ''),
-                        'discount_price_ex' => $discount_price_ex,
-                        'discount_price_ex_number_format' => number_format($discount_price_ex, 2, '.', ''),
+                        'discount_price_inc' => $discountPriceInc,
+                        'discount_price_inc_number_format' => number_format($discountPriceInc, 2, '.', ''),
+                        'discount_price_ex' => $discountPriceEx,
+                        'discount_price_ex_number_format' => number_format($discountPriceEx, 2, '.', ''),
                         'discount_tax_value' => $discountTaxRate,
                         'discount_value' => $query->discount_value,
                         'amount' => $query->amount
@@ -117,9 +116,6 @@ class ProductCombinationController extends Controller
                 return $result;
             })
 
-
-
-
             ->addColumn('combinations', function ($query) use ($productId) {
                 $items = array();
                 foreach ($query->combinations as $row) {
@@ -130,9 +126,6 @@ class ProductCombinationController extends Controller
             });
 
             return $datatables->make(true);
-
-
-
 
         } else {
             return view('hideyo_backend::product-combination.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));

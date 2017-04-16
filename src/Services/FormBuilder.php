@@ -1,13 +1,11 @@
 <?php namespace Hideyo\Backend\Services;
 
-use \Html;
+use Html;
 
 class FormBuilder extends \Collective\Html\FormBuilder
 {
-
     public function tree($items, $output = false)
     {
-
         if ($output) {
             $output = '';
         }
@@ -24,11 +22,10 @@ class FormBuilder extends \Collective\Html\FormBuilder
         return $output;
     }
 
-
-    public function deleteajax($url, $button_label = 'Delete', $form_parameters = array(), $button_options = array(), $title = false)
+    public function deleteajax($url, $buttonLabel = 'Delete', $formParameters = array(), $buttonOptions = array(), $title = false)
     {
-        if (empty($form_parameters)) {
-            $form_parameters = array(
+        if (empty($formParameters)) {
+            $formParameters = array(
             'method'=>'DELETE',
             'class' =>'delete-form delete-button',
             'url'   =>$url,
@@ -36,12 +33,12 @@ class FormBuilder extends \Collective\Html\FormBuilder
             'data-title' => $title
             );
         } else {
-            $form_parameters['url'] = $url;
-            $form_parameters['method'] = 'DELETE';
+            $formParameters['url'] = $url;
+            $formParameters['method'] = 'DELETE';
         };
 
-        return \Form::open($form_parameters)
-            . \Form::submit($button_label, $button_options)
+        return \Form::open($formParameters)
+            . \Form::submit($buttonLabel, $buttonOptions)
             . \Form::close();
     }
 

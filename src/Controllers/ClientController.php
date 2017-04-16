@@ -127,7 +127,7 @@ class ClientController extends Controller
 
     public function postDeActivate($clientId)
     {
-        $result  = $this->client->deactivate($clientId);
+        $this->client->deactivate($clientId);
         Notification::success('The client was deactivate.');
         return redirect()->route('hideyo.client.index');
     }
@@ -135,8 +135,7 @@ class ClientController extends Controller
     public function store()
     {
         $result  = $this->client->create($this->request->all());
- 
-
+        
         if (isset($result->id)) {
             Notification::success('The client was inserted.');
             return redirect()->route('hideyo.client.index');

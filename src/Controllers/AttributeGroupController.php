@@ -87,15 +87,15 @@ class AttributeGroupController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  int  $id
+     * @param  int  $attributeGroupId
      * @return Redirect
      */
-    public function edit($id)
+    public function edit($attributeGroupId)
     {
         return view('hideyo_backend::attribute-group.edit')
         ->with(
             array(
-                'attributeGroup' => $this->attributeGroup->find($id)
+                'attributeGroup' => $this->attributeGroup->find($attributeGroupId)
             )
         );
     }
@@ -103,12 +103,12 @@ class AttributeGroupController extends Controller
     /**
      * Update the specified resource in storage.
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $attributeGroupId
      * @return Redirect
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $attributeGroupId)
     {
-        $result  = $this->attributeGroup->updateById($request->all(), $id);
+        $result  = $this->attributeGroup->updateById($request->all(), $attributeGroupId);
 
         if (isset($result->id)) {
             Notification::success('The extra field was updated.');
@@ -124,12 +124,12 @@ class AttributeGroupController extends Controller
 
     /**
      * Remove the specified resource from storagep
-     * @param  int  $id
+     * @param  int  $attributeGroupId
      * @return Redirect
      */
-    public function destroy($id)
+    public function destroy($attributeGroupId)
     {
-        $result  = $this->attributeGroup->destroy($id);
+        $result  = $this->attributeGroup->destroy($attributeGroupId);
 
         if ($result) {
             Notification::success('Extra field was deleted.');

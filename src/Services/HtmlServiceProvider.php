@@ -2,7 +2,6 @@
 
 class HtmlServiceProvider extends \Collective\Html\HtmlServiceProvider
 {
-
     /**
      * Register the form builder instance.
      */
