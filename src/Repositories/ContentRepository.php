@@ -355,13 +355,10 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->modelGroup;
     }
 
-
-
     public function findImage($newsImageId)
     {
         return $this->modelImage->find($newsImageId);
     }
-
 
     public function getImageModel()
     {

@@ -71,15 +71,15 @@ class BrandImageController extends Controller
         }
     }
 
-    public function edit($brandId, $id)
+    public function edit($brandId, $brandImageId)
     {
         $brand = $this->brand->find($brandId);
-        return view('hideyo_backend::brand_image.edit')->with(array('brandImage' => $this->brand->findImage($id), 'brand' => $brand));
+        return view('hideyo_backend::brand_image.edit')->with(array('brandImage' => $this->brand->findImage($brandImageId), 'brand' => $brand));
     }
 
-    public function update($brandId, $id)
+    public function update($brandId, $brandImageId)
     {
-        $result  = $this->brand->updateImageById($this->request->all(), $brandId, $id);
+        $result  = $this->brand->updateImageById($this->request->all(), $brandId, $brandImageId);
 
         if (isset($result->id)) {
             Notification::success('The brand image was updated.');
@@ -92,9 +92,9 @@ class BrandImageController extends Controller
         }
     }
 
-    public function destroy($brandId, $id)
+    public function destroy($brandId, $brandImageId)
     {
-        $result  = $this->brand->destroyImage($id);
+        $result  = $this->brand->destroyImage($brandImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');
