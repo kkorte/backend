@@ -40,7 +40,7 @@ $this->call(ShopTableSeeder::class);
 $this->call(UserTableSeeder::class);
 
 and run:
-
+php artisan optimize
 php artisan db:seed
 ```
 
