@@ -226,9 +226,6 @@ class ProductRepository implements ProductRepositoryInterface
         }
     }
 
-
-
-
     public function updateById(array $attributes, $id)
     {
 
@@ -266,10 +263,6 @@ class ProductRepository implements ProductRepositoryInterface
             $productCategoryUrl = $result->shop->url.route('product-category', ['slug' => $result->productCategory->slug], null);
             $redirectResult = $this->redirect->create(array('active' => 1, 'url' => $url, 'redirect_url' => $productCategoryUrl, 'shop_id' => $result->shop_id));
         }
-
-
-
-
 
         return $result;
     }
@@ -403,15 +396,12 @@ class ProductRepository implements ProductRepositoryInterface
          return $this->model->where('shop_id', '=', $shopId)->get();
     }
     
-
     public function selectAllExport()
     {
         return $this->model->with(array('productImages' => function ($query) {
             $query->orderBy('rank', 'asc');
         }))->where('active', '=', 1)->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
-
-
 
     public function selectAllWithCombinations()
     {
@@ -436,274 +426,10 @@ class ProductRepository implements ProductRepositoryInterface
         return $newResult;
     }
 
-
     public function selectAllByProductParentId($productParentId)
     {
         return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('product_parent_id', '=', $productParentId)->get();
     }
-
-
-    function selectOneByShopIdAndSlug($shopId, $slug)
-    {
-
-           return $this->model->with(
-               array(
-                'attributeGroup',
-                'attributes' => function ($query) {
-                    $query->with(
-                        array(
-                            'combinations' => function ($query) {
-                                $query->with(
-                                    array(
-                                        'productAttribute',
-                                        'attribute' => function ($query) {
-                                            $query->with(
-                                                array(
-                                                    'attributeGroup'
-                                                    )
-                                            );
-                                        }
-                                        )
-                                );
-                            }
-                            )
-                    )->orderBy('default_on', 'desc');
-                },
-                'extraFields' => function ($query) {
-                    $query->where('value', '!=', '')
-                    ->orWhereNotNull('extra_field_default_value_id')
-                    ->with(
-                        array('extraField', 'extraFieldDefaultValue')
-                    )
-                    ->orderBy('id', 'desc');
-                },
-                'relatedProducts' => function ($query) {
-                    $query->with(array('productImages' => function ($query) {
-                        $query->orderBy('rank', 'asc');
-                    }, 'productCategory'));
-                },
-                'productImages' => function ($query) {
-                    $query->orderBy(
-                        'rank',
-                        'asc'
-                    )->with(array('relatedProductAttributes',
-                    'relatedAttributes'));
-                })
-           )->where('shop_id', '=', $shopId)->whereNotNull('product_category_id')->where('active', '=', 1)->where('slug', '=', $slug)->get()->first();
-    }
-
-
-    function selectAllByShopIdAndProductCategoryId($shopId, $productCategoryId, $filters = false)
-    {
-
-        $result = $this->model
-        ->with(array('subcategories', 'extraFields' => function ($query) {
-            $query->with('extraField')->orderBy('id', 'desc');
-        }, 'taxRate', 'productCategory',  'relatedProducts' => function ($query) {
-            $query->with('productImages')->orderBy('rank', 'asc');
-        }, 'productImages' => function ($query) {
-            $query->orderBy('rank', 'asc');
-        }))
-        ->where('shop_id', '=', $shopId)
-        ->where('active', '=', 1)
-                ->whereNotNull('product.product_category_id')
-        ->where(function ($query) use ($productCategoryId) {
-            $query->where('product_category_id', '=', $productCategoryId);
-            $query->orWhereHas('subcategories', function ($query) use ($productCategoryId) {
-                $query->where('product_category_id', '=', $productCategoryId);
-            });
-        });
-
-        if ($filters) {
-            if (isset($filters['filter']['product_attribute'])) {
-                $keys = array();
-                foreach ($filters['filter']['product_attribute'] as $key => $row) {
-                    if ($keys) {
-                        $keys = array_merge($row);
-                    } else {
-                        $keys = $row;
-                    }
-                }
-
-                $result->whereHas('attributes', function ($query) use ($filters, $keys) {
-
-                    $query->whereHas('combinations', function ($query) use ($filters, $keys) {
-
-                        $query->whereIn('attribute_id', $keys);
-                    });
-                });
-            }
-
-
-            if (isset($filters['filter']['extra_field'])) {
-                $fieldKeys = array();
-                foreach ($filters['filter']['extra_field'] as $key => $row) {
-                    if ($fieldKeys) {
-                        $fieldKeys = array_merge($row);
-                    } else {
-                        $fieldKeys = $row;
-                    }
-                }
-
-                $result->whereHas('extraFields', function ($query) use ($filters, $fieldKeys) {
-                        $query->whereIn('extra_field_default_value_id', $fieldKeys);
-                        $query->orWhereIn('value', $fieldKeys);
-                });
-            }
-        }
-        $result->orderBy(\DB::raw('product.rank = 0, product.rank'), 'ASC');
-
-        return $result->get();
-    }
-
-
-    function selectAllByShopIdAndProductCategoryIdDataLayer($shopId, $productCategoryId, $filters = false)
-    {
-
-        $result = $this->model
-        ->select('product.title as name', 'product.reference_code as reference_code', 'product_category.title as category', 'brand.title as brand', 'product.rank as position')
-        ->leftJoin('product_category', 'product_category.id', '=', 'product.product_category_id')
-         ->leftJoin('brand', 'brand.id', '=', 'product.brand_id')
-        ->where('product.shop_id', '=', $shopId)
-        ->where('product.active', '=', 1)
-        ->whereNotNull('product.product_category_id')
-        ->where(function ($query) use ($productCategoryId) {
-            $query->where('product_category_id', '=', $productCategoryId);
-            $query->orWhereHas('subcategories', function ($query) use ($productCategoryId) {
-                $query->where('product_category_id', '=', $productCategoryId);
-            });
-        });
-
-        if ($filters) {
-            if (isset($filters['filter']['product_attribute'])) {
-                $keys = array();
-                foreach ($filters['filter']['product_attribute'] as $key => $row) {
-                    if ($keys) {
-                        $keys = array_merge($row);
-                    } else {
-                        $keys = $row;
-                    }
-                }
-
-                $result->whereHas('attributes', function ($query) use ($filters, $keys) {
-
-                    $query->whereHas('combinations', function ($query) use ($filters, $keys) {
-
-                        $query->whereIn('attribute_id', $keys);
-                    });
-                });
-            }
-
-
-            if (isset($filters['filter']['extra_field'])) {
-                $fieldKeys = array();
-                foreach ($filters['filter']['extra_field'] as $key => $row) {
-                    if ($fieldKeys) {
-                        $fieldKeys = array_merge($row);
-                    } else {
-                        $fieldKeys = $row;
-                    }
-                }
-
-                $result->whereHas('extraFields', function ($query) use ($filters, $fieldKeys) {
-                        $query->whereIn('extra_field_default_value_id', $fieldKeys);
-                        $query->orWhereIn('value', $fieldKeys);
-                });
-            }
-        }
-        $result->orderBy(\DB::raw('position = 0, position'), 'ASC');
-
-        return $result->get();
-    }
-
-
-    function selectAllByShopIdAndDiscountPromotion($shopId)
-    {
-
-           return $this->model
-           ->with(array('subcategories', 'extraFields' => function ($query) {
-            $query->with('extraField')->orderBy('id', 'desc');
-           }, 'taxRate', 'productCategory',  'relatedProducts' => function ($query) {
-            $query->with('productImages')->orderBy('rank', 'asc');
-           }, 'productImages' => function ($query) {
-            $query->orderBy('rank', 'asc');
-           }))
-           ->where('shop_id', '=', $shopId)
-           ->where('active', '=', 1)
-           ->whereNotNull('product_category_id')
-           ->where(function ($query) {
-                $query->WhereNotNull('discount_value');
-                $query->where('discount_promotion', '=', '1');
-           })
-            ->orderBy(\DB::raw('product.rank = 0, product.rank'), 'ASC')
-            ->get();
-    }
-
-    function selectAllNewItemsByShopId($shopId, $limit)
-    {
-
-           return $this->model
-           ->with(array('subcategories', 'extraFields' => function ($query) {
-            $query->with('extraField')->orderBy('id', 'desc');
-           }, 'taxRate', 'productCategory',  'relatedProducts' => function ($query) {
-            $query->with('productImages')->orderBy('rank', 'asc');
-           }, 'productImages' => function ($query) {
-            $query->orderBy('rank', 'asc');
-           }))
-           ->where('shop_id', '=', $shopId)
-           ->where('active', '=', 1)
-           ->whereNotNull('product_category_id')
-           ->orderBy('created_at', 'DESC')
-           ->limit($limit)
-           ->get();
-    }
-
-    function selectAllByShopIdAndBrandId($shopId, $brandId)
-    {
-
-           return $this->model
-           ->with(array('subcategories', 'extraFields' => function ($query) {
-            $query->with('extraField')->orderBy('id', 'desc');
-           }, 'taxRate', 'productCategory',  'relatedProducts' => function ($query) {
-            $query->with('productImages')->orderBy('rank', 'asc');
-           }, 'productImages' => function ($query) {
-            $query->orderBy('rank', 'asc');
-           }))
-           ->where('shop_id', '=', $shopId)
-           ->where('active', '=', 1)
-           ->whereNotNull('product_category_id')
-           ->where(function ($query) use ($brandId) {
-                $query->where('brand_id', '=', $brandId);
-                $query->orWhereHas('subcategories', function ($query) use ($brandId) {
-                    $query->where('brand_id', '=', $brandId);
-                });
-           })
-            ->whereNotNull('product_category_id')
-            ->orderBy(\DB::raw('product.rank = 0, product.rank'), 'ASC')
-            ->get();
-    }
-
-
-    function selectAllByShopIdFrontend($shopId)
-    {
-
-           return $this->model
-           ->with(array('subcategories', 'extraFields' => function ($query) {
-            $query->with('extraField')->orderBy('id', 'desc');
-           }, 'taxRate', 'productCategory',  'relatedProducts' => function ($query) {
-            $query->with('productImages')->orderBy('rank', 'asc');
-           }, 'productImages' => function ($query) {
-            $query->orderBy('rank', 'asc');
-           }))
-           ->where('shop_id', '=', $shopId)
-           ->where('active', '=', 1)
-           ->whereNotNull('product_category_id')
-            ->whereNotNull('product_category_id')
-            ->orderBy(\DB::raw('product.rank = 0, product.rank'), 'ASC')
-            ->get();
-    }
-
-
 
     function selectOneById($id)
     {
@@ -713,122 +439,6 @@ class ProductRepository implements ProductRepositoryInterface
         }))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get()->first();
         return $result;
     }
-
-    function selectOneByShopIdAndId($shopId, $id)
-    {
-
-           return $this->model->with(
-               array(
-                'attributeGroup',
-                'attributes' => function ($query) {
-                    $query->with(
-                        array(
-                            'combinations' => function ($query) {
-                                $query->with(
-                                    array(
-                                        'productAttribute',
-                                        'attribute' => function ($query) {
-                                            $query->with(
-                                                array(
-                                                    'attributeGroup'
-                                                    )
-                                            );
-                                        }
-                                        )
-                                );
-                            }
-                            )
-                    )->orderBy('default_on', 'desc');
-                },
-                'extraFields' => function ($query) {
-                    $query->where(
-                        'value',
-                        '!=',
-                        ''
-                    )->orWhereNotNull('extra_field_default_value_id')->with(array('extraField',
-                    'extraFieldDefaultValue'))->orderBy(
-                        'id',
-                        'desc'
-                    );
-                },
-                'relatedProducts' => function ($query) {
-                    $query->with(
-                        'productImages',
-                        'productCategory'
-                    )->orderBy(
-                        'rank',
-                        'asc'
-                    );
-                },
-                'productImages' => function ($query) {
-                    $query->orderBy(
-                        'rank',
-                        'asc'
-                    )->with(array('relatedProductAttributes',
-                    'relatedAttributes'));
-                })
-           )->where('shop_id', '=', $shopId)->where('active', '=', 1)->whereNotNull('product_category_id')->where('id', '=', $id)->get()->first();
-    }
-
-
-    function selectOneByIdAndAttributeId($shopId, $id, $attributeId)
-    {
-
-           return $this->model
-           ->with(
-               array(
-                'attributeGroup',
-                'attributes' => function ($query) use ($attributeId) {
-                    $query->with(
-                        array(
-                            'combinations' => function ($query) {
-                                $query->with(
-                                    array(
-                                        'productAttribute',
-                                        'attribute' => function ($query) {
-                                            $query->with(
-                                                array(
-                                                    'attributeGroup'
-                                                    )
-                                            );
-                                        }
-                                        )
-                                );
-                            }
-                            )
-                    )->orderBy('default_on', 'desc');
-                },
-                'extraFields' => function ($query) {
-                    $query->where('value', '!=', '')
-
-
-
-                    ->orWhereNotNull('extra_field_default_value_id')
-                    ->with(
-                        array('extraField', 'extraFieldDefaultValue')
-                    )
-                    ->orderBy('id', 'desc');
-                },
-                    'taxRate',
-                    'productCategory',
-                    'relatedProducts' => function ($query) {
-                        $query->with('productImages')->orderBy('rank', 'asc');
-                    },
-                    'productImages' => function ($query) {
-                        $query->orderBy('rank', 'asc');
-                    }
-                )
-           )
-
-
-
-
-           ->where('active', '=', 1)
-           ->whereNotNull('product_category_id')
-           ->where('shop_id', '=', $shopId)
-           ->where('id', '=', $id)->get()->first();
-    }
-
 
     public function increaseAmounts($products)
     {
@@ -852,8 +462,6 @@ class ProductRepository implements ProductRepositoryInterface
             }
         }
     }
-
-
 
     public function reduceAmounts($products)
     {
@@ -880,7 +488,6 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function changeActive($productId)
     {
-
         $this->model = $this->find($productId);
 
         if ($this->model) {
@@ -896,24 +503,20 @@ class ProductRepository implements ProductRepositoryInterface
 
             $this->model->fill($attributes);
 
-
-
-            if (!$this->model->active) {
-                $url = $this->model->shop->url.route('product.item', ['productId' => $this->model->id, 'productSlug' => $this->model->slug, 'categorySlug' => $this->model->productCategory->slug], null);
-                $productCategoryUrl = $this->model->shop->url.route('product-category', ['slug' => $this->model->productCategory->slug], null);
-                $redirectResult = $this->redirect->create(array('active' => 1, 'url' => $url, 'redirect_url' => $productCategoryUrl, 'shop_id' => $this->model->shop_id));
-            } else {
-                $url = $this->model->shop->url.route('product.item', ['productId' => $this->model->id, 'productSlug' => $this->model->slug, 'categorySlug' => $this->model->productCategory->slug], null);
-                $this->redirect->destroyByUrl($url);
-            }
-
+            // if (!$this->model->active) {
+            //     $url = $this->model->shop->url.route('product.item', ['productId' => $this->model->id, 'productSlug' => $this->model->slug, 'categorySlug' => $this->model->productCategory->slug], null);
+            //     $productCategoryUrl = $this->model->shop->url.route('product-category', ['slug' => $this->model->productCategory->slug], null);
+            //     $redirectResult = $this->redirect->create(array('active' => 1, 'url' => $url, 'redirect_url' => $productCategoryUrl, 'shop_id' => $this->model->shop_id));
+            // } else {
+            //     $url = $this->model->shop->url.route('product.item', ['productId' => $this->model->id, 'productSlug' => $this->model->slug, 'categorySlug' => $this->model->productCategory->slug], null);
+            //     $this->redirect->destroyByUrl($url);
+            // }
 
             return $this->model->save();
         }
 
         return false;
     }
-
 
     public function changeAmount($productId, $amount)
     {
@@ -935,10 +538,8 @@ class ProductRepository implements ProductRepositoryInterface
         return false;
     }
 
-
     public function changeRank($productId, $rank)
     {
-
         $this->model = $this->find($productId);
 
         if ($this->model) {
@@ -948,15 +549,11 @@ class ProductRepository implements ProductRepositoryInterface
 
             $this->model->fill($attributes);
 
-
-
             return $this->model->save();
         }
 
         return false;
     }
-
-
     
     public function find($id)
     {

@@ -167,14 +167,14 @@ Route::group(['middleware' => ['hideyobackend','auth.hideyo.backend'], 'prefix' 
 
     Route::get('product/export', array('as' => 'hideyo.product.export', 'uses' => 'ProductController@getExport'));
 
-    Route::get('product/rank', array('as' => 'hideyo.product.ranking', 'uses' => 'ProductController@getRank'));
+    Route::get('product/rank', array('as' => 'hideyo.product.rank', 'uses' => 'ProductController@getRank'));
 
     generateCrud('product', 'ProductController');
 
     Route::get('product/edit/{productId}/price', array('as' => 'hideyo.product.edit_price', 'uses' => 'ProductController@editPrice'));
     Route::get('product/change-active/{productId}', array('as' => 'hideyo.product.change-active', 'uses' => 'ProductController@changeActive'));
-    Route::get('product/change-amount/{productId}/{amount}', array('as' => 'hideyo.product.change-amount', 'uses' => 'ProductController@changeAmount'));
-    Route::get('product/change-rank/{productId}/{rank}', array('as' => 'hideyo.product.change-rank', 'uses' => 'ProductController@changeRank'));
+    Route::get('product/change-amount/{productId}/{amount?}', array('as' => 'hideyo.product.change-amount', 'uses' => 'ProductController@changeAmount'));
+    Route::get('product/change-rank/{productId}/{rank?}', array('as' => 'hideyo.product.change-rank', 'uses' => 'ProductController@changeRank'));
   
     Route::get('product/edit/{productId}/seo', array('as' => 'hideyo.product.edit_seo', 'uses' => 'ProductController@editSeo'));
     generateCrud('product/{productId}/images', 'ProductImageController', 'product.image');
@@ -185,7 +185,7 @@ Route::group(['middleware' => ['hideyobackend','auth.hideyo.backend'], 'prefix' 
 
     generateCrud('product/{productId}/product-combination', 'ProductCombinationController', 'product.combination');
 
-    Route::get('product/{productId}/product-combination/change-amount-attribute/{id}/{amount}', array('as' => 'hideyo.product.change-amount', 'uses' => 'ProductCombinationController@changeAmount'));
+    Route::get('product/{productId}/product-combination/change-amount-attribute/{id}/{amount?}', array('as' => 'hideyo.product.change-amount-combination', 'uses' => 'ProductCombinationController@changeAmount'));
  
     Route::post('product/{productId}/copy', array('as' => 'product.store-copy', 'uses' => 'ProductController@storeCopy'));
     

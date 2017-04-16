@@ -8,7 +8,7 @@
             <li class="active"><a href="{{ URL::route('hideyo.product.index') }}">Overview <span class="sr-only">(current)</span></a></li>
             <li><a href="{{ URL::route('hideyo.product.create') }}">Create</a></li>
             <li><a href="{{ URL::route('hideyo.product.export') }}">Export</a></li>
-            <li><a href="{{ URL::route('hideyo.product.ranking') }}">Ranking</a></li>
+            <li><a href="{{ URL::route('hideyo.product.rank') }}">Ranking</a></li>
         </ul>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

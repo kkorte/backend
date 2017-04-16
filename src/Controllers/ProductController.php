@@ -66,14 +66,10 @@ class ProductController extends Controller
             
 
             $datatables = \Datatables::of($product)
-
-
-
             ->filterColumn('reference_code', function ($query, $keyword) {
                 $query->whereRaw("product.reference_code like ?", ["%{$keyword}%"]);
                 ;
             })
-
             ->filterColumn('active', function ($query, $keyword) {
                 $query->whereRaw("product.active like ?", ["%{$keyword}%"]);
                 ;
@@ -84,7 +80,6 @@ class ProductController extends Controller
                 return '<input type="text" class="change-rank" value="'.$product->rank.'" style="width:50px;" data-url="/admin/product/change-rank/'.$product->id.'">';
               
             })
-
 
             ->filterColumn('title', function ($query, $keyword) {
 
@@ -102,14 +97,11 @@ class ProductController extends Controller
                 $query->whereRaw("product_category.title like ?", ["%{$keyword}%"]);
             })
 
-
-
-
             ->addColumn('active', function ($product) {
                 if ($product->active) {
-                    return '<a href="#" class="change-active" data-url="/admin/product/change-active/'.$product->id.'"><span class="glyphicon glyphicon-ok icon-green"></span></a>';
+                    return '<a href="#" class="change-active" data-url="'.url()->route('hideyo.product.change-active', array('productId' => $product->id)).'"><span class="glyphicon glyphicon-ok icon-green"></span></a>';
                 } else {
-                    return '<a href="#" class="change-active" data-url="/admin/product/change-active/'.$product->id.'"><span class="glyphicon glyphicon-remove icon-red"></span></a>';
+                    return '<a href="#" class="change-active" data-url="'.url()->route('hideyo.product.change-active', array('productId' => $product->id)).'"><span class="glyphicon glyphicon-remove icon-red"></span></a>';
                 }
             })
 
@@ -126,7 +118,7 @@ class ProductController extends Controller
                 if ($product->attributes->count()) {
                     return '<a href="/admin/product/'.$product->id.'/product-combination">combinations</a>';
                 } else {
-                    return '<input type="text" class="change-amount" value="'.$product->amount.'" style="width:50px;" data-url="/admin/product/change-amount/'.$product->id.'">';
+                    return '<input type="text" class="change-amount" value="'.$product->amount.'" style="width:50px;" data-url="'.url()->route('hideyo.product.change-amount', array('productId' => $product->id)).'">';
                 }
             })
 
@@ -140,46 +132,47 @@ class ProductController extends Controller
 
                 $result = "";
                 if ($product->price) {
+
+                    $taxRate = 0;
+                    $priceInc = 0;
+                    $taxValue = 0;
+
                     if (isset($product->taxRate->rate)) {
                         $taxRate = $product->taxRate->rate;
-                        $price_inc = (($product->taxRate->rate / 100) * $product->price) + $product->price;
-                        $tax_value = $price_inc - $product->price;
-                    } else {
-                        $taxRate = 0;
-                        $price_inc = 0;
-                        $tax_value = 0;
+                        $priceInc = (($product->taxRate->rate / 100) * $product->price) + $product->price;
+                        $taxValue = $priceInc - $product->price;
                     }
 
-                    $discount_price_inc = false;
-                    $discount_price_ex = false;
+                    $discountPriceInc = false;
+                    $discountPriceEx = false;
                     $discountTaxRate = 0;
                     if ($product->discount_value) {
                         if ($product->discount_type == 'amount') {
-                            $discount_price_inc = $price_inc - $product->discount_value;
-                            $discount_price_ex = $discount_price_inc / 1.21;
+                            $discountPriceInc = $priceInc - $product->discount_value;
+                            $discountPriceEx = $discountPriceInc / 1.21;
                         } elseif ($product->discount_type == 'percent') {
-                            $tax = ($product->discount_value / 100) * $price_inc;
-                            $discount_price_inc = $price_inc - $tax;
-                            $discount_price_ex = $discount_price_inc / 1.21;
+                            $tax = ($product->discount_value / 100) * $priceInc;
+                            $discountPriceInc = $priceInc - $tax;
+                            $discountPriceEx = $discountPriceInc / 1.21;
                         }
-                        $discountTaxRate = $discount_price_inc - $discount_price_ex;
-                        $discount_price_inc = $discount_price_inc;
-                        $discount_price_ex = $discount_price_ex;
+                        $discountTaxRate = $discountPriceInc - $discountPriceEx;
+                        $discountPriceInc = $discountPriceInc;
+                        $discountPriceEx = $discountPriceEx;
                     }
 
 
                     $output = array(
                         'orginal_price_ex_tax'  => $product->price,
                         'orginal_price_ex_tax_number_format'  => number_format($product->price, 2, '.', ''),
-                        'orginal_price_inc_tax' => $price_inc,
-                        'orginal_price_inc_tax_number_format' => number_format($price_inc, 2, '.', ''),
+                        'orginal_price_inc_tax' => $priceInc,
+                        'orginal_price_inc_tax_number_format' => number_format($priceInc, 2, '.', ''),
                         'tax_rate' => $taxRate,
-                        'tax_value' => $tax_value,
+                        'tax_value' => $taxValue,
                         'currency' => 'EU',
-                        'discount_price_inc' => $discount_price_inc,
-                        'discount_price_inc_number_format' => number_format($discount_price_inc, 2, '.', ''),
-                        'discount_price_ex' => $discount_price_ex,
-                        'discount_price_ex_number_format' => number_format($discount_price_ex, 2, '.', ''),
+                        'discount_price_inc' => $discountPriceInc,
+                        'discount_price_inc_number_format' => number_format($discountPriceInc, 2, '.', ''),
+                        'discount_price_ex' => $discountPriceEx,
+                        'discount_price_ex_number_format' => number_format($discountPriceEx, 2, '.', ''),
                         'discount_tax_value' => $discountTaxRate,
                         'discount_value' => $product->discount_value,
                         'amount' => $product->amount
@@ -232,18 +225,16 @@ class ProductController extends Controller
         if ($this->request->wantsJson()) {
 
             $product = $this->product->getModel()->select(
-                [
-                
-                'product.id', 'product.rank', 'product.brand_id', 'product.reference_code', 'product.shop_id', 'product.tax_rate_id', 'product.amount', 'product.price',
-                'product.active', 'product.brand_id', 'brand.title as brandtitle', 'product.product_category_id', 'product.discount_value',
-                'product.title', 'product_category.title as categorytitle', 'product.meta_title', 'product.meta_description']
+                [config()->get('hideyo.db_prefix').'product.*', 
+                'brand.title as brandtitle', 
+                'product_category.title as categorytitle']
             )->with(array('productCategory', 'brand', 'subcategories', 'attributes',  'productImages','taxRate'))
 
-            ->leftJoin('product_category', 'product_category.id', '=', 'product.product_category_id')
+            ->leftJoin(config()->get('hideyo.db_prefix').'product_category as product_category', 'product_category.id', '=', config()->get('hideyo.db_prefix').'product.product_category_id')
 
-            ->leftJoin('brand', 'brand.id', '=', 'product.brand_id')
+            ->leftJoin(config()->get('hideyo.db_prefix').'brand as brand', 'brand.id', '=', config()->get('hideyo.db_prefix').'product.brand_id')
 
-            ->where('product.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where(config()->get('hideyo.db_prefix').'product.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
             
 
             $datatables = \Datatables::of($product)
@@ -252,11 +243,9 @@ class ProductController extends Controller
 
             ->addColumn('rank', function ($product) {
            
-                return '<input type="text" class="change-rank" value="'.$product->rank.'" style="width:50px;" data-url="/admin/product/change-rank/'.$product->id.'">';
+                return '<input type="text" class="change-rank" value="'.$product->rank.'" style="width:50px;" data-url="'.url()->route('hideyo.product.change-rank', array('productId' => $product->id)).'">';
               
             })
-
-
 
             ->filterColumn('categorytitle', function ($query, $keyword) {
                 $query->whereRaw("product_category.title like ?", ["%{$keyword}%"]);
@@ -340,7 +329,7 @@ class ProductController extends Controller
     }
 
 
-    public function changeRank($productId, $rank)
+    public function changeRank($productId, $rank = 0)
     {
         $result = $this->product->changeRank($productId, $rank);
         return response()->json($result);

@@ -18,14 +18,6 @@ interface ProductRepositoryInterface
     public function selectAllByProductParentId($productParentId);
     
     public function find($id);
-
-    public function selectOneByShopIdAndSlug($shopId, $slug);
-
-    public function selectOneByShopIdAndId($shopId, $id);
-
-    public function selectOneById($id);
-
-    public function selectAllByShopIdAndProductCategoryId($shopId, $productCategoryId, $filters);
     
     public function getModel();
 
