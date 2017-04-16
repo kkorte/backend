@@ -9,6 +9,11 @@ It's still beta. The code is not yet optimal and clean. In the next month we wil
 Author: Matthijs Neijenhuijs
 
 
+## Hideyo backend requirements
+
+For now: Elasticsearch, npm, Bower and Gulp. 
+
+
 ## Installation
 
 First install laravel and have a database connection running on: https://laravel.com/docs/5.4/installation
@@ -29,10 +34,6 @@ You need to run these commands in the terminal in order to copy the config, migr
 ```bash
 php artisan vendor:publish --provider="Hideyo\Backend\BackendServiceProvider"
 ```
-
-# Hideyo backend requirements
-
-For now: Elasticsearch, npm, Bower and Gulp.
 
 ## Database migration & seeding
 Before you run the migration you may want to take a look at `config/hideyo.php` and change the `table` property to a table name that you would like to use. After that run the migration 
