@@ -18,10 +18,10 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $paymentMethodId id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    private function rules($paymentMethodId = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
@@ -29,8 +29,8 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 
         );
         
-        if ($id) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+        if ($paymentMethodId) {
+            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$paymentMethodId.' = id';
         }
 
         return $rules;
@@ -51,11 +51,11 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
         return $this->model;
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $paymentMethodId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($paymentMethodId);
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = \Validator::make($attributes, $this->rules($paymentMethodId));
 
         if ($validator->fails()) {
             return $validator;
@@ -76,9 +76,9 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($paymentMethodId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($paymentMethodId);
         $this->model->save();
 
         return $this->model->delete();
@@ -94,9 +94,9 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
          return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
     }
 
-    function selectOneByShopIdAndId($shopId, $id)
+    function selectOneByShopIdAndId($shopId, $paymentMethodId)
     {
-        $result = $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -104,9 +104,9 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
         return $result->first();
     }
 
-    function selectOneById($id)
+    function selectOneById($paymentMethodId)
     {
-        $result = $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -114,9 +114,9 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
         return $result->first();
     }
     
-    public function find($id)
+    public function find($paymentMethodId)
     {
-        return $this->model->find($id);
+        return $this->model->find($paymentMethodId);
     }
 
     public function getModel() {

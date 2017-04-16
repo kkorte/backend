@@ -18,18 +18,18 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $sendingMethodId id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    private function rules($sendingMethodId = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
 
         );
         
-        if ($id) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+        if ($sendingMethodId) {
+            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$sendingMethodId.' = id';
         }
 
         return $rules;
@@ -61,11 +61,11 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
         return $this->model;
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $sendingMethodId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($sendingMethodId);
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = \Validator::make($attributes, $this->rules($sendingMethodId));
        
         if (empty($attributes['total_price_discount_value'])) {
             $attributes['total_price_discount_value'] = null;
@@ -92,9 +92,9 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($sendingMethodId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($sendingMethodId);
         $this->model->save();
 
         return $this->model->delete();
@@ -105,9 +105,9 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
         return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
-    function selectOneById($id)
+    function selectOneById($sendingMethodId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $sendingMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -120,11 +120,11 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
          return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
     }
 
-    function selectOneByShopIdAndId($shopId, $id)
+    function selectOneByShopIdAndId($shopId, $sendingMethodId)
     {
         $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
             $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
+        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $sendingMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -132,9 +132,9 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
         return $result->first();
     }
     
-    public function find($id)
+    public function find($sendingMethodId)
     {
-        return $this->model->find($id);
+        return $this->model->find($sendingMethodId);
     }
 
     public function getModel() {

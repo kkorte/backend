@@ -104,55 +104,6 @@ class ShopRepository implements ShopRepositoryInterface
         return $this->model->get();
     }
 
-    public function selectNewShops()
-    {
-        return \DB::table('number')
-        ->leftJoin('user_number', 'number.id', '=', 'user_number.number_id')
-        ->whereNull('user_number.number_id')
-        ->select('number.id', 'number.number')
-        ->get();
-    }
-
-    public function checkApiToken($token, $title)
-    {
-        $shop = $this->model->where('title', '=', $title)->get();
-
-        if ($shop->isEmpty() == 1) {
-            $headers = array('WWW-Authenticate' => 'Basic');
-            return new Response('Invalid credentials.', 401, $headers);
-        } else {
-            return;
-        }
-    }
-
-    public function checkByCompanyIdAndUrl($companyId, $shopUrl)
-    {
-        $result = $this->model->where('company_id', '=', $companyId)->where('url', '=', $shopUrl)->get()->first();
-
-        if (isset($result->id)) {
-            return $result->id;
-        } else {
-            return false;
-        }
-    }
-
-    public function checkByUrl($shopUrl)
-    {
-        $result = $this->model->where('url', '=', $shopUrl)->get()->first();
-
-        if (isset($result->id)) {
-            return $result->id;
-        } else {
-            return false;
-        }
-    }
-    
-
-    public function findByCompanyIdAndUrl($companyId, $shopUrl)
-    {
-        $result = $this->model->where('company_id', '=', $companyId)->where('url', '=', $shopUrl)->get()->first();
-        return $result;
-    }
 
     public function find($shopId)
     {
