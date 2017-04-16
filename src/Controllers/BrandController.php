@@ -80,10 +80,10 @@ class BrandController extends Controller
             } elseif ($this->request->get('brand-combination')) {
                 Notification::success('Brand combination leading attribute group was updated.');
                 return redirect()->route('hideyo.brand.{brandId}.brand-combination.index', $brandId);
-            } else {
-                Notification::success('Brand was updated.');
-                return redirect()->route('hideyo.brand.edit', $brandId);
             }
+
+            Notification::success('Brand was updated.');
+            return redirect()->route('hideyo.brand.edit', $brandId);            
         }
 
         foreach ($result->errors()->all() as $error) {

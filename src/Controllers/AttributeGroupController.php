@@ -111,7 +111,7 @@ class AttributeGroupController extends Controller
         $result  = $this->attributeGroup->updateById($request->all(), $attributeGroupId);
 
         if (isset($result->id)) {
-            Notification::success('The extra field was updated.');
+            Notification::success('Attribute group was updated.');
             return redirect()->route('hideyo.attribute-group.index');
         } else {
             foreach ($result->errors()->all() as $error) {
@@ -132,7 +132,7 @@ class AttributeGroupController extends Controller
         $result  = $this->attributeGroup->destroy($attributeGroupId);
 
         if ($result) {
-            Notification::success('Extra field was deleted.');
+            Notification::success('Attribute group was deleted.');
             return redirect()->route('hideyo.attribute-group.index');
         }
     }

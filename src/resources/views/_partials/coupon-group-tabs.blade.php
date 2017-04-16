@@ -15,9 +15,4 @@
             <span class="hidden-xs">Edit</span>
         </a>
     </li>
-
-
-   
-
-
 </ul>

@@ -49,9 +49,9 @@ class ShopRepository implements ShopRepositoryInterface
         return $this->model;
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $shopId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($shopId);
         return $this->updateEntity($attributes);
     }
 
@@ -90,9 +90,9 @@ class ShopRepository implements ShopRepositoryInterface
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($shopId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($shopId);
         $this->model->save();
 
         return $this->model->delete();
@@ -154,9 +154,9 @@ class ShopRepository implements ShopRepositoryInterface
         return $result;
     }
 
-    public function find($id)
+    public function find($shopId)
     {
-        return $this->model->find($id);
+        return $this->model->find($shopId);
     }
 
     public function getModel()

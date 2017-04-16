@@ -188,10 +188,10 @@ class ProductCategoryController extends Controller
             } elseif ($request->get('highlight')) {
                 Notification::success('Highlight was updated.');
                 return redirect()->route('hideyo.product-category.edit.hightlight', $productCategoryId);
-            } else {
-                Notification::success('Category was updated.');
-                return redirect()->route('hideyo.product-category.edit', $productCategoryId);
             }
+    
+            Notification::success('Category was updated.');
+            return redirect()->route('hideyo.product-category.edit', $productCategoryId);        
         }
 
         foreach ($result->errors()->all() as $error) {

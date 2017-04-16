@@ -460,10 +460,10 @@ class ProductController extends Controller
             } elseif ($this->request->get('product-combination')) {
                 Notification::success('Product combination leading attribute group was updated.');
                 return redirect()->route('hideyo.product.{productId}.product-combination.index', $productId);
-            } else {
-                Notification::success('Product was updated.');
-                return redirect()->route('hideyo.product.index');
             }
+
+            Notification::success('Product was updated.');
+            return redirect()->route('hideyo.product.index');
         }
 
         foreach ($result->errors()->all() as $error) {
