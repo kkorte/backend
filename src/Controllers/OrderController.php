@@ -20,16 +20,14 @@ use Hideyo\Backend\Repositories\OrderStatusRepositoryInterface;
 use Dutchbridge\Services\AssembleOrder;
 
 use Carbon\Carbon;
-use \Request;
-use \Notification;
-use \Redirect;
-use \Log;
-use \App\ProductAttribute;
-use \App\Events\OrderChangeStatus;
-use \Event;
-use \Response;
-use \View;
+use Request;
+use Notification;
+use App\ProductAttribute;
+use App\Events\OrderChangeStatus;
+use Event;
+use Response;
 use Excel;
+use Auth;
 
 class OrderController extends Controller
 {
@@ -56,7 +54,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $shop  = \Auth::guard('hideyobackend')->user()->shop;
+        $shop  = Auth::guard('hideyobackend')->user()->shop;
         $now = Carbon::now();
 
         $revenueThisMonth = null;
@@ -73,7 +71,7 @@ class OrderController extends Controller
                     'order.delivery_order_address_id',
                     'order.bill_order_address_id',
                     'order.price_with_tax']
-                )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
+                )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)
 
 
 
@@ -190,7 +188,7 @@ class OrderController extends Controller
                     'order.delivery_order_address_id',
                     'order.bill_order_address_id',
                     'order.price_with_tax']
-                )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
+                )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)
 
 
 
@@ -286,7 +284,7 @@ class OrderController extends Controller
 
         $orders = Request::session()->get('print_orders');
 
-        return View::make('admin.order.print-orders')->with(array('orders' => $orders));
+        return view('admin.order.print-orders')->with(array('orders' => $orders));
     }
 
     public function getPrint()
@@ -316,9 +314,9 @@ class OrderController extends Controller
                     }
 
                     if ($order->shop->wholesale) {
-                        $pdfHtml .= View::make('admin.order.bodypdf-wholesale', array('order' => $order, 'pdfText' => $pdfText))->render();
+                        $pdfHtml .= view('admin.order.bodypdf-wholesale', array('order' => $order, 'pdfText' => $pdfText))->render();
                     } else {
-                        $pdfHtml .= View::make('admin.order.bodypdf', array('order' => $order, 'pdfText' => $pdfText))->render();
+                        $pdfHtml .= view('admin.order.bodypdf', array('order' => $order, 'pdfText' => $pdfText))->render();
                     }
 
 
@@ -328,7 +326,7 @@ class OrderController extends Controller
                 }
 
 
-                    $pdfHtmlBody = View::make('admin.order.multiplepdfbody', array('body' => $pdfHtml))->render();
+                    $pdfHtmlBody = view('admin.order.multiplepdfbody', array('body' => $pdfHtml))->render();
 
 
 
@@ -404,7 +402,7 @@ class OrderController extends Controller
             Event::fire(new OrderChangeStatus($result));
             \Notification::success('The status was updated to '.$result->OrderStatus->title);
         }
-        return Redirect::route('admin.order.show', $orderId);
+        return redirect()->route('admin.order.show', $orderId);
     }
 
     public function download($id)
@@ -539,7 +537,7 @@ class OrderController extends Controller
             $result = $this->assembleOrder->remove($product);
         }
 
-        return Redirect::back();
+        return redirect()->back();
     }
 
     public function changeProductCombination($productId, $newProductId)
@@ -745,7 +743,7 @@ class OrderController extends Controller
     {
         $input = Request::get('add-client');
         $this->assembleOrder->addClient($input);
-        return Redirect::back();
+        return redirect()->back();
     }
 
     public function updateClientBillAddress($addressId)
@@ -822,7 +820,7 @@ class OrderController extends Controller
             }
         }
 
-        return Redirect::back();
+        return redirect()->back();
     }
     
 
@@ -830,22 +828,22 @@ class OrderController extends Controller
     {
         $summary = $this->assembleOrder->summary();
         if (!$summary) {
-            return Redirect::back()->withInput()->withErrors(array('no products'));
+            return redirect()->back()->withInput()->withErrors(array('no products'));
         }
 
         $totals = $summary->totals();
 
         if (empty($totals['client_bill_address_id']) or empty($totals['client_delivery_address_id'])) {
-            return Redirect::back()->withInput()->withErrors(array('select delivery and bill address'));
+            return redirect()->back()->withInput()->withErrors(array('select delivery and bill address'));
         }
  
         if (empty($totals['sending_method']) or empty($totals['payment_method'])) {
-            return Redirect::back()->withInput()->withErrors(array('select send & payment method'));
+            return redirect()->back()->withInput()->withErrors(array('select send & payment method'));
         }
 
         $attributes = Request::all();
         if (empty($attributes['order_status_id'])) {
-            return Redirect::back()->withInput()->withErrors(array('select order status id'));
+            return redirect()->back()->withInput()->withErrors(array('select order status id'));
         }
 
 
@@ -865,7 +863,7 @@ class OrderController extends Controller
 
         $this->assembleOrder->destroyInstance();
 
-        return Redirect::route('admin.order.index');
+        return redirect()->route('admin.order.index');
     }
 
     public function edit($id)
@@ -878,11 +876,10 @@ class OrderController extends Controller
         $result  = $this->order->updateById(Request::all(), $id);
 
         if ($result->errors()->all()) {
-            return Redirect::back()->withInput()->withErrors($result->errors()->all());
+            return redirect()->back()->withInput()->withErrors($result->errors()->all());
         } else {
-            Log::info('Tax '.$result->name.' updated');
-            //Notification::success('The order was updated.');
-            return Redirect::route('admin.order.index');
+            Notification::success('The order was updated.');
+            return redirect()->route('admin.order.index');
         }
     }
 }

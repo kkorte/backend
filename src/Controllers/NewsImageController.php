@@ -3,7 +3,7 @@
 /**
  * NewsImageController
  *
- * This is the controller of the product weight types of the shop
+ * This is the controller of the news images of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */
