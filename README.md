@@ -8,6 +8,12 @@ It's still beta. The code is not yet optimal and clean. In the next month we wil
 
 Author: Matthijs Neijenhuijs
 
+
+# Hideyo backend requirements
+
+For now: Elasticsearch, npm, Bower and Gulp. 
+
+
 ## Installation
 
 First install laravel and have a database connection running on: https://laravel.com/docs/5.4/installation
