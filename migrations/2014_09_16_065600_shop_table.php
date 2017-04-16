@@ -17,7 +17,7 @@ class ShopTable extends Migration
             $table->increments('id');
             $table->boolean('active')->default(false);
             $table->boolean('wholesale')->default(false);
-            $table->string('title')->unique()->nullable();
+            $table->string('title')->unique('title')->nullable();
             $table->text('description')->nullable();
             $table->string('url')->nullable();
             $table->string('currency_code')->nullable();            

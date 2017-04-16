@@ -39,9 +39,9 @@ Put this in database/seeds/DatabaseSeerder.php:
 $this->call(ShopTableSeeder::class);
 $this->call(UserTableSeeder::class);
 
-After command line:
+and run:
 
-Model::unguard();
+php artisan db:seed
 ```
 
 ----

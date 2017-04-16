@@ -12,6 +12,7 @@ use Krucas\Notification\NotificationServiceProvider;
 use Yajra\Datatables\DatatablesServiceProvider;
 use Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider;
 use Auth;
+use Schema;
 
 class BackendServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,10 @@ class BackendServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(\Illuminate\Routing\Router $router)
-    {  
+    { 
+
+        Schema::defaultStringLength(191);
+
         $router->middlewareGroup('hideyobackend', array(
                 \App\Http\Middleware\EncryptCookies::class,
                 \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
