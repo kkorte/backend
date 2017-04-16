@@ -37,9 +37,8 @@ class PaymentMethodController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->paymentMethod->getModel()->select(
-                ['id', 'title', 'order_confirmed_order_status_id', 'payment_completed_order_status_id', 'payment_failed_order_status_id']
-            )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->with(array('orderConfirmedOrderStatus', 'orderPaymentCompletedOrderStatus', 'orderPaymentFailedOrderStatus'));
+            $query = $this->paymentMethod->getModel()->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
+            ->with(array('orderConfirmedOrderStatus', 'orderPaymentCompletedOrderStatus', 'orderPaymentFailedOrderStatus'));
             
             $datatables = Datatables::of($query)
 
