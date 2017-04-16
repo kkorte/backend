@@ -30,7 +30,7 @@ class ContentRepository implements ContentRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($contentId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -41,8 +41,8 @@ class ContentRepository implements ContentRepositoryInterface
                 'title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
             );
             
-            if ($id) {
-                $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+            if ($contentId) {
+                $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$contentId.' = id';
             }
         }
 
@@ -55,7 +55,7 @@ class ContentRepository implements ContentRepositoryInterface
      *
      * @return array
      */
-    private function rulesGroup($id = false, $attributes = false)
+    private function rulesGroup($contentGroupId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -66,8 +66,8 @@ class ContentRepository implements ContentRepositoryInterface
                 'title'                 => 'required|between:4,65|unique:'.$this->modelGroup->getTable().''
             );
             
-            if ($id) {
-                $rules['title'] =   'required|between:4,65|unique:'.$this->modelGroup->getTable().',title,'.$id;
+            if ($contentGroupId) {
+                $rules['title'] =   'required|between:4,65|unique:'.$this->modelGroup->getTable().',title,'.$contentGroupId;
             }
         }
 
@@ -171,16 +171,16 @@ class ContentRepository implements ContentRepositoryInterface
         }
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $newsId)
     {
-        $validator = Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($newsId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->model = $this->find($id);
+        $this->model = $this->find($newsId);
         return $this->updateEntity($attributes);
     }
 
@@ -195,16 +195,16 @@ class ContentRepository implements ContentRepositoryInterface
     }
 
 
-    public function updateGroupById(array $attributes, $id)
+    public function updateGroupById(array $attributes, $newsGroupId)
     {
-        $validator = Validator::make($attributes, $this->rulesGroup($id, $attributes));
+        $validator = Validator::make($attributes, $this->rulesGroup($newsGroupId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->modelGroup = $this->findGroup($id);
+        $this->modelGroup = $this->findGroup($newsGroupId);
         return $this->updateGroupEntity($attributes);
     }
 
@@ -218,10 +218,10 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->modelGroup;
     }
 
-    public function updateImageById(array $attributes, $contentId, $id)
+    public function updateImageById(array $attributes, $contentId, $newsImageId)
     {
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->modelImage = $this->find($id);
+        $this->modelImage = $this->find($newsImageId);
         return $this->updateImageEntity($attributes);
     }
 
@@ -235,9 +235,9 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->modelImage;
     }
 
-    public function destroy($id)
+    public function destroy($newsId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($newsId);
         $this->model->save();
 
         if ($this->model->contentImages()->count()) {
@@ -253,9 +253,9 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->model->delete();
     }
 
-    public function destroyImage($id)
+    public function destroyImage($newsImageId)
     {
-        $this->modelImage = $this->findImage($id);
+        $this->modelImage = $this->findImage($newsImageId);
         $filename = storage_path() ."/app/files/content/".$this->modelImage->content_id."/".$this->modelImage->file;
         $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
@@ -275,9 +275,9 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->modelImage->delete();
     }
 
-    public function destroyGroup($id)
+    public function destroyGroup($newsGroupId)
     {
-        $this->modelGroup = $this->findGroup($id);
+        $this->modelGroup = $this->findGroup($newsGroupId);
         $this->modelGroup->save();
 
         return $this->modelGroup->delete();
@@ -295,9 +295,9 @@ class ContentRepository implements ContentRepositoryInterface
     }
 
 
-    function selectOneById($id)
+    function selectOneById($newsId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $newsId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -310,11 +310,11 @@ class ContentRepository implements ContentRepositoryInterface
          return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
     }
 
-    function selectOneByShopIdAndId($shopId, $id)
+    function selectOneByShopIdAndId($shopId, $newsId)
     {
         $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
             $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
+        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $newsId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -335,9 +335,9 @@ class ContentRepository implements ContentRepositoryInterface
     }
 
     
-    public function find($id)
+    public function find($newsId)
     {
-        return $this->model->find($id);
+        return $this->model->find($newsId);
     }
 
     public function getModel()
@@ -345,9 +345,9 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->model;
     }
 
-    public function findGroup($id)
+    public function findGroup($newsGroupId)
     {
-        return $this->modelGroup->find($id);
+        return $this->modelGroup->find($newsGroupId);
     }
 
     public function getGroupModel()
@@ -357,9 +357,9 @@ class ContentRepository implements ContentRepositoryInterface
 
 
 
-    public function findImage($id)
+    public function findImage($newsImageId)
     {
-        return $this->modelImage->find($id);
+        return $this->modelImage->find($newsImageId);
     }
 
 

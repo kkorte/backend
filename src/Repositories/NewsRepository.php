@@ -37,7 +37,7 @@ class NewsRepository implements NewsRepositoryInterface
      * @param  integer  $id id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($newsId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -48,15 +48,15 @@ class NewsRepository implements NewsRepositoryInterface
                 'title'                 => 'required|between:4,65|unique:'.$this->model->getTable().''
             );
             
-            if ($id) {
-                $rules['title'] =   'required|between:4,65|unique:'.$this->model->getTable().',title,'.$id;
+            if ($newsId) {
+                $rules['title'] =   'required|between:4,65|unique:'.$this->model->getTable().',title,'.$newsId;
             }
         }
 
         return $rules;
     }
 
-    private function rulesGroup($id = false, $attributes = false)
+    private function rulesGroup($newsGroupId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -67,8 +67,8 @@ class NewsRepository implements NewsRepositoryInterface
                 'title'                 => 'required|between:4,65|unique:'.$this->modelGroup->getTable()
             );
             
-            if ($id) {
-                $rules['title'] =   'required|between:4,65|unique:'.$this->modelGroup->getTable().',title,'.$id;
+            if ($newsGroupId) {
+                $rules['title'] =   'required|between:4,65|unique:'.$this->modelGroup->getTable().',title,'.$newsGroupId;
             }
         }
 
@@ -132,16 +132,16 @@ class NewsRepository implements NewsRepositoryInterface
                 if ($shop->square_thumbnail_sizes) {
                     $sizes = explode(',', $shop->square_thumbnail_sizes);
                     if ($sizes) {
-                        foreach ($sizes as $key => $value) {
+                        foreach ($sizes as $keyImage => $valueImage) {
                             $image = Image::make($upload_success->getRealPath());
-                            $explode = explode('x', $value);
+                            $explode = explode('x', $valueImage);
                             $image->resize($explode[0], $explode[1]);
                             $image->interlace();
 
-                            if (!File::exists(public_path() . "/files/news/".$value."/".$newsId."/")) {
-                                File::makeDirectory(public_path() . "/files/news/".$value."/".$newsId."/", 0777, true);
+                            if (!File::exists(public_path() . "/files/news/".$valueImage."/".$newsId."/")) {
+                                File::makeDirectory(public_path() . "/files/news/".$valueImage."/".$newsId."/", 0777, true);
                             }
-                            $image->save(public_path() . "/files/news/".$value."/".$newsId."/".$filename);
+                            $image->save(public_path() . "/files/news/".$valueImage."/".$newsId."/".$filename);
                         }
                     }
                 }
@@ -179,20 +179,20 @@ class NewsRepository implements NewsRepositoryInterface
             if ($shop->square_thumbnail_sizes) {
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
-                    foreach ($sizes as $key => $value) {
-                        if (!File::exists(public_path() . "/files/news/".$value."/".$productImage->news_id."/")) {
-                            File::makeDirectory(public_path() . "/files/news/".$value."/".$productImage->news_id."/", 0777, true);
+                    foreach ($sizes as $keyImage => $valueImage) {
+                        if (!File::exists(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/")) {
+                            File::makeDirectory(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/", 0777, true);
                         }
 
-                        if (!File::exists(public_path() . "/files/news/".$value."/".$productImage->news_id."/".$productImage->file)) {
+                        if (!File::exists(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/".$productImage->file)) {
                             if (File::exists(storage_path() ."/app/files/news/".$productImage->news_id."/".$productImage->file)) {
                                 $image = Image::make(storage_path() ."/app/files/news/".$productImage->news_id."/".$productImage->file);
-                                $explode = explode('x', $value);
+                                $explode = explode('x', $valueImage);
                                 $image->fit($explode[0], $explode[1]);
                             
                                 $image->interlace();
 
-                                $image->save(public_path() . "/files/news/".$value."/".$productImage->news_id."/".$productImage->file);
+                                $image->save(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/".$productImage->file);
                             }
                         }
                     }
@@ -202,16 +202,16 @@ class NewsRepository implements NewsRepositoryInterface
     }
 
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $newsId)
     {
-        $validator = Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($newsId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
-        $this->model = $this->find($id);
+        $this->model = $this->find($newsId);
         return $this->updateEntity($attributes);
     }
 
@@ -226,10 +226,10 @@ class NewsRepository implements NewsRepositoryInterface
     }
 
 
-    public function updateImageById(array $attributes, $newsId, $id)
+    public function updateImageById(array $attributes, $newsId, $newsImageId)
     {
         $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
-        $this->modelImage = $this->findImage($id);
+        $this->modelImage = $this->findImage($newsImageId);
         return $this->updateImageEntity($attributes);
     }
 
@@ -244,16 +244,16 @@ class NewsRepository implements NewsRepositoryInterface
     }
 
 
-    public function updateGroupById(array $attributes, $id)
+    public function updateGroupById(array $attributes, $newsGroupId)
     {
-        $validator = Validator::make($attributes, $this->rulesGroup($id, $attributes));
+        $validator = Validator::make($attributes, $this->rulesGroup($newsGroupId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
-        $this->modelGroup = $this->findGroup($id);
+        $this->modelGroup = $this->findGroup($newsGroupId);
         return $this->updateGroupEntity($attributes);
     }
 
@@ -267,10 +267,9 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->modelGroup;
     }
 
-
-    public function destroy($id)
+    public function destroy($newsId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($newsId);
 
         if ($this->model->newsImages->count()) {
             foreach ($this->model->newsImages as $image) {
@@ -284,12 +283,9 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->model->delete();
     }
 
-
-
-
-    public function destroyImage($id)
+    public function destroyImage($newsImageId)
     {
-        $this->modelImage = $this->findImage($id);
+        $this->modelImage = $this->findImage($newsImageId);
         $filename = storage_path() ."/app/files/news/".$this->modelImage->news_id."/".$this->modelImage->file;
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
@@ -299,8 +295,8 @@ class NewsRepository implements NewsRepositoryInterface
             if ($shop->square_thumbnail_sizes) {
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
-                    foreach ($sizes as $key => $value) {
-                        File::delete(public_path() . "/files/news/".$value."/".$this->modelImage->news_id."/".$this->modelImage->file);
+                    foreach ($sizes as $keyImage => $valueImage) {
+                        File::delete(public_path() . "/files/news/".$valueImage."/".$this->modelImage->news_id."/".$this->modelImage->file);
                     }
                 }
             }
@@ -309,34 +305,22 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->modelImage->delete();
     }
 
-    public function destroyGroup($id)
+    public function destroyGroup($newsGroupId)
     {
-        $this->modelGroup = $this->findGroup($id);
+        $this->modelGroup = $this->findGroup($newsGroupId);
         $this->modelGroup->save();
 
         return $this->modelGroup->delete();
     }
 
-
-
-    public function selectByLimitAndOrderBy($shopId, $limit, $orderBy)
-    {
-        $dt = Carbon::now('Europe/Amsterdam');
-
-        return $this->model->with(
-            array('newsImages' => function ($query) {
-                $query->orderBy('rank', 'asc');
-            })
-        )
-            ->limit($limit)
-           ->where('shop_id', '=', $shopId)
-           ->where('published_at', '<=', $dt->toDateString('Y-m-d'))
-            ->orderBy('created_at', $orderBy)->get();
-    }
-
     public function selectAll()
     {
         return $this->model->get();
+    }
+
+    public function selectAllGroups()
+    {
+       return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     public function find($id)

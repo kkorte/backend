@@ -2,6 +2,7 @@
 namespace Hideyo\Backend\Repositories;
  
 use Hideyo\Backend\Models\OrderAddress;
+use Auth;
  
 class OrderAddressRepository implements OrderAddressRepositoryInterface
 {
@@ -15,8 +16,8 @@ class OrderAddressRepository implements OrderAddressRepositoryInterface
   
     public function create(array $attributes, $orderId)
     {
-        if (\Auth::guard('hideyobackend')->check()) {
-            $userId = \Auth::guard('hideyobackend')->user()->id;
+        if (Auth::guard('hideyobackend')->check()) {
+            $userId = Auth::guard('hideyobackend')->user()->id;
             $attributes['modified_by_user_id'] = $userId;
         }
 
@@ -31,7 +32,7 @@ class OrderAddressRepository implements OrderAddressRepositoryInterface
     public function updateById(array $attributes, $orderId, $id)
     {
         
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
     }
@@ -60,7 +61,7 @@ class OrderAddressRepository implements OrderAddressRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllByShopId($shopId)
