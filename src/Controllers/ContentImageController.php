@@ -67,12 +67,12 @@ class ContentImageController extends Controller
         if (isset($result->id)) {
             Notification::success('The content image was inserted.');
             return redirect()->route('hideyo.content.{contentId}.images.index', $contentId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
         }
+        
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        return redirect()->back()->withInput()->withErrors($result);
     }
 
     public function edit($contentId, $contentImageId)

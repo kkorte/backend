@@ -63,12 +63,12 @@ class BrandImageController extends Controller
         if (isset($result->id)) {
             Notification::success('The brand image was inserted.');
             return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
         }
+
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        return redirect()->back()->withInput()->withErrors($result);
     }
 
     public function edit($brandId, $brandImageId)
@@ -84,12 +84,12 @@ class BrandImageController extends Controller
         if (isset($result->id)) {
             Notification::success('The brand image was updated.');
             return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
         }
+
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        return redirect()->back()->withInput()->withErrors($result);
     }
 
     public function destroy($brandId, $brandImageId)

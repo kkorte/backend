@@ -72,12 +72,12 @@ class NewsImageController extends Controller
         if (isset($result->id)) {
             Notification::success('The news image was inserted.');
             return redirect()->route('hideyo.news.{newsId}.images.index', $newsId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
         }
+
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        return redirect()->back()->withInput()->withErrors($result);  
     }
 
     public function edit($newsId, $newsImageId)
@@ -93,12 +93,12 @@ class NewsImageController extends Controller
         if (isset($result->id)) {
             Notification::success('The news image was updated.');
             return redirect()->route('hideyo.news.{newsId}.images.index', $newsId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
         }
+
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        return redirect()->back()->withInput()->withErrors($result);
     }
 
     public function destroy($newsId, $newsImageId)
