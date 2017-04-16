@@ -1,9 +1,9 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * CouponController
+ * RedirectController
  *
- * This is the controller of the sending methods of the shop
+ * This is the controller of the redirects of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */

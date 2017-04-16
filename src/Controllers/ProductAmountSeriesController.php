@@ -1,9 +1,9 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * ProductController
+ * ProductAmountSeriesController
  *
- * This is the controller of the product weight types of the shop
+ * This is the controller of the product amount series of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */

@@ -1,5 +1,11 @@
 <?php namespace Hideyo\Backend\Controllers;
-
+/**
+ * BrandController
+ *
+ * This is the controller of the brands of the shop
+ * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
+ * @version 0.1
+ */
 
 use App\Http\Controllers\Controller;
 use Hideyo\Backend\Repositories\BrandRepositoryInterface;

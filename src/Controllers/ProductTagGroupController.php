@@ -2,9 +2,9 @@
 
 
 /**
- * CouponController
+ * ProductTagGroupController
  *
- * This is the controller of the product group tags of the shop
+ * This is the controller of the product tag groups of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */

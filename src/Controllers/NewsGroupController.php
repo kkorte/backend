@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * CouponController
+ * NewsGroupController
  *
  * This is the controller of the newss of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

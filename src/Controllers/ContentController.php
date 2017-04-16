@@ -4,7 +4,7 @@
 use App\Http\Controllers\Controller;
 
 /**
- * CouponController
+ * ContentController
  *
  * This is the controller of the contents of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

@@ -17,6 +17,4 @@ class ProductCategoryImage extends BaseModel
 
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
     protected $fillable = ['product_category_id', 'file', 'extension', 'size', 'path', 'rank', 'tag', 'modified_by_user_id',];
-
-
 }

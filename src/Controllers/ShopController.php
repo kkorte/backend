@@ -1,9 +1,9 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * CouponController
+ * ShopController
  *
- * This is the controller of the sending methods of the shop
+ * This is the controller of the shops
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */

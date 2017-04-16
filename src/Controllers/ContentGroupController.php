@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * CouponController
+ * ContentGroupController
  *
  * This is the controller of the content groups of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

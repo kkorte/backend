@@ -2,9 +2,9 @@
 
 
 /**
- * ProductController
+ * ProductExtraFieldValueController
  *
- * This is the controller of the product weight types of the shop
+ * This is the controller of the product extra field values of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */

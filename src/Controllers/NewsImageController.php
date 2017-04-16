@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * ProductController
+ * NewsImageController
  *
  * This is the controller of the product weight types of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

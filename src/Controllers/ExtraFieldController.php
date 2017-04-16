@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * ProductWeightTypeController
+ * ExtraFieldController
  *
  * This is the controller of the product weight types of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

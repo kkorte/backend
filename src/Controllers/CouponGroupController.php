@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * CouponController
+ * CouponGroupController
  *
  * This is the controller of the coupons of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

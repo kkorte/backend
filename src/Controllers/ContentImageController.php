@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * ProductController
+ * ContentImageController
  *
  * This is the controller of the content images of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
@@ -75,15 +75,15 @@ class ContentImageController extends Controller
         }
     }
 
-    public function edit($contentId, $id)
+    public function edit($contentId, $contentImageId)
     {
         $content = $this->content->find($contentId);
-        return view('hideyo_backend::content_image.edit')->with(array('contentImage' => $this->content->findImage($id), 'content' => $content));
+        return view('hideyo_backend::content_image.edit')->with(array('contentImage' => $this->content->findImage($contentImageId), 'content' => $content));
     }
 
-    public function update($contentId, $id)
+    public function update($contentId, $contentImageId)
     {
-        $result  = $this->content->updateImageById($this->request->all(), $contentId, $id);
+        $result  = $this->content->updateImageById($this->request->all(), $contentId, $contentImageId);
 
         if (isset($result->id)) {
             Notification::success('The content image was updated.');
@@ -96,9 +96,9 @@ class ContentImageController extends Controller
         }
     }
 
-    public function destroy($contentId, $id)
+    public function destroy($contentId, $contentImageId)
     {
-        $result  = $this->content->destroyImage($id);
+        $result  = $this->content->destroyImage($contentImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

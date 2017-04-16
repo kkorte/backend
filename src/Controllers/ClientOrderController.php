@@ -3,7 +3,7 @@
 use App\Http\Controllers\Controller;
 
 /**
- * ClientAddressController
+ * ClientOrderController
  *
  * This is the controller for the shop clients orders
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

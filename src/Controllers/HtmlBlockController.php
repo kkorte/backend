@@ -1,7 +1,7 @@
 <?php namespace Hideyo\Backend\Controllers;
 
 /**
- * CouponController
+ * HtmlBlockController
  *
  * This is the controller of the htmlBlocks of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

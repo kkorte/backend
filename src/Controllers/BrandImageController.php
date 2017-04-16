@@ -1,6 +1,6 @@
 <?php namespace Hideyo\Backend\Controllers;
 /**
- * ProductController
+ * BrandImageController
  *
  * This is the controller of the brand images of the shop
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Controller;
 
 /**
- * ClientController
+ * CouponController
  *
  * This is the controller for the shop clients
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
