@@ -1,5 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/hideyo/backend.png)](https://codeclimate.com/github/hideyo/backend)
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/hideyo/backend"><img src="https://poser.pugx.org/hideyo/backend/d/total.svg" alt="Total Downloads"></a>
 ## Hideyo e-commerce backend
 Hideyo is an open-source e-commerce solution built in Laravel. This backend package includes a backend system. Contact us at info@hideyo.io for questions or enterprise solutions. 
 
