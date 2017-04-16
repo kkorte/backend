@@ -32,8 +32,6 @@ class ProductController extends Controller
         ProductRepositoryInterface $product,
         ProductCategoryRepositoryInterface $productCategory,
         TaxRateRepositoryInterface $taxRate,
-        ExtraFieldRepositoryInterface $extraField,
-        ProductExtraFieldValueRepositoryInterface $productExtraFieldValue,
         ProductCombinationRepositoryInterface $productCombination,
         BrandRepositoryInterface $brand
     ) {
@@ -41,8 +39,6 @@ class ProductController extends Controller
         $this->product = $product;
         $this->productCategory = $productCategory;
         $this->taxRate = $taxRate;
-        $this->extraField = $extraField;
-        $this->productExtraFieldValue = $productExtraFieldValue;
         $this->productCombination = $productCombination;
         $this->brand = $brand;
     }
@@ -280,13 +276,6 @@ class ProductController extends Controller
         } else {
             return view('hideyo_backend::product.rank')->with('product', $this->product->selectAll());
         }
-    }
-
-
-    public function reDirectoryAllImages()
-    {    
-        $this->productImage->reDirectoryAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
-        return redirect()->route('hideyo.product.index');
     }
 
     public function refactorAllImages()

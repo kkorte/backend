@@ -18,23 +18,6 @@
             <li><a href=""><i class="entypo-folder"></i>Stats</a></li>
         </ol>
         {!! Notification::showAll() !!}
-
-
-
-
     </div>
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
 </div>
 @stop
