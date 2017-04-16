@@ -7,26 +7,20 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Beheer</a>
+			<a class="navbar-brand" href="#">Backend</a>
 
-		<ul class="nav navbar-nav">
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! $this_user->shop->title !!} <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-
-					@foreach($available_shops as $shop)
-
-					<li><a href="{{ URL::route('change.language.profile', array('shopId' => $shop->id)) }}">{!! $shop->title !!}</a></li>
-					@endforeach
-				</ul>
-			</li>
-
-		</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! $this_user->shop->title !!} <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						@foreach($available_shops as $shop)
+						<li><a href="{{ URL::route('change.language.profile', array('shopId' => $shop->id)) }}">{!! $shop->title !!}</a></li>
+						@endforeach
+					</ul>
+				</li>
+			</ul>
 			
 		</div>
-
-	
-
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
@@ -37,13 +31,11 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="{{ URL::route('hideyo.order.index') }}">Overview</a></li>
-		
 						<li><a href="{{ URL::route('hideyo.order-status.index') }}">Statuses</a></li>
 						<li><a href="{{ URL::route('hideyo.order-status-email-template.index') }}">Status email templates</a></li>
 					</ul>
 				</li>                        
 		
-
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Coupons <span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -51,7 +43,6 @@
 						<li><a href="{{ URL::route('hideyo.coupon-group.index') }}">Groups</a></li>
 					</ul>
 				</li>
-
 
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catalog <span class="caret"></span></a>
@@ -64,7 +55,6 @@
 						<li><a href="{{ URL::route('hideyo.attribute-group.index') }}">Attribute groups</a></li>
 					</ul>
 				</li>
-
 
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Content <span class="caret"></span></a>
@@ -97,4 +87,3 @@
 		</div>
 	</div>
 </nav>
-
