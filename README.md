@@ -39,16 +39,14 @@ Put this in database/seeds/DatabaseSeerder.php:
 $this->call(ShopTableSeeder::class);
 $this->call(UserTableSeeder::class);
 
-and run:
-php artisan optimize
-php artisan db:seed
+
 ```
 
 ----
 
 ## Generate stylesheet and JavaScript
 
-go to /resources/assets/vendor/hideyobackend in command line generate the stylesheet and javascript with:
+go to "resources/assets/vendor/hideyobackend" in command line generate the stylesheet and javascript with:
 ```bash
 npm install
 bower update
@@ -60,6 +58,8 @@ gulp
 
 Before you can login to the backend you need a default user. Laravel seeding will help you: 
 ```bash
+
+php artisan optimize
 php artisan db:seed 
 ```
 
