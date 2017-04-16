@@ -12,11 +12,11 @@
             <li><a href="{!! URL::route('hideyo.brand.index') !!}">Brand</a></li>
             <li><a href="{!! URL::route('hideyo.brand.edit', $brand->id) !!}">edit</a></li>
             <li><a href="{!! URL::route('hideyo.brand.edit', $brand->id) !!}">{!! $brand->title !!}</a></li>
-            <li><a href="{!! URL::route('hideyo.brand.{brandId}.images.index', $brand->id) !!}">images</a></li>
+            <li><a href="{!! URL::route('hideyo.brand-image.index', $brand->id) !!}">images</a></li>
           <li class="active">upload image</li>            
         </ol>
 
-        <a href="{!! URL::route('hideyo.brand.{brandId}.images.index', $brand->id) !!}" class="btn btn-danger pull-right">back to images<i class="entypo-plus"></i></a>
+        <a href="{!! URL::route('hideyo.brand-image.index', $brand->id) !!}" class="btn btn-danger pull-right">back to images<i class="entypo-plus"></i></a>
 
         <h2>Brand <small>images create</small></h2>
         <hr/>
@@ -25,7 +25,7 @@
                 <div class="panel-body">
 
                     {!! Notification::showAll() !!}
-    			    {!! Form::open(array('route' => array('hideyo.brand.{brandId}.images.store', $brand->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+    			    {!! Form::open(array('route' => array('hideyo.brand-image.store', $brand->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
     				    <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
     			        <div class="form-group">
@@ -53,7 +53,7 @@
     			        <div class="form-group">
     			            <div class="col-sm-offset-3 col-sm-5">
     			                {!! Form::submit('Save', array('class' => 'btn btn-default')) !!}
-    			                <a href="{!! URL::route('hideyo.brand.{brandId}.images.store', $brand->id) !!}" class="btn btn-large">Cancel</a>
+    			                <a href="{!! URL::route('hideyo.brand-image.store', $brand->id) !!}" class="btn btn-large">Cancel</a>
     			            </div>
     			        </div>
 

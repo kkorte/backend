@@ -3,14 +3,13 @@
 /**
  * NewsImageController
  *
- * This is the controller of the news images of the shop
+ * This is the controller for the images of a news item
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */
 
 use App\Http\Controllers\Controller;
 use Hideyo\Backend\Repositories\NewsRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
@@ -66,7 +65,6 @@ class NewsImageController extends Controller
 
     public function store($newsId)
     {
-
         $result  = $this->newsImage->create($this->request->all(), $newsId);
  
         if (isset($result->id)) {

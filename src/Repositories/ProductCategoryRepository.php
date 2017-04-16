@@ -10,19 +10,20 @@ use Hideyo\Backend\Models\ProductCategory;
 use Hideyo\Backend\Models\ProductCategoryImage;
 use Image;
 use File;
+use Auth;
+use Validator;
  
 class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 {
-
     protected $model;
 
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $productCategoryId id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($productCategoryId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -36,8 +37,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
                 'title'                 => 'required|unique_with:'.config()->get('hideyo.db_prefix').'product_category, shop_id'
             );
             
-            if ($id) {
-                $rules['title'] =   'required|between:4,65|unique_with:'.config()->get('hideyo.db_prefix').'product_category, shop_id, '.$id.' = id';
+            if ($productCategoryId) {
+                $rules['title'] =   'required|between:4,65|unique_with:'.config()->get('hideyo.db_prefix').'product_category, shop_id, '.$productCategoryId.' = id';
             }
         }
         return $rules;
@@ -54,25 +55,24 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
     public function create(array $attributes)
     {
 
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         $this->model->rebuild();
         return $this->model;
     }
 
-
     public function createImage(array $attributes, $productCategoryId)
     {
-        $userId = \Auth::guard('hideyobackend')->user()->id;
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $userId = Auth::guard('hideyobackend')->user()->id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
 
@@ -87,17 +87,17 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
             'rank' => 'required'
         );
 
-        $validator = \Validator::make($attributes, $rules);
+        $validator = Validator::make($attributes, $rules);
 
         if ($validator->fails()) {
             return $validator;
         } else {
             $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
-            $upload_success = $attributes['file']->move($destinationPath, $filename);
+            $uploadSuccess = $attributes['file']->move($destinationPath, $filename);
 
-            if ($upload_success) {
+            if ($uploadSuccess) {
                 $attributes['file'] = $filename;
-                $attributes['path'] = $upload_success->getRealPath();
+                $attributes['path'] = $uploadSuccess->getRealPath();
          
                 $this->imageModel->fill($attributes);
                 $this->imageModel->save();
@@ -106,7 +106,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
                     $sizes = explode(',', $shop->square_thumbnail_sizes);
                     if ($sizes) {
                         foreach ($sizes as $key => $value) {
-                            $image = Image::make($upload_success->getRealPath());
+                            $image = Image::make($uploadSuccess->getRealPath());
                             $explode = explode('x', $value);
                             $image->resize($explode[0], $explode[1]);
                             $image->interlace();
@@ -123,7 +123,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
             }
         }
     }
-
 
     public function refactorAllImagesByShopId($shopId)
     {
@@ -155,20 +154,17 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         }
     }
 
-
-
     public function updateById(array $attributes, $id)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($id, $attributes));
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules($id, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model = $this->find($id);
-
 
         $oldTitle = $this->model->title;
         $oldSlug = $this->model->slug;
@@ -194,9 +190,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         //     $redirectResult = $this->redirect->create(array('active' => 1, 'url' => $url, 'redirect_url' => $productCategoryUrl, 'shop_id' => $result->shop_id));
         // }
 
-
-
-
         return $result;
     }
 
@@ -209,7 +202,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         if (count($attributes) > 0) {
             $this->model->fill($attributes);
             
-
             if (isset($attributes['highlightProducts'])) {
                 $this->model->productCategoryHighlightProduct()->sync($attributes['highlightProducts']);
             }
@@ -220,11 +212,10 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         return $this->model;
     }
 
-
-    public function updateImageById(array $attributes, $productCategoryId, $id)
+    public function updateImageById(array $attributes, $productCategoryId, $imageId)
     {
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->model = $this->findImage($id);
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
+        $this->model = $this->findImage($imageId);
         return $this->updateImageEntity($attributes);
     }
 
@@ -240,9 +231,9 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 
 
 
-    public function destroy($id)
+    public function destroy($productCategoryId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($productCategoryId);
 
         // $url = $this->model->shop->url.route('hideyo.product-category', ['slug' => $this->model->slug], null);
         // $newUrl = $this->model->shop->url;
@@ -255,8 +246,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         }
 
         $directory = storage_path() . "/app/files/product_category/".$this->model->id;
-        \File::deleteDirectory($directory);
-        \File::deleteDirectory(public_path() . "/files/product_category/".$this->model->id);
+        File::deleteDirectory($directory);
+        File::deleteDirectory(public_path() . "/files/product_category/".$this->model->id);
 
         if ($this->model->children()->count()) {
             foreach ($this->model->children()->get() as $child) {
@@ -269,20 +260,20 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         return $this->model->delete();
     }
 
-    public function destroyImage($id)
+    public function destroyImage($imageId)
     {
-        $this->imageModel = $this->findImage($id);
+        $this->imageModel = $this->findImage($imageId);
         $filename = storage_path() ."/app/files/product_category/".$this->imageModel->product_category_id."/".$this->imageModel->file;
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
-        if (\File::exists($filename)) {
-            \File::delete($filename);
+        if (File::exists($filename)) {
+            File::delete($filename);
             if ($shop->square_thumbnail_sizes) {
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        \File::delete(public_path() . "/files/product_category/".$value."/".$this->imageModel->product_category_id."/".$this->imageModel->file);
+                        File::delete(public_path() . "/files/product_category/".$value."/".$this->imageModel->product_category_id."/".$this->imageModel->file);
                     }
                 }
             }
@@ -291,7 +282,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         return $this->imageModel->delete();
     }
 
-
     public function rebuild()
     {
         return $this->model->rebuild(true);
@@ -299,18 +289,17 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
     }
-
 
     public function selectAllProductPullDown()
     {
-        return $this->model->whereNull('redirect_product_category_id')->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
+        return $this->model->whereNull('redirect_product_category_id')->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
     }
 
     public function ajaxSearchByTitle($query)
     {
-        return $this->model->where('title', 'LIKE', '%'.$query.'%')->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
+        return $this->model->where('title', 'LIKE', '%'.$query.'%')->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
     }
 
     function selectAllByShopId($shopId)
@@ -326,86 +315,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
     function selectAllByShopIdAndRoot($shopId)
     {
          return $this->model->roots()->where('shop_id', '=', $shopId)->where('active', '=', 1)->orderBy('title', 'asc')->get();
-    }
-
-    function selectOneByShopIdAndSlug($shopId, $slug, $imageTag = false)
-    {
-
-        $result = $this->model->
-        with(array('products' => function ($query) {
-            $query->where('active', '=', 1)->with(
-                array('productImages' => function ($query) {
-                    $query->orderBy('rank', 'asc');
-                })
-            );
-        },
-        'productCategoryImages' => function ($query) use ($imageTag) {
-            if ($imageTag) {
-                $query->where('tag', '=', $imageTag);
-            } $query->orderBy('rank', 'asc');
-        }, 'refProductCategory'))
-        ->where('product_category.shop_id', '=', $shopId)
-        ->where('product_category.slug', '=', $slug)
-        ->where('active', '=', 1)
-        ->get()
-        ->first();
-
-        if ($result) {
-            if ($result->isRoot()) {
-                $result['is_root'] = true;
-            }
-
-            if ($result->isLeaf()) {
-                $result['is_leaf'] = true;
-            } else {
-                $result['is_leaf'] = false;
-                $result['children_product_categories'] = $result->children()->get();
-            }
-
-            return $result;
-        } else {
-            return false;
-        }
-    }
-
-    function selectOneByShopIdAndId($shopId, $id, $imageTag = false)
-    {
-        $result = $this->model->
-        with(array('products' => function ($query) {
-            $query->where('active', '=', 1)->with(
-                array('productImages' => function ($query) {
-                    $query->orderBy('rank', 'asc');
-                })
-            );
-        },
-        'productCategoryImages' => function ($query) use ($imageTag) {
-            if ($imageTag) {
-                $query->where('tag', '=', $imageTag);
-            } $query->orderBy('rank', 'asc');
-        }, 'refProductCategory'))
-        ->where('product_category.shop_id', '=', $shopId)
-        ->where('product_category.id', '=', $id)
-        ->where('active', '=', 1)
-        ->get()
-        ->first();
-
-        if ($result) {
-            if ($result->isRoot()) {
-                $result['is_root'] = true;
-            }
-
-            if ($result->isLeaf()) {
-                $result['is_leaf'] = true;
-            } else {
-                $result['is_leaf'] = false;
-                $result['children_product_categories'] = $result->children()->get();
-            }
-
-            return $result;
-        } else {
-            return false;
-        }
-    }
+    }  
 
     function selectCategoriesByParentId($shopId, $parentId, $imageTag = false)
     {
@@ -432,7 +342,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 
     function selectRootCategories($shopId, $imageTag)
     {
-
         $result = $this->model
         ->with(
             array('productCategoryImages' => function ($query) use ($imageTag) {
@@ -454,10 +363,9 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         }
     }
 
-    
-    public function find($id)
+    public function find($productCategoryId)
     {
-        return $this->model->find($id);
+        return $this->model->find($productCategoryId);
     }
 
     public function entireTreeStructure($shopId)
@@ -468,7 +376,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 
     public function changeActive($productCategoryId)
     {
-
         $this->model = $this->find($productCategoryId);
 
         if ($this->model) {
@@ -483,9 +390,6 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
             );
 
             $this->model->fill($attributes);
-
-            
-
 
             // if (!$this->model->active) {
             //     $url = $this->model->shop->url.route('product-category', ['slug' => $this->model->slug], null);
@@ -503,21 +407,18 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         return false;
     }
 
-
     public function getModel()
     {
         return $this->model;
     }
 
-    public function findImage($id)
+    public function findImage($imageId)
     {
-        return $this->imageModel->find($id);
+        return $this->imageModel->find($imageId);
     }
 
     public function getImageModel()
     {
         return $this->imageModel;
     }
-
-    
 }

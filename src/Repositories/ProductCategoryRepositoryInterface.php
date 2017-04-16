@@ -16,12 +16,6 @@ interface ProductCategoryRepositoryInterface
     public function selectAllActiveByShopId($shopId);
     
     public function selectAllByShopIdAndRoot($shopId);
-
-    public function selectOneByShopIdAndSlug($shopId, $slug, $imageTag = false);
-
-    public function selectCategoriesByParentId($shopId, $parentId, $imageTag = false);
-
-    public function selectRootCategories($shopId, $imageTag);
     
     public function find($id);
 

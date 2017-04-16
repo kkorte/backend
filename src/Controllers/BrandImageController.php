@@ -1,20 +1,19 @@
 <?php namespace Hideyo\Backend\Controllers;
+
 /**
  * BrandImageController
  *
- * This is the controller of the brand images of the shop
+ * This is the controller for the images of a brand item
  * @author Matthijs Neijenhuijs <matthijs@hideyo.io>
  * @version 0.1
  */
 
 use App\Http\Controllers\Controller;
-
 use Hideyo\Backend\Repositories\BrandRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
-use Form;
 use Datatables;
+use Form;
 
 class BrandImageController extends Controller
 {
@@ -62,7 +61,7 @@ class BrandImageController extends Controller
  
         if (isset($result->id)) {
             Notification::success('The brand image was inserted.');
-            return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
+            return redirect()->route('hideyo.brand-image.index', $brandId);
         }
 
         foreach ($result->errors()->all() as $error) {
@@ -83,7 +82,7 @@ class BrandImageController extends Controller
 
         if (isset($result->id)) {
             Notification::success('The brand image was updated.');
-            return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
+            return redirect()->route('hideyo.brand-image.index', $brandId);
         }
 
         foreach ($result->errors()->all() as $error) {
@@ -98,7 +97,7 @@ class BrandImageController extends Controller
 
         if ($result) {
             Notification::success('The file was deleted.');
-            return redirect()->route('hideyo.brand.{brandId}.images.index', $brandId);
+            return redirect()->route('hideyo.brand-image.index', $brandId);
         }
     }
 }
