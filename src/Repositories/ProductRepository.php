@@ -142,42 +142,42 @@ class ProductRepository implements ProductRepositoryInterface
 
             if ($validator->fails()) {
                 return $validator;
-            } else {
-                $attributes['extension'] = $file->getClientOriginalExtension();
-                $attributes['size'] = $file->getSize();
-                $filename = str_replace(" ", "_", strtolower($file->getClientOriginalName()));
-                $upload_success = $file->move($destinationPath, $filename);
+            }
 
-                if ($upload_success) {
-                    $attributes['file'] = $filename;
-                    $attributes['path'] = $upload_success->getRealPath();
-                    $file = new ProductImage;
-                    $file->fill($attributes);
-                    $file->save();
-                    if ($shop->square_thumbnail_sizes) {
-                        $sizes = explode(',', $shop->square_thumbnail_sizes);
-                        if ($sizes) {
-                            foreach ($sizes as $key => $value) {
-                                $image = Image::make($upload_success->getRealPath());
-                                $explode = explode('x', $value);
+            $attributes['extension'] = $file->getClientOriginalExtension();
+            $attributes['size'] = $file->getSize();
+            $filename = str_replace(" ", "_", strtolower($file->getClientOriginalName()));
+            $upload_success = $file->move($destinationPath, $filename);
 
-                                if ($image->width() >= $explode[0] and $image->height() >= $explode[1]) {
-                                    $image->resize($explode[0], $explode[1]);
-                                }
-    
+            if ($upload_success) {
+                $attributes['file'] = $filename;
+                $attributes['path'] = $upload_success->getRealPath();
+                $file = new ProductImage;
+                $file->fill($attributes);
+                $file->save();
+                if ($shop->square_thumbnail_sizes) {
+                    $sizes = explode(',', $shop->square_thumbnail_sizes);
+                    if ($sizes) {
+                        foreach ($sizes as $key => $value) {
+                            $image = Image::make($upload_success->getRealPath());
+                            $explode = explode('x', $value);
 
-                                if (!File::exists(public_path() . "/files/product/".$value."/".$productId."/")) {
-                                    File::makeDirectory(public_path() . "/files/product/".$value."/".$productId."/", 0777, true);
-                                }
-
-                                $image->interlace();
-
-                                $image->save(public_path() . "/files/product/".$value."/".$productId."/".$filename);
+                            if ($image->width() >= $explode[0] and $image->height() >= $explode[1]) {
+                                $image->resize($explode[0], $explode[1]);
                             }
+
+
+                            if (!File::exists(public_path() . "/files/product/".$value."/".$productId."/")) {
+                                File::makeDirectory(public_path() . "/files/product/".$value."/".$productId."/", 0777, true);
+                            }
+
+                            $image->interlace();
+
+                            $image->save(public_path() . "/files/product/".$value."/".$productId."/".$filename);
                         }
                     }
                 }
-            }
+            } 
         }
 
         if (isset($attributes['productAttributes'])) {
@@ -405,6 +405,7 @@ class ProductRepository implements ProductRepositoryInterface
 
         $newResult = array();
         foreach ($result as $product) {
+            $newResult[$product->id] = $product->title;
             if ($product->attributes->count()) {
                 foreach ($product->attributes as $attribute) {
                     $attributesArray = array();
@@ -414,8 +415,6 @@ class ProductRepository implements ProductRepositoryInterface
 
                     $newResult[$product->id.'-'.$attribute->id] = $product->title.' - '.implode(', ', $attributesArray);
                 }
-            } else {
-                $newResult[$product->id] = $product->title;
             }
         }
 
@@ -487,10 +486,11 @@ class ProductRepository implements ProductRepositoryInterface
         $this->model = $this->find($productId);
 
         if ($this->model) {
+
+            $active = 1;
+            
             if ($this->model->active) {
                 $active = 0;
-            } else {
-                $active = 1;
             }
 
             $attributes = array(
