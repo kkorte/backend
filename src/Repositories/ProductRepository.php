@@ -293,10 +293,10 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
 
-    public function updateImageById(array $attributes, $productId, $id)
+    public function updateImageById(array $attributes, $productId, $imageId)
     {
         $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
-        $this->modelImage = $this->findImage($id);
+        $this->modelImage = $this->findImage($imageId);
         return $this->updateImageEntity($attributes);
     }
 
@@ -322,9 +322,9 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
 
-    public function destroy($id)
+    public function destroy($productId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($productId);
 
         if ($this->model->productCategory) {
             $url = $this->model->shop->url.route('product.item', ['productId' => $this->model->id, 'productSlug' => $this->model->slug, 'categorySlug' => $this->model->productCategory->slug], null);
