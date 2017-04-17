@@ -1,7 +1,7 @@
 function recalculate(el){
 
     var si = $('.tax-rate :selected').text();
-    var tax         = parseFloat(si);
+    var tax = parseFloat(si);
 
     el.value = el.value.replace(",",".");
     var percentage  = 1 + (tax / 100);
@@ -141,7 +141,7 @@ $(document).ready(function() {
      
         var $this = $(this);
 
-        if ($(this).val() == '') {
+        if ($(this).val() === '') {
           return false;
         }
 
@@ -161,7 +161,7 @@ $(document).ready(function() {
      
         var $this = $(this);
 
-        if ($(this).val() == '') {
+        if ($(this).val() === '') {
           return false;
         }
 
@@ -182,7 +182,7 @@ $(document).ready(function() {
      
         var $this = $(this);
 
-        if ($(this).val() == '') {
+        if ($(this).val() === '') {
           return false;
         }
 
@@ -207,11 +207,9 @@ $(document).ready(function() {
 
     $('.summernote').summernote({
       height: 300,                 // set editor height
-
       minHeight: null,             // set minimum height of editor
       maxHeight: null,             // set maximum height of editor
-
-      focus: true,                 // set focus to editable area after initializing summernote
+      focus: true                // set focus to editable area after initializing summernote
     });
 
 
