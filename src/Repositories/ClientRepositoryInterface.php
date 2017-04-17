@@ -13,8 +13,6 @@ interface ClientRepositoryInterface
     
     public function find($id);
 
-    public function validateLogin($email, $password, $shopId);
-
     public function validateRegister(array $attributes, $shopId);
 
     public function register(array $attributes, $shopId);
