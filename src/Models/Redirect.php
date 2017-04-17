@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class Redirect extends BaseModel
 {

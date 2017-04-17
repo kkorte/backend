@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class OrderPaymentMethod extends BaseModel
 {
@@ -18,12 +18,12 @@ class OrderPaymentMethod extends BaseModel
 
     public function order()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Order');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Order');
     }
 
     public function paymentMethod()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\PaymentMethod');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\PaymentMethod');
     }
 
     public function getPriceWithTaxNumberFormat()

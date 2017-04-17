@@ -1,5 +1,5 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
 interface InvoiceRepositoryInterface
 {
@@ -14,6 +14,4 @@ interface InvoiceRepositoryInterface
     public function generateInvoiceFromOrder($orderId);
     
     public function find($id);
-
-    public function createByUserAndShop(array $attributes, $shopId);
 }

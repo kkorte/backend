@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * PaymentMethodController
@@ -8,9 +8,9 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Backend\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface;
 
 
 use Illuminate\Http\Request;

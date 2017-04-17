@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Shop extends BaseModel
@@ -44,17 +44,17 @@ class Shop extends BaseModel
 
     public function shops()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Shop');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Shop');
     }
     
     public function categories()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductCategory');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductCategory');
     }
 
     public function products()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Product');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function setSquareThumbnailSizesAttribute($value = null)

@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * ShopController
@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

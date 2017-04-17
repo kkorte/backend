@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * OrderController
@@ -9,14 +9,14 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\OrderRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
-use Hideyo\Backend\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
-use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Backend\Repositories\ClientRepositoryInterface;
-use Hideyo\Backend\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface;
 use Dutchbridge\Services\AssembleOrder;
 
 use Carbon\Carbon;

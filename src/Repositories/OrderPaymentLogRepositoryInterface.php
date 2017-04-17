@@ -1,5 +1,5 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
 interface OrderPaymentLogRepositoryInterface
 {

@@ -1,8 +1,8 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Backend\Repositories\ExceptionRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ExceptionRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

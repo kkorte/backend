@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Services;
+<?php namespace Hideyo\Ecommerce\Backend\Services;
 
 class HtmlServiceProvider extends \Collective\Html\HtmlServiceProvider
 {

@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ProductAttributeCombination extends BaseModel
 {
@@ -18,11 +18,11 @@ class ProductAttributeCombination extends BaseModel
 
     public function attribute()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Attribute');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Attribute');
     }
 
     public function productAttribute()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductAttribute');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductAttribute');
     }
 }

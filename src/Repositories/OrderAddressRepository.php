@@ -1,7 +1,7 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\OrderAddress;
+use Hideyo\Ecommerce\Backend\Models\OrderAddress;
 use Auth;
  
 class OrderAddressRepository implements OrderAddressRepositoryInterface

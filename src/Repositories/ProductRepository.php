@@ -1,11 +1,11 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Repositories\ProductImageRepositoryInterface;
-use Hideyo\Backend\Repositories\RedirectRepositoryInterface;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
-use Hideyo\Backend\Models\Product;
-use Hideyo\Backend\Models\ProductImage;
+use Hideyo\Ecommerce\Backend\Repositories\ProductImageRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Models\Product;
+use Hideyo\Ecommerce\Backend\Models\ProductImage;
 use Image;
 use File;
 use Auth;

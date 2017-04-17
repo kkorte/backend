@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class OrderSendingMethod extends BaseModel
 {
@@ -18,7 +18,7 @@ class OrderSendingMethod extends BaseModel
 
     public function order()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Order');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Order');
     }
 
     public function getPriceWithTaxNumberFormat()

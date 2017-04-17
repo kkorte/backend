@@ -1,5 +1,5 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
 interface OrderRepositoryInterface
 {
@@ -14,6 +14,4 @@ interface OrderRepositoryInterface
     public function selectAllByAllProductsAndProductCategoryId($productCategoryId);
     
     public function find($id);
-
-    public function createByUserAndShop(array $attributes, $shopId, $noAccountUser);
 }

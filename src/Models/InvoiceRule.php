@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class InvoiceRule extends BaseModel
 {
@@ -60,11 +60,11 @@ class InvoiceRule extends BaseModel
 
     public function invoice()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Invoice');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Invoice');
     }
 
     public function productAttribute()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductAttribute');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductAttribute');
     }
 }

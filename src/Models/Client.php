@@ -1,6 +1,6 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -65,32 +65,32 @@ class Client extends Authenticatable
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
     public function clientAddress()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ClientAddress');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ClientAddress');
     }
 
     public function orders()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Order');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Order');
     }
 
 
     public function clientDeliveryAddress()
     {
-        return $this->hasOne('Hideyo\Backend\Models\ClientAddress', 'id', 'delivery_client_address_id');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\ClientAddress', 'id', 'delivery_client_address_id');
     }
 
     public function clientBillAddress()
     {
-        return $this->hasOne('Hideyo\Backend\Models\ClientAddress', 'id', 'bill_client_address_id');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\ClientAddress', 'id', 'bill_client_address_id');
     }
 
     public function token()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ClientToken');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ClientToken');
     }
 }

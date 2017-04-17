@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class NewsGroup extends BaseModel
@@ -30,6 +30,6 @@ class NewsGroup extends BaseModel
 
     public function news()
     {
-        return $this->hasMany('Hideyo\Backend\Models\News');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\News');
     }
 }

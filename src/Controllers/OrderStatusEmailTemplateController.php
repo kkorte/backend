@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * OrderStatusEmailTemplateController
@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface;
-use Hideyo\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

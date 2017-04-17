@@ -1,5 +1,5 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
 interface RedirectRepositoryInterface
 {
@@ -12,8 +12,6 @@ interface RedirectRepositoryInterface
     public function selectNewRedirects();
     
     public function find($id);
-
-    public function checkApiToken($token, $title);
 
     public function findByUrl($url);
 

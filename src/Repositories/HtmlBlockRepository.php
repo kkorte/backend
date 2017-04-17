@@ -1,12 +1,14 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\HtmlBlock;
+use Hideyo\Ecommerce\Backend\Models\HtmlBlock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use File;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Image;
+use Auth;
+use Validator;
 
 class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 {
@@ -22,34 +24,33 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $htmlBlockId id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($htmlBlockId = false, $attributes = false)
     {
 
         $rules = array(
             'title'                 => 'required|between:4,65'
         );
         
-        if ($id) {
+        if ($htmlBlockId) {
             $rules['title'] =   'required|between:4,65';
         }
   
-
         return $rules;
     }
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;            
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;            
       
         $this->model->fill($attributes);
         $this->model->save();
@@ -58,24 +59,22 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
             $attributes['image_file_extension'] = $attributes['image']->getClientOriginalExtension();
             $attributes['image_file_size'] = $attributes['image']->getSize();
 
-
-
             $rules = array(
                 'file'=>'image|max:1000'
             );
 
-            $validator = \Validator::make($attributes, $rules);
+            $validator = Validator::make($attributes, $rules);
 
             if ($validator->fails()) {
                 return $validator;
             } else {
                 $destinationPath = storage_path() . "/app/files/html_block/".$this->model->id;
                 $filename =  str_replace(" ", "_", strtolower($attributes['image']->getClientOriginalName()));
-                $upload_success = $attributes['image']->move($destinationPath, $filename);
+                $uploadSuccess = $attributes['image']->move($destinationPath, $filename);
 
-                if ($upload_success) {
+                if ($uploadSuccess) {
                     $attributes['image_file_name'] = $filename;
-                    $attributes['image_file_path'] = $upload_success->getRealPath();
+                    $attributes['image_file_path'] = $uploadSuccess->getRealPath();
 
                     $this->model->fill($attributes);
                     $this->model->save();
@@ -83,7 +82,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 
 
                     if ($this->model->thumbnail_height and $this->model->thumbnail_width) {
-                        $image = Image::make($upload_success->getRealPath());
+                        $image = Image::make($uploadSuccess->getRealPath());
                
                         $image->resize($this->model->thumbnail_width, $this->model->thumbnail_height);
                         $image->interlace();
@@ -99,7 +98,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 
 
         if ($this->model->thumbnail_height and $this->model->thumbnail_width and $this->model->image_file_name) {
-            \File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id."/");
+            File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id."/");
             $image = Image::make($this->model->image_file_path);
    
             $image->resize($this->model->thumbnail_width, $this->model->thumbnail_height);
@@ -120,14 +119,14 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     {
 
         $product =  $this->find($htmlBlockId);
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
    
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
 
         $this->model->sluggify();
         $this->model->fill($attributes);
@@ -143,10 +142,10 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
         $this->model = $this->find($htmlBlockId);
 
         if ($this->model) {
+            $active = 1;
+            
             if ($this->model->active) {
                 $active = 0;
-            } else {
-                $active = 1;
             }
 
             $attributes = array(
@@ -165,23 +164,23 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 
 
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $htmlBlockId)
     {
-        $validator = \Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($htmlBlockId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->model = $this->find($id);
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
+        $this->model = $this->find($htmlBlockId);
         return $this->updateEntity($attributes);
     }
 
     private function updateEntity(array $attributes = array())
     {
 
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (count($attributes) > 0) {
@@ -199,20 +198,20 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
                 'file'=>'image|max:1000'
             );
 
-            $validator = \Validator::make($attributes, $rules);
+            $validator = Validator::make($attributes, $rules);
 
             if ($validator->fails()) {
                 return $validator;
             } else {
                 $destinationPath = storage_path() . "/app/files/html_block/".$this->model->id;
                 $filename =  str_replace(" ", "_", strtolower($attributes['image']->getClientOriginalName()));
-                \File::deleteDirectory($destinationPath);
+                File::deleteDirectory($destinationPath);
 
-                $upload_success = $attributes['image']->move($destinationPath, $filename);
+                $uploadSuccess = $attributes['image']->move($destinationPath, $filename);
 
-                if ($upload_success) {
+                if ($uploadSuccess) {
                     $attributes['image_file_name'] = $filename;
-                    $attributes['image_file_path'] = $upload_success->getRealPath();
+                    $attributes['image_file_path'] = $uploadSuccess->getRealPath();
 
                     $this->model->fill($attributes);
                     $this->model->save();
@@ -224,7 +223,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
             $image = Image::make($this->model->image_file_path);
    
 
-            \File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id);
+            File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id);
 
 
             $image->resize($this->model->thumbnail_width, $this->model->thumbnail_height);
@@ -240,14 +239,14 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($htmlBlockId)
     {
-        $this->model = $this->find($id);
-        \File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id."/");
+        $this->model = $this->find($htmlBlockId);
+        File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id."/");
 
         $destinationPath = storage_path() . "/app/files/html_block/".$this->model->id;
 
-        \File::deleteDirectory($destinationPath);
+        File::deleteDirectory($destinationPath);
         $this->model->save();
 
         return $this->model->delete();
@@ -255,12 +254,12 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
-    function selectOneById($id)
+    function selectOneById($htmlBlockId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $htmlBlockId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -273,19 +272,17 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
          return $this->model->where('shop_id', '=', $shopId)->get();
     }
 
-    function selectOneByShopIdAndId($shopId, $id)
+    function selectOneByShopIdAndId($shopId, $htmlBlockId)
     {
         $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
             $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
+        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $htmlBlockId)->get();
         
         if ($result->isEmpty()) {
             return false;
         }
         return $result->first();
     }
-
-
 
     function selectOneByShopIdAndSlug($shopId, $slug)
     {
@@ -297,7 +294,6 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
         return $result->first();
     }
 
-
     function selectOneByShopIdAndPosition($shopId, $position)
     {
         $result = $this->model->where('shop_id', '=', $shopId)->where('position', '=', $position)->get();
@@ -308,9 +304,9 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
         return $result->first();
     }
     
-    public function find($id)
+    public function find($htmlBlockId)
     {
-        return $this->model->find($id);
+        return $this->model->find($htmlBlockId);
     }
 
     public function getModel()

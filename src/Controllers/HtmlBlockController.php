@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * HtmlBlockController
@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\HtmlBlockRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\HtmlBlockRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

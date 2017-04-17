@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class OrderAddress extends BaseModel
 {
@@ -18,6 +18,6 @@ class OrderAddress extends BaseModel
 
     public function order()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Order');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Order');
     }
 }

@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class Attribute extends BaseModel
 {
@@ -18,6 +18,6 @@ class Attribute extends BaseModel
 
     public function attributeGroup()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\AttributeGroup');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\AttributeGroup');
     }
 }

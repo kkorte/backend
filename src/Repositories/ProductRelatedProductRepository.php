@@ -1,9 +1,10 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\ProductRelatedProduct;
-use Hideyo\Backend\Models\Product;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Models\ProductRelatedProduct;
+use Hideyo\Ecommerce\Backend\Models\Product;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
+use Auth;
  
 class ProductRelatedProductRepository implements ProductRelatedProductRepositoryInterface
 {
@@ -37,21 +38,17 @@ class ProductRelatedProductRepository implements ProductRelatedProductRepository
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($relatedId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($relatedId);
         $filename = $this->model->path;
-
-        if (\File::exists($filename)) {
-            \File::delete($filename);
-        }
 
         return $this->model->delete();
     }
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllByShopId($shopId)
@@ -64,14 +61,13 @@ class ProductRelatedProductRepository implements ProductRelatedProductRepository
          return $this->model->where('product_id', '=', $productId)->get();
     }
     
-    public function find($id)
+    public function find($relatedId)
     {
-        return $this->model->find($id);
+        return $this->model->find($relatedId);
     }
 
     public function getModel()
     {
         return $this->model;
-    }
-    
+    }   
 }

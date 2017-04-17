@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * ExtraFieldController
@@ -10,8 +10,8 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Backend\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface;
 
 use Request;
 use Notification;

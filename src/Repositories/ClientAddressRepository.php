@@ -1,7 +1,7 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\ClientAddress;
+use Hideyo\Ecommerce\Backend\Models\ClientAddress;
  
 class ClientAddressRepository implements ClientAddressRepositoryInterface
 {

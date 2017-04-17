@@ -1,7 +1,7 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\User;
+use Hideyo\Ecommerce\Backend\Models\User;
 use Hash;
 
 class UserRepository implements UserRepositoryInterface

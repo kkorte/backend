@@ -1,9 +1,9 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\ProductAttribute;
-use Hideyo\Backend\Models\ProductAttributeCombination;
-use Hideyo\Backend\Repositories\ProductCombinationRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Models\ProductAttribute;
+use Hideyo\Ecommerce\Backend\Models\ProductAttributeCombination;
+use Hideyo\Ecommerce\Backend\Repositories\ProductCombinationRepositoryInterface;
  
 class ProductCombinationRepository implements ProductCombinationRepositoryInterface
 {

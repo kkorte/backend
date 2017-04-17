@@ -1,6 +1,6 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
 
 
@@ -37,11 +37,11 @@ class User extends Authenticatable
     
     public function getUserProfileData()
     {
-        return $this->hasMany('Hideyo\Backend\Models\UserProfileData');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\UserProfileData');
     }
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop', 'selected_shop_id', 'id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop', 'selected_shop_id', 'id');
     }
 }

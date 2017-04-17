@@ -1,6 +1,6 @@
-[![Code Climate](https://codeclimate.com/github/hideyo/backend.png)](https://codeclimate.com/github/hideyo/backend)
-<a href="https://packagist.org/packages/hideyo/backend"><img src="https://poser.pugx.org/hideyo/backend/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/hideyo/backend"><img src="https://poser.pugx.org/hideyo/backend/license.svg" alt="License"></a>
+[![Code Climate](https://codeclimate.com/github/hideyo/ecommerce-backend.png)](https://codeclimate.com/github/hideyo/ecommerce-backend)
+<a href="https://packagist.org/packages/hideyo/ecommerce-backend"><img src="https://poser.pugx.org/hideyo/ecommerce-backend/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/hideyo/ecommerce-backend"><img src="https://poser.pugx.org/hideyo/ecommerce-backend/license.svg" alt="License"></a>
 # Hideyo e-commerce backend
 Hideyo is an open-source e-commerce solution built in Laravel. This backend package includes a backend system. Contact us at info@hideyo.io for questions or enterprise solutions. 
 
@@ -20,19 +20,19 @@ First install laravel and have a database connection running on: https://laravel
 
 Install via [composer](https://getcomposer.org/) - In the terminal:
 ```bash
-composer require hideyo/backend
+composer require hideyo/ecommerce-backend
 ```
 
 Now add the following to the `providers` array in your `config/app.php`
 ```php
-Hideyo\Backend\BackendServiceProvider::class
+Hideyo\Ecommerce\Backend\BackendServiceProvider::class
 ```
 
 ## Publish configuration in Laravel
 
 You need to run these commands in the terminal in order to copy the config, migration files and views
 ```bash
-php artisan vendor:publish --provider="Hideyo\Backend\BackendServiceProvider"
+php artisan vendor:publish --provider="Hideyo\Ecommerce\Backend\BackendServiceProvider"
 ```
 
 ## Database migration & seeding
@@ -71,4 +71,4 @@ php artisan db:seed
 
 ## License
 
-GNU AFFERO GENERAL PUBLIC LICENSE
+GNU GENERAL PUBLIC LICENSE

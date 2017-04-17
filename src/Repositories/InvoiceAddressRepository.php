@@ -1,7 +1,7 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\InvoiceAddress;
+use Hideyo\Ecommerce\Backend\Models\InvoiceAddress;
  
 class InvoiceAddressRepository implements InvoiceAddressRepositoryInterface
 {

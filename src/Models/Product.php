@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Carbon\Carbon;
 use Elasticquent\ElasticquentTrait;
@@ -145,69 +145,69 @@ class Product extends BaseModel
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
     public function attributeGroup()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\AttributeGroup', 'leading_atrribute_group_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\AttributeGroup', 'leading_atrribute_group_id');
     }
     
     public function extraFields()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductExtraFieldValue');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductExtraFieldValue');
     }
 
     public function taxRate()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\TaxRate');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\TaxRate');
     }
 
     public function brand()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Brand');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Brand');
     }
 
 
     public function productCategory()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductCategory');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductCategory');
     }
 
     public function subcategories()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\ProductCategory', config()->get('hideyo.db_prefix').'product_sub_product_category');
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\ProductCategory', config()->get('hideyo.db_prefix').'product_sub_product_category');
     }
 
     public function relatedProducts()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_related_product', 'product_id', 'related_product_id');
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_related_product', 'product_id', 'related_product_id');
     }
 
     public function relatedProductsActive()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\Product', 'product_related_product', 'product_id', 'related_product_id')->whereHas('productCategory', function ($query) {
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\Product', 'product_related_product', 'product_id', 'related_product_id')->whereHas('productCategory', function ($query) {
             $query->where('active', '=', '1');
         })->where('product.active', '=', '1');
     }
 
     public function productImages()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductImage');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductImage');
     }
 
     public function attributes()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductAttribute');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductAttribute');
     }
 
     public function amountOptions()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductAmountOption');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductAmountOption');
     }
 
     public function amountSeries()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductAmountSeries');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductAmountSeries');
     }
 }

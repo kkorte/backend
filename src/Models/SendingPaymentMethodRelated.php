@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class SendingPaymentMethodRelated extends BaseModel
 {
@@ -18,11 +18,11 @@ class SendingPaymentMethodRelated extends BaseModel
 
     public function sendingMethod()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\SendingMethod');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\SendingMethod');
     }
 
     public function paymentMethod()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\PaymentMethod');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\PaymentMethod');
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * SendingMethodController
@@ -9,9 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

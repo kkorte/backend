@@ -1,7 +1,7 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\ProductTagGroup;
+use Hideyo\Ecommerce\Backend\Models\ProductTagGroup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
  
@@ -18,18 +18,18 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $tagGroupId id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    private function rules($tagGroupId = false)
     {
         $rules = array(
             'tag' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
 
         );
         
-        if ($id) {
-            $rules['tag'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+        if ($tagGroupId) {
+            $rules['tag'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$tagGroupId.' = id';
         }
 
         return $rules;
@@ -57,11 +57,11 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
         return $this->model;
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $tagGroupId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($tagGroupId);
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = \Validator::make($attributes, $this->rules($tagGroupId));
 
         if ($validator->fails()) {
             return $validator;
@@ -86,9 +86,9 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($tagGroupId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($tagGroupId);
         $this->model->save();
 
         return $this->model->delete();
@@ -99,27 +99,22 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
         return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
-
-
     function selectAllActiveByShopId($shopId)
     {
          return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
     }
 
-
-    function selectOneByShopIdAndId($shopId, $id)
+    function selectOneByShopIdAndId($shopId, $tagGroupId)
     {
         $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
             $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
+        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $tagGroupId)->get();
         
         if ($result->isEmpty()) {
             return false;
         }
         return $result->first();
     }
-
-
 
     function selectAllByTagAndShopId($shopId, $tag)
     {
@@ -135,10 +130,9 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
         }
     }
     
-
-    function selectOneById($id)
+    function selectOneById($tagGroupId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $tagGroupId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -146,10 +140,9 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
         return $result->first();
     }
 
-    
-    public function find($id)
+    public function find($tagGroupId)
     {
-        return $this->model->find($id);
+        return $this->model->find($tagGroupId);
     }
 
     public function getModel()

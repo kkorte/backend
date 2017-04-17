@@ -4,7 +4,7 @@ return [
 
     'husers' => [
         'driver' => 'eloquent',
-        'model' => Hideyo\Backend\Models\User::class,
+        'model' => Hideyo\Ecommerce\Backend\Models\User::class,
     ]
 
 ];

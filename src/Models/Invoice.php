@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
 class Invoice extends BaseModel
@@ -42,34 +42,34 @@ class Invoice extends BaseModel
 
     public function products()
     {
-        return $this->hasMany('Hideyo\Backend\Models\InvoiceRule');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\InvoiceRule');
     }
 
     public function client()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Client');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Client');
     }
 
 
     public function order()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Order');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Order');
     }
 
 
     public function invoiceAddress()
     {
-        return $this->hasMany('Hideyo\Backend\Models\InvoiceAddress');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\InvoiceAddress');
     }
 
     public function invoiceDeliveryAddress()
     {
-        return $this->hasOne('Hideyo\Backend\Models\InvoiceAddress', 'id', 'delivery_invoice_address_id');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\InvoiceAddress', 'id', 'delivery_invoice_address_id');
     }
 
     public function invoiceBillAddress()
     {
-        return $this->hasOne('Hideyo\Backend\Models\InvoiceAddress', 'id', 'bill_invoice_address_id');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\InvoiceAddress', 'id', 'bill_invoice_address_id');
     }
 
     public function taxTotal()

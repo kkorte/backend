@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ClientAddress extends BaseModel
 {
@@ -25,11 +25,11 @@ class ClientAddress extends BaseModel
 
     public function clientDeliveryAddress()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Client', 'id', 'delivery_client_address_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Client', 'id', 'delivery_client_address_id');
     }
 
     public function clientBillAddress()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Client', 'id', 'bill_client_address_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Client', 'id', 'bill_client_address_id');
     }
 }

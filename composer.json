@@ -1,5 +1,5 @@
 {
-    "name": "hideyo/backend",
+    "name": "hideyo/ecommerce-backend",
     "description": "laravel e-commerce platform",
     "authors": [
         {
@@ -7,7 +7,7 @@
             "email": "matthijs@hideyo.io"
         }
     ],
-    "license": "GNU AFFERO GENERAL PUBLIC LICENSE",
+    "license": "GNU GENERAL PUBLIC LICENSE",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5",
@@ -33,7 +33,7 @@
 
     "autoload": {    
         "psr-4": {
-            "Hideyo\\Backend\\": "src/"
+            "Hideyo\\Ecommere\\Backend\\": "src/"
         }
     }
 

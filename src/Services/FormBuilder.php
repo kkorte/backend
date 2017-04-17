@@ -1,6 +1,7 @@
-<?php namespace Hideyo\Backend\Services;
+<?php namespace Hideyo\Ecommerce\Backend\Services;
 
 use Html;
+use Form;
 
 class FormBuilder extends \Collective\Html\FormBuilder
 {
@@ -37,15 +38,14 @@ class FormBuilder extends \Collective\Html\FormBuilder
             $formParameters['method'] = 'DELETE';
         };
 
-        return \Form::open($formParameters)
-            . \Form::submit($buttonLabel, $buttonOptions)
-            . \Form::close();
+        return Form::open($formParameters)
+            . Form::submit($buttonLabel, $buttonOptions)
+            . Form::close();
     }
 
     public function submit($value = null, $options = [])
     {
         $options['class'] = 'btn btn-cons btn-success' . (isset($options['class']) ? ' ' . $options['class'] : '');
-
         return parent::submit($value, $options);
     }
 
@@ -67,13 +67,12 @@ class FormBuilder extends \Collective\Html\FormBuilder
      
         // build out a final select statement, which will contain all the values.
         $options = Html::attributes($options);
+        $list = "";        
         
         if ($html) {
             $list = implode('', $html);
-        } else {
-            $list = "";
         }
-     
+    
         return "<select multiple {$options} class=\"select2 form-control\">{$list}</select>";
     }
 
@@ -83,8 +82,6 @@ class FormBuilder extends \Collective\Html\FormBuilder
         $options['name'] = $name;
         $html = array();
 
-
-        //dd($list, $selected);
         foreach ($list as $value => $display) {
             $sel = '';
             if ($selected == $value) {
@@ -96,11 +93,9 @@ class FormBuilder extends \Collective\Html\FormBuilder
      
         // build out a final select statement, which will contain all the values.
         $options = HTML::attributes($options);
-        
+        $list = "";
         if ($html) {
             $list = implode('', $html);
-        } else {
-            $list = "";
         }
      
         return "<select {$options} class=\"select2 form-control\">{$list}</select>";

@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ProductImage extends BaseModel
 {
@@ -18,12 +18,12 @@ class ProductImage extends BaseModel
 
     public function product()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Product');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function relatedProductAttributes()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\ProductAttribute', 
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\ProductAttribute', 
             config()->get('hideyo.db_prefix').'product_attribute_image', 
             'product_image_id', 
             'product_attribute_id');
@@ -31,7 +31,7 @@ class ProductImage extends BaseModel
 
     public function relatedAttributes()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\Attribute', 
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\Attribute', 
             config()->get('hideyo.db_prefix').'product_image_attribute', 
             'product_image_id', 
             'attribute_id');

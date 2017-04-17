@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 use Carbon\Carbon;
 
@@ -57,63 +57,63 @@ class Order extends BaseModel
 
     public function products()
     {
-        return $this->hasMany('Hideyo\Backend\Models\OrderProduct');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\OrderProduct');
     }
 
     public function client()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Client');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Client');
     }
 
     public function orderStatus()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\OrderStatus');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\OrderStatus');
     }
 
     public function orderPaymentLog()
     {
-        return $this->hasMany('Hideyo\Backend\Models\OrderPaymentLog');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\OrderPaymentLog');
     }
 
     public function orderAddress()
     {
-        return $this->hasMany('Hideyo\Backend\Models\OrderAddress');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\OrderAddress');
     }
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
 
     public function coupon()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Coupon');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Coupon');
     }
 
     public function invoice()
     {
-        return $this->hasOne('Hideyo\Backend\Models\Invoice');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\Invoice');
     }
 
     public function orderDeliveryAddress()
     {
-        return $this->hasOne('Hideyo\Backend\Models\OrderAddress', 'id', 'delivery_order_address_id');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\OrderAddress', 'id', 'delivery_order_address_id');
     }
 
     public function orderBillAddress()
     {
-        return $this->hasOne('Hideyo\Backend\Models\OrderAddress', 'id', 'bill_order_address_id');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\OrderAddress', 'id', 'bill_order_address_id');
     }
 
     public function orderSendingMethod()
     {
-        return $this->hasOne('Hideyo\Backend\Models\OrderSendingMethod');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\OrderSendingMethod');
     }
 
     public function orderPaymentMethod()
     {
-        return $this->hasOne('Hideyo\Backend\Models\OrderPaymentMethod');
+        return $this->hasOne('Hideyo\Ecommerce\Backend\Models\OrderPaymentMethod');
     }
 
     public function taxTotal()

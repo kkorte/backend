@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ExtraFieldRelatedProductCategory extends BaseModel
 {
@@ -20,11 +20,11 @@ class ExtraFieldRelatedProductCategory extends BaseModel
 
     public function extraField()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ExtraField', 'extra_field_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ExtraField', 'extra_field_id');
     }
 
     public function relatedProductCategory()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductCategory', 'product_category_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductCategory', 'product_category_id');
     }
 }

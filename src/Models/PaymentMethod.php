@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
 class PaymentMethod extends BaseModel
@@ -42,27 +42,27 @@ class PaymentMethod extends BaseModel
 
     public function taxRate()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\TaxRate');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\TaxRate');
     }
 
     public function orderConfirmedOrderStatus()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\OrderStatus', 'order_confirmed_order_status_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\OrderStatus', 'order_confirmed_order_status_id');
     }
 
     public function orderPaymentCompletedOrderStatus()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\OrderStatus', 'payment_completed_order_status_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\OrderStatus', 'payment_completed_order_status_id');
     }
 
     public function orderPaymentFailedOrderStatus()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\OrderStatus', 'payment_failed_order_status_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\OrderStatus', 'payment_failed_order_status_id');
     }
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
     public function setTotalPriceDiscountStartDateAttribute($value)

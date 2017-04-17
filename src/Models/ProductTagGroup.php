@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ProductTagGroup extends BaseModel
 {
@@ -18,6 +18,6 @@ class ProductTagGroup extends BaseModel
 
     public function relatedProducts()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_tag_group_related_product');
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_tag_group_related_product');
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * OrderStatusController
@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\OrderStatusRepositoryInterface;
-use Hideyo\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Auth;

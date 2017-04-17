@@ -1,5 +1,5 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
 interface ClientRepositoryInterface
 {
@@ -12,8 +12,6 @@ interface ClientRepositoryInterface
     public function selectAllByBillClientAddress();
     
     public function find($id);
-
-    public function validateLogin($email, $password, $shopId);
 
     public function validateRegister(array $attributes, $shopId);
 

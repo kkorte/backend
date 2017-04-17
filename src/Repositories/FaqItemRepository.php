@@ -1,8 +1,8 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\FaqItem;
-use Hideyo\Backend\Models\FaqItemGroup;
+use Hideyo\Ecommerce\Backend\Models\FaqItem;
+use Hideyo\Ecommerce\Backend\Models\FaqItemGroup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
  

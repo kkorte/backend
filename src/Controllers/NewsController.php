@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * NewsController
@@ -9,10 +9,10 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\NewsRepositoryInterface;
-use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\NewsGroupRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\NewsGroupRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

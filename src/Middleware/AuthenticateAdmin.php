@@ -1,11 +1,11 @@
 <?php
 
-namespace Hideyo\Backend\Middleware;
+namespace Hideyo\Ecommerce\Backend\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use View;
-use Hideyo\Backend\Models\Shop as Shop;
+use Hideyo\Ecommerce\Backend\Models\Shop as Shop;
 
 class AuthenticateAdmin
 {
