@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 use App\Http\Controllers\Controller;
 
@@ -10,9 +10,9 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Backend\Repositories\ClientRepositoryInterface;
-use Hideyo\Backend\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Form;

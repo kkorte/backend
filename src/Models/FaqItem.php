@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class FaqItem extends BaseModel
@@ -32,6 +32,6 @@ class FaqItem extends BaseModel
 
     public function faqItemGroup()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\faqItemGroup');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\faqItemGroup');
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * ProductCategoryController
@@ -11,8 +11,8 @@
 use App\Http\Controllers\Controller;
 
 use Dutchbridge\Datatable\ProductCategoryDatatable;
-use Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 
 /**
@@ -10,7 +10,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

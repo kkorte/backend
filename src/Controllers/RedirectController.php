@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * RedirectController
@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\RedirectRepositoryInterface;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 
 use Session;
 use Apiclient;

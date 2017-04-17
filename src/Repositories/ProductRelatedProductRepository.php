@@ -1,9 +1,9 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\ProductRelatedProduct;
-use Hideyo\Backend\Models\Product;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Models\ProductRelatedProduct;
+use Hideyo\Ecommerce\Backend\Models\Product;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
  
 class ProductRelatedProductRepository implements ProductRelatedProductRepositoryInterface
 {

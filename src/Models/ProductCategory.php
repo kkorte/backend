@@ -1,6 +1,6 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Baum\Node;
@@ -38,7 +38,7 @@ class ProductCategory extends Node
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
     public static function boot()
@@ -56,26 +56,26 @@ class ProductCategory extends Node
 
     public function refProductCategory()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductCategory', config()->get('hideyo.db_prefix').'redirect_product_category_id');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductCategory', config()->get('hideyo.db_prefix').'redirect_product_category_id');
     }
 
     public function productCategoryImages()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductCategoryImage');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductCategoryImage');
     }
 
     public function productCategoryHighlightProduct()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_category_highlight_product', 'product_category_id', 'product_id');
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_category_highlight_product', 'product_category_id', 'product_id');
     }
 
     public function productCategoryHighlightProductActive()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_category_highlight_product', 'product_category_id', 'product_id')->where('active', '=', 1);
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\Product', config()->get('hideyo.db_prefix').'product_category_highlight_product', 'product_category_id', 'product_id')->where('active', '=', 1);
     }
 
     public function products()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Product');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Product');
     }
 }

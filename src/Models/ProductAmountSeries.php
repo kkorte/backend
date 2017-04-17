@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
 class ProductAmountSeries extends BaseModel
@@ -21,7 +21,7 @@ class ProductAmountSeries extends BaseModel
 
     public function product()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Product');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function range()

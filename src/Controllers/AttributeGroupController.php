@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * AttributeGroupController
@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\AttributeGroupRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use DB;

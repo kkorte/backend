@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
 class SendingMethod extends BaseModel
@@ -19,7 +19,7 @@ class SendingMethod extends BaseModel
 
     public function relatedPaymentMethods()
     {
-        return $this->belongsToMany('Hideyo\Backend\Models\PaymentMethod', config()->get('hideyo.db_prefix').'sending_payment_method_related');
+        return $this->belongsToMany('Hideyo\Ecommerce\Backend\Models\PaymentMethod', config()->get('hideyo.db_prefix').'sending_payment_method_related');
     }
 
     public function getPriceDetails()
@@ -47,12 +47,12 @@ class SendingMethod extends BaseModel
 
     public function taxRate()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\TaxRate');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\TaxRate');
     }
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
     public function setTotalPriceDiscountStartDateAttribute($value)

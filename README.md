@@ -25,14 +25,14 @@ composer require hideyo/ecommerce-backend
 
 Now add the following to the `providers` array in your `config/app.php`
 ```php
-Hideyo\Backend\BackendServiceProvider::class
+Hideyo\Ecommerce\Backend\BackendServiceProvider::class
 ```
 
 ## Publish configuration in Laravel
 
 You need to run these commands in the terminal in order to copy the config, migration files and views
 ```bash
-php artisan vendor:publish --provider="Hideyo\Backend\BackendServiceProvider"
+php artisan vendor:publish --provider="Hideyo\Ecommerce\Backend\BackendServiceProvider"
 ```
 
 ## Database migration & seeding

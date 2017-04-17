@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Carbon\Carbon;
 
 class ProductAttribute extends BaseModel
@@ -62,27 +62,27 @@ class ProductAttribute extends BaseModel
 
     public function combinations()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductAttributeCombination');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductAttributeCombination');
     }
 
     public function images()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductAttributeImage');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductAttributeImage');
     }
 
     public function productAttributeCombinations()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ProductAttributeCombination');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ProductAttributeCombination');
     }
 
     public function taxRate()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\TaxRate');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\TaxRate');
     }
 
     public function product()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Product');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
 

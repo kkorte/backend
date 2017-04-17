@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 /**
  * BrandController
  *
@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\BrandRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\BrandRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

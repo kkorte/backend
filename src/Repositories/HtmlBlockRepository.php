@@ -1,11 +1,11 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\HtmlBlock;
+use Hideyo\Ecommerce\Backend\Models\HtmlBlock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use File;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Image;
 
 class HtmlBlockRepository implements HtmlBlockRepositoryInterface

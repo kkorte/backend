@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ProductWaitingList extends BaseModel
 {
@@ -18,11 +18,11 @@ class ProductWaitingList extends BaseModel
     
     public function product()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Product');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function productAttribute()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductAttribute');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductAttribute');
     }
 }

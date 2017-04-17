@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class OrderProduct extends BaseModel
 {
@@ -18,12 +18,12 @@ class OrderProduct extends BaseModel
 
     public function order()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Order');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Order');
     }
 
     public function product()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Product');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function getOriginalPriceWithTaxNumberFormat()
@@ -68,6 +68,6 @@ class OrderProduct extends BaseModel
     
     public function productAttribute()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductAttribute');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductAttribute');
     }
 }

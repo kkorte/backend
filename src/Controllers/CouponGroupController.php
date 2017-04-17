@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * CouponGroupController
@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Backend\Repositories\CouponRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\CouponRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

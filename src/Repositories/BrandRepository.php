@@ -1,14 +1,14 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\Brand;
-use Hideyo\Backend\Models\BrandImage;
+use Hideyo\Ecommerce\Backend\Models\Brand;
+use Hideyo\Ecommerce\Backend\Models\BrandImage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Hideyo\Backend\Repositories\RedirectRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface;
 use Image;
 use File;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Validator;
  
 class BrandRepository implements BrandRepositoryInterface

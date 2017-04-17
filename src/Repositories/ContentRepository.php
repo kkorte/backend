@@ -1,14 +1,14 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\Content;
-use Hideyo\Backend\Models\ContentImage;
-use Hideyo\Backend\Models\ContentGroup;
+use Hideyo\Ecommerce\Backend\Models\Content;
+use Hideyo\Ecommerce\Backend\Models\ContentImage;
+use Hideyo\Ecommerce\Backend\Models\ContentGroup;
 use Image;
 use File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Validator;
  
 class ContentRepository implements ContentRepositoryInterface

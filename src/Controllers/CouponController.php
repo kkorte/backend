@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 use App\Http\Controllers\Controller;
 
@@ -11,11 +11,11 @@ use App\Http\Controllers\Controller;
  */
 
 
-use Hideyo\Backend\Repositories\CouponRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
-use Hideyo\Backend\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\CouponRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

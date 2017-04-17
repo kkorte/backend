@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Services;
+<?php namespace Hideyo\Ecommerce\Backend\Services;
 
 use Html;
 use Form;

@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
@@ -38,16 +38,16 @@ class Brand extends BaseModel
 
     public function products()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Product');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function brandImages()
     {
-        return $this->hasMany('Hideyo\Backend\Models\BrandImage');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\BrandImage');
     }
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 }

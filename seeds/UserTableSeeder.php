@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Hideyo\Backend\Models\Shop as Shop;
-use Hideyo\Backend\Models\User as User;
+use Hideyo\Ecommerce\Backend\Models\Shop as Shop;
+use Hideyo\Ecommerce\Backend\Models\User as User;
 
 class UserTableSeeder extends Seeder
 {

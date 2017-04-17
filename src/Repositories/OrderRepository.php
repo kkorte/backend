@@ -1,18 +1,18 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\Order;
-use Hideyo\Backend\Models\OrderProduct;
-use Hideyo\Backend\Models\OrderAddress;
-use Hideyo\Backend\Models\OrderSendingMethod;
-use Hideyo\Backend\Models\OrderPaymentMethod;
+use Hideyo\Ecommerce\Backend\Models\Order;
+use Hideyo\Ecommerce\Backend\Models\OrderProduct;
+use Hideyo\Ecommerce\Backend\Models\OrderAddress;
+use Hideyo\Ecommerce\Backend\Models\OrderSendingMethod;
+use Hideyo\Ecommerce\Backend\Models\OrderPaymentMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Hideyo\Backend\Repositories\ClientRepositoryInterface;
-use Hideyo\Backend\Repositories\OrderAddressRepositoryInterface;
-use Hideyo\Backend\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
 use DB;
 use Carbon\Carbon;
 use Auth;

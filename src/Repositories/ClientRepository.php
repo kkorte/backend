@@ -1,11 +1,11 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
-use Hideyo\Backend\Models\Client;
+use Hideyo\Ecommerce\Backend\Models\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
-use Hideyo\Backend\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
 use Mail;
 use Config;
 use Carbon\Carbon;

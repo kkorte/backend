@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class ProductSubProductCategory extends BaseModel
 {
@@ -20,16 +20,16 @@ class ProductSubProductCategory extends BaseModel
 
     public function shop()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Shop');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Shop');
     }
 
     public function product()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\Product');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
     public function productCategory()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ProductCategory');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ProductCategory');
     }
 }

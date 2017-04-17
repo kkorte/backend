@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Content extends BaseModel
@@ -36,11 +36,11 @@ class Content extends BaseModel
 
     public function contentGroup()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\ContentGroup');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\ContentGroup');
     }
 
     public function contentImages()
     {
-        return $this->hasMany('Hideyo\Backend\Models\ContentImage');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\ContentImage');
     }
 }

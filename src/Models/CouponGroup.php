@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class CouponGroup extends BaseModel
@@ -33,6 +33,6 @@ class CouponGroup extends BaseModel
 
     public function coupon()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Coupon');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Coupon');
     }
 }

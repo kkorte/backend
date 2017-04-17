@@ -1,11 +1,11 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 use App\Http\Controllers\Controller;
 use Dutchbridge\Datatable\OrderDatatable;
 use Dutchbridge\Datatable\OrderWholesaleDatatable;
-use Hideyo\Backend\Repositories\OrderRepositoryInterface;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
-use Hideyo\Backend\Repositories\UserRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\UserRepositoryInterface;
 
 use Request;
 use Auth;

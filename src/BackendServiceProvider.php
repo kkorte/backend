@@ -1,13 +1,13 @@
 <?php
 
-namespace Hideyo\Backend;
+namespace Hideyo\Ecommerce\Backend;
 
 use Illuminate\Support\ServiceProvider;
 
 use Cviebrock\EloquentSluggable\ServiceProvider as SluggableServiceProvider;
 use hisorange\BrowserDetect\Provider\BrowserDetectService;
 use Collective\Html\HtmlServiceProvider;
-use Hideyo\Backend\Services\HtmlServiceProvider as CustomHtmlServiceProvider;
+use Hideyo\Ecommerce\Backend\Services\HtmlServiceProvider as CustomHtmlServiceProvider;
 use Krucas\Notification\NotificationServiceProvider;
 use Yajra\Datatables\DatatablesServiceProvider;
 use Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider;
@@ -38,7 +38,7 @@ class BackendServiceProvider extends ServiceProvider
         );
         
         $this->loadRoutesFrom(__DIR__.'/Routes/backend.php');
-        $router->aliasMiddleware('auth.hideyo.backend', '\Hideyo\Backend\Middleware\AuthenticateAdmin::class');
+        $router->aliasMiddleware('auth.hideyo.backend', '\Hideyo\Ecommerce\Backend\Middleware\AuthenticateAdmin::class');
     
         $this->publishes([
             __DIR__.'/config/hideyo.php' => config_path('hideyo.php'),
@@ -79,218 +79,218 @@ class BackendServiceProvider extends ServiceProvider
         $this->registerRequiredProviders();
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\BrandRepositoryInterface',
-            'Hideyo\Backend\Repositories\BrandRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\BrandRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\BrandRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\BlogRepositoryInterface',
-            'Hideyo\Backend\Repositories\BlogRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\BlogRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\BlogRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\RedirectRepositoryInterface',
-            'Hideyo\Backend\Repositories\RedirectRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\RedirectRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductCombinationRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductCombinationRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductCombinationRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductCombinationRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\AttributeGroupRepositoryInterface',
-            'Hideyo\Backend\Repositories\AttributeGroupRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\AttributeRepositoryInterface',
-            'Hideyo\Backend\Repositories\AttributeRepository'
-        );
-
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\LanguageRepositoryInterface',
-            'Hideyo\Backend\Repositories\LanguageRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\UserRepositoryInterface',
-            'Hideyo\Backend\Repositories\UserRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\RoleRepositoryInterface',
-            'Hideyo\Backend\Repositories\RoleRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductRelatedProductRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductRelatedProductRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductExtraFieldValueRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductExtraFieldValueRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ExtraFieldDefaultValueRepositoryInterface',
-            'Hideyo\Backend\Repositories\ExtraFieldDefaultValueRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ExtraFieldRepositoryInterface',
-            'Hideyo\Backend\Repositories\ExtraFieldRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\CouponRepositoryInterface',
-            'Hideyo\Backend\Repositories\CouponRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ClientRepositoryInterface',
-            'Hideyo\Backend\Repositories\ClientRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ClientAddressRepositoryInterface',
-            'Hideyo\Backend\Repositories\ClientAddressRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductCategoryRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\ShopRepositoryInterface',
-            'Hideyo\Backend\Repositories\ShopRepository'
-        );
-
-        $this->app->bind(
-            'Hideyo\Backend\Repositories\UserLogRepositoryInterface',
-            'Hideyo\Backend\Repositories\UserLogRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\AttributeRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\AttributeRepository'
         );
 
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductAmountOptionRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductAmountOptionRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\LanguageRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\LanguageRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductAmountSeriesRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductAmountSeriesRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\UserRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\UserRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductTagGroupRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductTagGroupRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\RoleRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\RoleRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ProductWaitingListRepositoryInterface',
-            'Hideyo\Backend\Repositories\ProductWaitingListRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\TaxRateRepositoryInterface',
-            'Hideyo\Backend\Repositories\TaxRateRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductRelatedProductRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductRelatedProductRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\PaymentMethodRepositoryInterface',
-            'Hideyo\Backend\Repositories\PaymentMethodRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductExtraFieldValueRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductExtraFieldValueRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ExtraFieldDefaultValueRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ExtraFieldDefaultValueRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\CouponRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\CouponRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ClientRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ShopRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\UserLogRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\UserLogRepository'
         );
 
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\SendingMethodRepositoryInterface',
-            'Hideyo\Backend\Repositories\SendingMethodRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductAmountOptionRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductAmountOptionRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\OrderRepositoryInterface',
-            'Hideyo\Backend\Repositories\OrderRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductAmountSeriesRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductAmountSeriesRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\OrderAddressRepositoryInterface',
-            'Hideyo\Backend\Repositories\OrderAddressRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductTagGroupRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductTagGroupRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\OrderPaymentLogRepositoryInterface',
-            'Hideyo\Backend\Repositories\OrderPaymentLogRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ProductWaitingListRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ProductWaitingListRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\TaxRateRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepository'
         );
 
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\OrderStatusRepositoryInterface',
-            'Hideyo\Backend\Repositories\OrderStatusRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface',
-            'Hideyo\Backend\Repositories\OrderStatusEmailTemplateRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\OrderRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\OrderAddressRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\OrderAddressRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\OrderPaymentLogRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\OrderPaymentLogRepository'
         );
 
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\InvoiceRepositoryInterface',
-            'Hideyo\Backend\Repositories\InvoiceRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\InvoiceAddressRepositoryInterface',
-            'Hideyo\Backend\Repositories\InvoiceAddressRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\OrderStatusEmailTemplateRepository'
+        );
+
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\InvoiceRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\InvoiceRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface',
-            'Hideyo\Backend\Repositories\SendingPaymentMethodRelatedRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\InvoiceAddressRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\InvoiceAddressRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\RecipeRepositoryInterface',
-            'Hideyo\Backend\Repositories\RecipeRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\SendingPaymentMethodRelatedRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\NewsRepositoryInterface',
-            'Hideyo\Backend\Repositories\NewsRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\RecipeRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\RecipeRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ContentRepositoryInterface',
-            'Hideyo\Backend\Repositories\ContentRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\NewsRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\NewsRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\FaqItemRepositoryInterface',
-            'Hideyo\Backend\Repositories\FaqItemRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\ContentRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ContentRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\HtmlBlockRepositoryInterface',
-            'Hideyo\Backend\Repositories\HtmlBlockRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\FaqItemRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\FaqItemRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\GeneralSettingRepositoryInterface',
-            'Hideyo\Backend\Repositories\GeneralSettingRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\HtmlBlockRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\HtmlBlockRepository'
         );
 
         $this->app->bind(
-            'Hideyo\Backend\Repositories\ExceptionRepositoryInterface',
-            'Hideyo\Backend\Repositories\ExceptionRepository'
+            'Hideyo\Ecommerce\Backend\Repositories\GeneralSettingRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\GeneralSettingRepository'
+        );
+
+        $this->app->bind(
+            'Hideyo\Ecommerce\Backend\Repositories\ExceptionRepositoryInterface',
+            'Hideyo\Ecommerce\Backend\Repositories\ExceptionRepository'
         );
 
     }

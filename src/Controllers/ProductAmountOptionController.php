@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * PaymentAmountOptionController
@@ -11,11 +11,11 @@
 use App\Http\Controllers\Controller;
 
 use Dutchbridge\Datatable\ProductAmountOptionDatatable;
-use Hideyo\Backend\Repositories\ProductAmountOptionRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
-use Hideyo\Backend\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Backend\Repositories\AttributeGroupRepositoryInterface;
-use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductAmountOptionRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
 
 use Request;
 use Notification;

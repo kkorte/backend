@@ -1,8 +1,8 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Backend\Models\Coupon;
-use Hideyo\Backend\Models\CouponGroup;
+use Hideyo\Ecommerce\Backend\Models\Coupon;
+use Hideyo\Ecommerce\Backend\Models\CouponGroup;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;

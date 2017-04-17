@@ -1,6 +1,6 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
 
 
@@ -20,6 +20,6 @@ class NewsImage extends BaseModel
 
     public function news()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\News');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\News');
     }
 }

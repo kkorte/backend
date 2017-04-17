@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class OrderStatus extends BaseModel
 {
@@ -18,6 +18,6 @@ class OrderStatus extends BaseModel
 
     public function orderStatusEmailTemplate()
     {
-        return $this->belongsTo('Hideyo\Backend\Models\OrderStatusEmailTemplate');
+        return $this->belongsTo('Hideyo\Ecommerce\Backend\Models\OrderStatusEmailTemplate');
     }
 }

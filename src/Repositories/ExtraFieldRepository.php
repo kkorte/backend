@@ -1,8 +1,8 @@
 <?php
-namespace Hideyo\Backend\Repositories;
+namespace Hideyo\Ecommerce\Backend\Repositories;
 
-use Hideyo\Backend\Models\ExtraField;
-use Hideyo\Backend\Models\ExtraFieldDefaultValue;
+use Hideyo\Ecommerce\Backend\Models\ExtraField;
+use Hideyo\Ecommerce\Backend\Models\ExtraFieldDefaultValue;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * UserController
@@ -12,10 +12,10 @@ use App\Http\Controllers\Controller;
 
 use Dutchbridge\Validators\UserValidator;
 use Dutchbridge\Datatable\UserNumberDatatable;
-use Hideyo\Backend\Repositories\UserRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\UserRepositoryInterface;
 
-use Hideyo\Backend\Repositories\UserLogRepositoryInterface;
-use Hideyo\Backend\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\UserLogRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Auth;
 use Notification;
 use Redirect;

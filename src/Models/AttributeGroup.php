@@ -1,8 +1,8 @@
 <?php 
 
-namespace Hideyo\Backend\Models;
+namespace Hideyo\Ecommerce\Backend\Models;
 
-use Hideyo\Backend\Models\BaseModel;
+use Hideyo\Ecommerce\Backend\Models\BaseModel;
 
 class AttributeGroup extends BaseModel
 {
@@ -23,6 +23,6 @@ class AttributeGroup extends BaseModel
 
     public function attributes()
     {
-        return $this->hasMany('Hideyo\Backend\Models\Attribute');
+        return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Attribute');
     }
 }

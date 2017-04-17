@@ -1,4 +1,4 @@
-<?php namespace Hideyo\Backend\Controllers;
+<?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 /**
  * ProductController
@@ -11,14 +11,14 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Backend\Repositories\ProductRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Backend\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductWeightTypeRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductExtraFieldValueRepositoryInterface;
-use Hideyo\Backend\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Backend\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Backend\Repositories\BrandRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductWeightTypeRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductExtraFieldValueRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ProductCombinationRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\BrandRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;
