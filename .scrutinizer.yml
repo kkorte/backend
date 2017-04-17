@@ -1,0 +1,7 @@
+# .scrutinizer.yml
+build:
+    environment:
+        php:
+            version: 7.1
+            ini:
+                'date.timezone': 'Europe/Amsterdam'
