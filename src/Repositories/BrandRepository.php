@@ -36,16 +36,18 @@ class BrandRepository implements BrandRepositoryInterface
             $rules = array(
                 'meta_title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
             );
-        } else {
-            $rules = array(
-                'title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
-            );
-            
-            if ($brandId) {
-                $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$brandId.' = id';
-            }
-        }
 
+            return $rules;
+        } 
+
+        $rules = array(
+            'title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+        );
+        
+        if ($brandId) {
+            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$brandId.' = id';
+        }
+     
         return $rules;
     }  
   
@@ -81,46 +83,45 @@ class BrandRepository implements BrandRepositoryInterface
 
         if ($validator->fails()) {
             return $validator;
-        } else {
+        }
 
-            $attributes['modified_by_user_id'] = $userId;
+        $attributes['modified_by_user_id'] = $userId;
 
-            $destinationPath = storage_path() . "/app/files/brand/".$brandId;
-            $attributes['user_id'] = $userId;
-            $attributes['brand_id'] = $brandId;
-            $attributes['extension'] = $attributes['file']->getClientOriginalExtension();
-            $attributes['size'] = $attributes['file']->getSize();
+        $destinationPath = storage_path() . "/app/files/brand/".$brandId;
+        $attributes['user_id'] = $userId;
+        $attributes['brand_id'] = $brandId;
+        $attributes['extension'] = $attributes['file']->getClientOriginalExtension();
+        $attributes['size'] = $attributes['file']->getSize();
 
-            $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
-            $uploadSuccess = $attributes['file']->move($destinationPath, $filename);
+        $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
+        $uploadSuccess = $attributes['file']->move($destinationPath, $filename);
 
-            if ($uploadSuccess) {
-                $attributes['file'] = $filename;
-                $attributes['path'] = $uploadSuccess->getRealPath();
-         
-                $this->modelImage->fill($attributes);
-                $this->modelImage->save();
+        if ($uploadSuccess) {
+            $attributes['file'] = $filename;
+            $attributes['path'] = $uploadSuccess->getRealPath();
+     
+            $this->modelImage->fill($attributes);
+            $this->modelImage->save();
 
-                if ($shop->square_thumbnail_sizes) {
-                    $sizes = explode(',', $shop->square_thumbnail_sizes);
-                    if ($sizes) {
-                        foreach ($sizes as $key => $value) {
-                            $image = Image::make($uploadSuccess->getRealPath());
-                            $explode = explode('x', $value);
-                            $image->resize($explode[0], $explode[1]);
-                            $image->interlace();
+            if ($shop->square_thumbnail_sizes) {
+                $sizes = explode(',', $shop->square_thumbnail_sizes);
+                if ($sizes) {
+                    foreach ($sizes as $key => $value) {
+                        $image = Image::make($uploadSuccess->getRealPath());
+                        $explode = explode('x', $value);
+                        $image->resize($explode[0], $explode[1]);
+                        $image->interlace();
 
-                            if (!File::exists(public_path() . "/files/brand/".$value."/".$brandId."/")) {
-                                File::makeDirectory(public_path() . "/files/brand/".$value."/".$brandId."/", 0777, true);
-                            }
-                            $image->save(public_path() . "/files/brand/".$value."/".$brandId."/".$filename);
+                        if (!File::exists(public_path() . "/files/brand/".$value."/".$brandId."/")) {
+                            File::makeDirectory(public_path() . "/files/brand/".$value."/".$brandId."/", 0777, true);
                         }
+                        $image->save(public_path() . "/files/brand/".$value."/".$brandId."/".$filename);
                     }
                 }
-                
-                return $this->modelImage;
             }
-        }
+            
+            return $this->modelImage;
+        }  
     }
 
     public function updateById(array $attributes, $brandId)
