@@ -195,7 +195,6 @@ class ContentRepository implements ContentRepositoryInterface
         return $this->model;
     }
 
-
     public function updateGroupById(array $attributes, $newsGroupId)
     {
         $validator = Validator::make($attributes, $this->rulesGroup($newsGroupId, $attributes));
