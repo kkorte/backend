@@ -26,10 +26,10 @@ class BrandRepository implements BrandRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $brandId id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($brandId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -40,8 +40,8 @@ class BrandRepository implements BrandRepositoryInterface
                 'title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
             );
             
-            if ($id) {
-                $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+            if ($brandId) {
+                $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$brandId.' = id';
             }
         }
 
@@ -123,20 +123,16 @@ class BrandRepository implements BrandRepositoryInterface
         }
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $brandId)
     {
-        $validator = Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = Validator::make($attributes, $this->rules($brandId, $attributes));
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->model = $this->find($id);
-
-
-        $oldTitle = $this->model->title;
-        $oldSlug = $this->model->slug;
+        $this->model = $this->find($brandId);
 
         $result = $this->updateEntity($attributes);
 
@@ -153,11 +149,17 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->model;
     }
 
-    public function updateImageById(array $attributes, $brandId, $id)
+    public function updateImageById(array $attributes, $brandId, $imageId)
     {
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->modelImage = $this->findImage($id);
-        return $this->updateImageEntity($attributes);
+        $this->model = $this->find($brandId);
+
+        if($this->model) {
+            $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+            $this->modelImage = $this->findImage($imageId);
+            return $this->updateImageEntity($attributes);            
+        }
+
+        return false;
     }
 
     private function updateImageEntity(array $attributes = array())
@@ -170,9 +172,9 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->modelImage;
     }
 
-    public function destroy($id)
+    public function destroy($brandId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($brandId);
 
         // $url = $this->model->shop->url.route('brand.item', ['slug' => $this->model->slug], null);
         // $newUrl = $this->model->shop->url.route('brand.overview', array(), null);
@@ -183,9 +185,9 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->model->delete();
     }
 
-    public function destroyImage($id)
+    public function destroyImage($imageId)
     {
-        $this->modelImage = $this->findImage($id);
+        $this->modelImage = $this->findImage($imageId);
         $filename = storage_path() ."/app/files/brand/".$this->modelImage->brand_id."/".$this->modelImage->file;
         $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
@@ -240,9 +242,9 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
     }
     
-    public function find($id)
+    public function find($brandId)
     {
-        return $this->model->find($id);
+        return $this->model->find($brandId);
     }
 
     public function getModel()
@@ -250,9 +252,9 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->model;
     }
 
-    public function findImage($id)
+    public function findImage($imageId)
     {
-        return $this->modelImage->find($id);
+        return $this->modelImage->find($imageId);
     }
 
     public function getModelImage()
