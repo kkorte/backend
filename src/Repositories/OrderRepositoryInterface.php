@@ -14,6 +14,4 @@ interface OrderRepositoryInterface
     public function selectAllByAllProductsAndProductCategoryId($productCategoryId);
     
     public function find($id);
-
-    public function createByUserAndShop(array $attributes, $shopId, $noAccountUser);
 }
