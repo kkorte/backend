@@ -4,6 +4,8 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
 use Hideyo\Ecommerce\Backend\Models\ProductWaitingList;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Auth;
+use Validator;
  
 class ProductWaitingListRepository implements ProductWaitingListRepositoryInterface
 {
@@ -18,18 +20,18 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $waitingListId id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    private function rules($waitingListId = false)
     {
         $rules = array(
             'tag' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
 
         );
         
-        if ($id) {
-            $rules['tag'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+        if ($waitingListId) {
+            $rules['tag'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$waitingListId.' = id';
         }
 
         return $rules;
@@ -39,11 +41,10 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
     {
         $result = $this->model->where('email', '=', $attributes['email'])->where('product_id', '=', $attributes['product_id']);
         
-
+        unset($attributes['product_attribute_id']);
+        
         if ($attributes['product_attribute_id'] and !empty($attributes['product_attribute_id'])) {
             $result->where('product_attribute_id', '=', $attributes['product_attribute_id']);
-        } else {
-            unset($attributes['product_attribute_id']);
         }
 
         if ($result->count()) {
@@ -55,18 +56,16 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         return $this->model;
     }
 
-
-  
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
             
         $this->model->fill($attributes);
         $this->model->save();
@@ -78,16 +77,16 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         return $this->model;
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $waitingListId)
     {
-        $this->model = $this->find($id);
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $this->model = $this->find($waitingListId);
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules($waitingListId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
     }
 
@@ -107,9 +106,9 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($waitingListId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($waitingListId);
         $this->model->save();
 
         return $this->model->delete();
@@ -120,9 +119,9 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         return $this->model->get();
     }
 
-    function selectOneById($id)
+    function selectOneById($waitingListId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('active', '=', 1)->where('id', '=', $waitingListId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -144,16 +143,16 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         }))->where('shop_id', '=', $shopId)->where('tag', '=', $tag)->get();
         if ($result->count()) {
             return $result->first()->relatedProducts;
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
-    function selectOneByShopIdAndId($shopId, $id)
+    function selectOneByShopIdAndId($shopId, $waitingListId)
     {
         $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
             $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
+        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $waitingListId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -161,9 +160,9 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         return $result->first();
     }
     
-    public function find($id)
+    public function find($waitingListId)
     {
-        return $this->model->find($id);
+        return $this->model->find($waitingListId);
     }
     
     public function getModel()
