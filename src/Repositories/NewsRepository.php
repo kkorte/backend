@@ -118,37 +118,38 @@ class NewsRepository implements NewsRepositoryInterface
 
         if ($validator->fails()) {
             return $validator;
-        } else {
-            $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
-            $upload_success = $attributes['file']->move($destinationPath, $filename);
+        } 
+        
+        $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
+        $upload_success = $attributes['file']->move($destinationPath, $filename);
 
-            if ($upload_success) {
-                $attributes['file'] = $filename;
-                $attributes['path'] = $upload_success->getRealPath();
-         
-                $this->modelImage->fill($attributes);
-                $this->modelImage->save();
+        if ($upload_success) {
+            $attributes['file'] = $filename;
+            $attributes['path'] = $upload_success->getRealPath();
+     
+            $this->modelImage->fill($attributes);
+            $this->modelImage->save();
 
-                if ($shop->square_thumbnail_sizes) {
-                    $sizes = explode(',', $shop->square_thumbnail_sizes);
-                    if ($sizes) {
-                        foreach ($sizes as $keyImage => $valueImage) {
-                            $image = Image::make($upload_success->getRealPath());
-                            $explode = explode('x', $valueImage);
-                            $image->resize($explode[0], $explode[1]);
-                            $image->interlace();
+            if ($shop->square_thumbnail_sizes) {
+                $sizes = explode(',', $shop->square_thumbnail_sizes);
+                if ($sizes) {
+                    foreach ($sizes as $keyImage => $valueImage) {
+                        $image = Image::make($upload_success->getRealPath());
+                        $explode = explode('x', $valueImage);
+                        $image->resize($explode[0], $explode[1]);
+                        $image->interlace();
 
-                            if (!File::exists(public_path() . "/files/news/".$valueImage."/".$newsId."/")) {
-                                File::makeDirectory(public_path() . "/files/news/".$valueImage."/".$newsId."/", 0777, true);
-                            }
-                            $image->save(public_path() . "/files/news/".$valueImage."/".$newsId."/".$filename);
+                        if (!File::exists(public_path() . "/files/news/".$valueImage."/".$newsId."/")) {
+                            File::makeDirectory(public_path() . "/files/news/".$valueImage."/".$newsId."/", 0777, true);
                         }
+                        $image->save(public_path() . "/files/news/".$valueImage."/".$newsId."/".$filename);
                     }
                 }
-                
-                return $this->modelImage;
             }
+            
+            return $this->modelImage;
         }
+        
     }
 
 
