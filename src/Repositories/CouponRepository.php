@@ -22,10 +22,10 @@ class CouponRepository implements CouponRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $couponId id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    private function rules($couponId = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
@@ -34,23 +34,23 @@ class CouponRepository implements CouponRepositoryInterface
             'product_category_id' => 'integer'
         );
         
-        if ($id) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
-            $rules['code'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
+        if ($couponId) {
+            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$couponId.' = id';
+            $rules['code'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$couponId.' = id';
         }
 
         return $rules;
     }
 
-    private function rulesGroup($id = false, $attributes = false)
+    private function rulesGroup($groupId = false, $attributes = false)
     {
 
         $rules = array(
             'title'                 => 'required|between:4,65|unique_with:'.$this->modelGroup->getTable().', shop_id'
         );
         
-        if ($id) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->modelGroup->getTable().', shop_id, '.$id.' = id';
+        if ($groupId) {
+            $rules['title'] =   'required|between:4,65|unique_with:'.$this->modelGroup->getTable().', shop_id, '.$groupId.' = id';
         }
         
 
@@ -110,12 +110,12 @@ class CouponRepository implements CouponRepositoryInterface
     }
 
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $couponId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($couponId);
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
 
-        $validator = Validator::make($attributes, $this->rules($id));
+        $validator = Validator::make($attributes, $this->rules($couponId));
 
         if ($validator->fails()) {
             return $validator;
@@ -131,28 +131,25 @@ class CouponRepository implements CouponRepositoryInterface
         if (count($attributes) > 0) {
             $this->model->fill($attributes);
 
+            $this->model->productCategories()->sync(array());
+            $this->model->products()->sync(array());
+            $this->model->sendingMethods()->sync(array());
+            $this->model->paymentMethods()->sync(array());
+
             if (isset($attributes['product_categories'])) {
                 $this->model->productCategories()->sync($attributes['product_categories']);
-            } else {
-                $this->model->productCategories()->sync(array());
             }
 
             if (isset($attributes['products'])) {
                 $this->model->products()->sync($attributes['products']);
-            } else {
-                $this->model->products()->sync(array());
             }
 
             if (isset($attributes['sending_methods'])) {
                 $this->model->sendingMethods()->sync($attributes['sending_methods']);
-            } else {
-                $this->model->sendingMethods()->sync(array());
             }
 
             if (isset($attributes['payment_methods'])) {
                 $this->model->paymentMethods()->sync($attributes['payment_methods']);
-            } else {
-                $this->model->paymentMethods()->sync(array());
             }
 
             $this->model->save();
@@ -161,20 +158,20 @@ class CouponRepository implements CouponRepositoryInterface
         return $this->model;
     }
 
-    public function updateGroupById(array $attributes, $id)
+    public function updateGroupById(array $attributes, $groupId)
     {
-        $validator = Validator::make($attributes, $this->rulesGroup($id, $attributes));
+        $validator = Validator::make($attributes, $this->rulesGroup($groupId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->modelGroup = $this->findGroup($id);
+        $this->modelGroup = $this->findGroup($groupId);
         return $this->updateGroupEntity($attributes);
     }
 
-    public function updateGroupEntity(array $attributes = array())
+    private function updateGroupEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->modelGroup->fill($attributes);
@@ -185,23 +182,21 @@ class CouponRepository implements CouponRepositoryInterface
     }
 
 
-    public function destroy($id)
+    public function destroy($couponId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($couponId);
         $this->model->save();
 
         return $this->model->delete();
     }
 
-    public function destroyGroup($id)
+    public function destroyGroup($groupId)
     {
-        $this->modelGroup = $this->findGroup($id);
+        $this->modelGroup = $this->findGroup($groupId);
         $this->modelGroup->save();
 
         return $this->modelGroup->delete();
     }
-
-
 
     public function selectAll()
     {
@@ -213,8 +208,6 @@ class CouponRepository implements CouponRepositoryInterface
     {
         return $this->modelGroup->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
-
-
 
     function selectOneByShopIdAndCode($shopId, $code)
     {
@@ -234,27 +227,23 @@ class CouponRepository implements CouponRepositoryInterface
         return $result->first();
     }
 
-    public function find($id)
+    public function find($couponId)
     {
-        return $this->model->find($id);
+        return $this->model->find($couponId);
     }
-
 
     public function getModel()
     {
         return $this->model;
     }
 
-    public function findGroup($id)
+    public function findGroup($groupId)
     {
-        return $this->modelGroup->find($id);
+        return $this->modelGroup->find($groupId);
     }
     
-
     public function getGroupModel()
     {
         return $this->modelGroup;
-    }
-
-    
+    }  
 }
