@@ -10,13 +10,17 @@ use Mail;
 use Config;
 use Carbon\Carbon;
 use Validator;
+use Auth;
 
 class ClientRepository implements ClientRepositoryInterface
 {
 
     protected $model;
 
-    public function __construct(Client $model, ShopRepositoryInterface $shop, ClientAddressRepositoryInterface $clientAddress)
+    public function __construct(
+        Client $model, 
+        ShopRepositoryInterface $shop, 
+        ClientAddressRepositoryInterface $clientAddress)
     {
         $this->model = $model;
         $this->shop = $shop;
@@ -59,7 +63,7 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
@@ -67,7 +71,7 @@ class ClientRepository implements ClientRepositoryInterface
         }
 
         $attributes['password'] = \Hash::make($attributes['password']);
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         $clientAddress = $this->clientAddress->create($attributes, $this->model->id);
@@ -80,29 +84,31 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function setAccountChange($user, $attributes, $shopId)
     {
-
-        $checkEmailExist = $this->model->where('shop_id', '=', $shopId)->where('email', '=', $attributes['email'])->get()->first();
+        $checkEmailExist = $this->model
+        ->where('shop_id', '=', $shopId)
+        ->where('email', '=', $attributes['email'])
+        ->get()
+        ->first();
 
         if ($checkEmailExist) {
             return false;
-        } else {
-            $this->model = $this->find($user->id);
+        }
 
-            if ($this->model) {
-                $newAttributes['new_email'] = $attributes['email'];
-                $newAttributes['new_password'] = \Hash::make($attributes['password']);
-                $newAttributes['confirmation_code'] = md5(uniqid(mt_rand(), true));
-                return $this->updateEntity($newAttributes);
-            }
+        $this->model = $this->find($user->id);
+
+        if ($this->model) {
+            $newAttributes['new_email'] = $attributes['email'];
+            $newAttributes['new_password'] = \Hash::make($attributes['password']);
+            $newAttributes['confirmation_code'] = md5(uniqid(mt_rand(), true));
+            return $this->updateEntity($newAttributes);
         }
     }
-
 
     public function updateById(array $attributes, $id)
     {
         $this->model = $this->find($id);
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
 
         $validator = Validator::make($attributes, $this->rules($id));
 
@@ -110,11 +116,10 @@ class ClientRepository implements ClientRepositoryInterface
             return $validator;
         }
 
+        unset($attributes['password']);
 
         if ($attributes['password']) {
             $attributes['password'] = \Hash::make($attributes['password']);
-        } else {
-            unset($attributes['password']);
         }
 
         return $this->updateEntity($attributes);
@@ -134,19 +139,18 @@ class ClientRepository implements ClientRepositoryInterface
     {
         $this->model = $this->find($id);
         $this->model->save();
-
         return $this->model->delete();
     }
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     public function selectAllByBillClientAddress()
     {
         return $this->model->selectRaw('CONCAT(client_address.firstname, " ", client_address.lastname) as fullname, client_address.*, client.id')
-        ->leftJoin('client_address', 'client.bill_client_address_id', '=', 'client_address.id')->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
+        ->leftJoin('client_address', 'client.bill_client_address_id', '=', 'client_address.id')->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)
         ->get();
     }
 
@@ -195,117 +199,59 @@ class ClientRepository implements ClientRepositoryInterface
 
         if ($client) {
             return false;
-        } else {
-            $attributes['shop_id'] = $shopId;
-            $attributes['modified_by_user_id'] = null;
-            if ($shop->wholesale) {
-                $attributes['confirmed'] = 0;
-                $attributes['active'] = 0;
-                $attributes['type'] = 'wholesale';
-                $mailChimplistId = Config::get('mailchimp.wholesaleId');
-            } else {
-                $attributes['confirmed'] = 1;
-                $attributes['active'] = 1;
-                $attributes['type'] = 'consumer';
-                $mailChimplistId = Config::get('mailchimp.consumerId');
-            }
-
-            //$attributes['confirmation_code'] = md5(uniqid(mt_rand(), true));
-            if (isset($attributes['password'])) {
-                $attributes['password'] = \Hash::make($attributes['password']);
-                $attributes['account_created'] = Carbon::now()->toDateTimeString();
-            } else {
-                $attributes['confirmed'] = 0;
-                $attributes['active'] = 0;
-            }
-
-            $this->model->fill($attributes);
-            $this->model->save();
-
-            $clientAddress = $this->clientAddress->createByClient($attributes, $this->model->id);
-            $new['delivery_client_address_id'] = $clientAddress->id;
-            $new['bill_client_address_id'] = $clientAddress->id;
-            $this->model->fill($new);
-            $this->model->save();
-
-
-            if ($shop->wholesale) { 
-                $error = false;
-                try {
-                    $this->mailchimp
-                        ->lists
-                        ->subscribe(
-                            $mailChimplistId,
-                            ['email' => $attributes['email']]
-                        );
-                } catch (\Mailchimp_List_AlreadySubscribed $e) {
-                    $error = true;
-                } catch (\Mailchimp_Error $e) {
-                    $error = true;
-                }
-            }
-
-
-            return $this->model;
         }
 
-        return false;
-    }
+        $attributes['shop_id'] = $shopId;
+        $attributes['modified_by_user_id'] = null;
 
-    public function validateLogin($email, $password, $shopId)
-    {
+        $attributes['confirmed'] = 1;
+        $attributes['active'] = 1;
+        $attributes['type'] = 'consumer';
+        $mailChimplistId = Config::get('mailchimp.consumerId');
 
-        $client = $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('email', '=', $email)->get()->first();
+        if ($shop->wholesale) {
+            $attributes['confirmed'] = 0;
+            $attributes['active'] = 0;
+            $attributes['type'] = 'wholesale';
+            $mailChimplistId = Config::get('mailchimp.wholesaleId');
+        }
 
-        if ($client) {
-            $client_payload = json_decode(base64_decode($client->password), true);
-            $client_value = base64_decode($client_payload['value']);
-            $client_iv = base64_decode($client_payload['iv']);
-            $client_password = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $client->shop->secret_key, $client_value, MCRYPT_MODE_CBC, $client_iv);
-            $client_password = unserialize($this->stripPadding($client_password));
+        $attributes['confirmed'] = 0;
+        $attributes['active'] = 0;
 
-            $password_payload = json_decode(base64_decode($password), true);
-            $password_value = base64_decode($password_payload['value']);
-            $password_iv = base64_decode($password_payload['iv']);
-            $password = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $client->shop->secret_key, $password_value, MCRYPT_MODE_CBC, $password_iv);
-            $password = unserialize($this->stripPadding($password));
+        //$attributes['confirmation_code'] = md5(uniqid(mt_rand(), true));
+        if (isset($attributes['password'])) {
+            $attributes['password'] = \Hash::make($attributes['password']);
+            $attributes['account_created'] = Carbon::now()->toDateTimeString();
+        }
 
+        $this->model->fill($attributes);
+        $this->model->save();
 
-            if ($client_password == $password) {
-                return $client;
-            } else {
-                return false;
+        $clientAddress = $this->clientAddress->createByClient($attributes, $this->model->id);
+        $new['delivery_client_address_id'] = $clientAddress->id;
+        $new['bill_client_address_id'] = $clientAddress->id;
+        $this->model->fill($new);
+        $this->model->save();
+
+        if ($shop->wholesale) { 
+            $error = false;
+            try {
+                $this->mailchimp
+                    ->lists
+                    ->subscribe(
+                        $mailChimplistId,
+                        ['email' => $attributes['email']]
+                    );
+            } catch (\Mailchimp_List_AlreadySubscribed $e) {
+                $error = true;
+            } catch (\Mailchimp_Error $e) {
+                $error = true;
             }
         }
 
-        return false;
-    }
 
-    /**
-     * Remove the padding from the given value.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    protected function stripPadding($value)
-    {
-        $pad = ord($value[($len = strlen($value)) - 1]);
-
-        return $this->paddingIsValid($pad, $value) ? substr($value, 0, $len - $pad) : $value;
-    }
-
-    /**
-     * Determine if the given padding for a value is valid.
-     *
-     * @param  string  $pad
-     * @param  string  $value
-     * @return bool
-     */
-    protected function paddingIsValid($pad, $value)
-    {
-        $beforePad = strlen($value) - $pad;
-
-        return substr($value, $beforePad) == str_repeat(substr($value, -1), $pad);
+        return $this->model;
     }
 
     function selectOneByShopIdAndId($shopId, $id)
@@ -316,7 +262,7 @@ class ClientRepository implements ClientRepositoryInterface
 
     function selectOneById($id)
     {
-        $result = $this->model->with(array('clientAddress', 'clientDeliveryAddress', 'clientBillAddress'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->first();
+        $result = $this->model->with(array('clientAddress', 'clientDeliveryAddress', 'clientBillAddress'))->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->first();
         return $result;
     }
 
@@ -332,9 +278,9 @@ class ClientRepository implements ClientRepositoryInterface
             }
             
             return $this->updateEntity($attributes);
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
     function confirm($code, $email, $shopId)
@@ -347,11 +293,9 @@ class ClientRepository implements ClientRepositoryInterface
             $attributes['confirmation_code'] = null;
             
             return $this->updateEntity($attributes);
-        } else {
-            return false;
         }
-
-        return true;
+        
+        return false;
     }
 
 
@@ -365,11 +309,9 @@ class ClientRepository implements ClientRepositoryInterface
             $attributes['confirmation_code'] = null;
             
             return $this->updateEntity($attributes);
-        } else {
-            return false;
         }
-
-        return true;
+        
+        return false;
     }
 
 
@@ -383,11 +325,9 @@ class ClientRepository implements ClientRepositoryInterface
             $attributes['confirmation_code'] = null;
             
             return $this->updateEntity($attributes);
-        } else {
-            return false;
         }
-
-        return true;
+        
+        return false;
     }
 
     function getConfirmationCodeByEmail($email, $shopId)
@@ -399,7 +339,6 @@ class ClientRepository implements ClientRepositoryInterface
 
         if ($this->model) {
             $attributes['confirmation_code'] = md5(uniqid(mt_rand(), true));
-            
             return $this->updateEntity($attributes);
         }
         
@@ -434,14 +373,15 @@ class ClientRepository implements ClientRepositoryInterface
             $attributes['bill_client_address_id'] = $clientAddress->id;
 
             if ($attributes['password']) {
+
+                $attributes['confirmed'] = 1;
+                $attributes['active'] = 1;
+                $attributes['type'] = 'consumer';
+
                 if ($shop->wholesale) {
                     $attributes['confirmed'] = 0;
                     $attributes['active'] = 0;
                     $attributes['type'] = 'wholesale';
-                } else {
-                    $attributes['confirmed'] = 1;
-                    $attributes['active'] = 1;
-                    $attributes['type'] = 'consumer';
                 }
 
                 $attributes['confirmation_code'] = null;
@@ -479,7 +419,6 @@ class ClientRepository implements ClientRepositoryInterface
         return false;
     }
 
-
     public function updateLastLogin($clientId)
     {
         $check = $this->model->where('id', '=', $clientId)->get()->first();
@@ -493,11 +432,8 @@ class ClientRepository implements ClientRepositoryInterface
         return false;
     }
 
-
-
     public function resetPasswordByConfirmationCodeAndEmail(array $attributes, $shopId)
     {
-
         $result = array();
         $result['result'] = false;
 
@@ -523,7 +459,7 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function selectAllExport()
     {
-        return $this->model->with(array('clientAddress', 'clientDeliveryAddress', 'clientBillAddress'))->whereNotNull('account_created')->where('active', '=', 1)->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->with(array('clientAddress', 'clientDeliveryAddress', 'clientBillAddress'))->whereNotNull('account_created')->where('active', '=', 1)->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     public static function encodePassword($password, $salt = 'foodeliciousnl', $count = 1000, $length = 32, $algorithm = 'sha1', $start = 16)
@@ -533,10 +469,8 @@ class ClientRepository implements ClientRepositoryInterface
         return base64_encode($hash);
     }
 
-
     function editAddress($shopId, $clientId, $addressId, $attributes)
     {
-
         $address = $this->clientAddress->updateByIdAndShopId($shopId, $attributes, $clientId, $addressId);
     }
 
@@ -566,6 +500,5 @@ class ClientRepository implements ClientRepositoryInterface
     public function getModel()
     {
         return $this->model;
-    }
-    
+    } 
 }
