@@ -119,13 +119,13 @@ class NewsRepository implements NewsRepositoryInterface
         if ($validator->fails()) {
             return $validator;
         } 
-        
-        $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
-        $upload_success = $attributes['file']->move($destinationPath, $filename);
 
-        if ($upload_success) {
+        $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
+        $uploadSuccess = $attributes['file']->move($destinationPath, $filename);
+
+        if ($uploadSuccess) {
             $attributes['file'] = $filename;
-            $attributes['path'] = $upload_success->getRealPath();
+            $attributes['path'] = $uploadSuccess->getRealPath();
      
             $this->modelImage->fill($attributes);
             $this->modelImage->save();
@@ -134,7 +134,7 @@ class NewsRepository implements NewsRepositoryInterface
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
                     foreach ($sizes as $keyImage => $valueImage) {
-                        $image = Image::make($upload_success->getRealPath());
+                        $image = Image::make($uploadSuccess->getRealPath());
                         $explode = explode('x', $valueImage);
                         $image->resize($explode[0], $explode[1]);
                         $image->interlace();
@@ -324,9 +324,9 @@ class NewsRepository implements NewsRepositoryInterface
        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
-    public function find($id)
+    public function find($newsId)
     {
-        return $this->model->find($id);
+        return $this->model->find($newsId);
     }
 
     public function getModel()
@@ -334,9 +334,9 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->model;
     }
 
-    public function findGroup($id)
+    public function findGroup($groupId)
     {
-        return $this->modelGroup->find($id);
+        return $this->modelGroup->find($groupId);
     }
 
     public function getGroupModel()
@@ -344,9 +344,9 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->modelGroup;
     }
 
-    public function findImage($id)
+    public function findImage($imageId)
     {
-        return $this->modelImage->find($id);
+        return $this->modelImage->find($imageId);
     }
 
     public function getImageModel()
