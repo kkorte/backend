@@ -157,64 +157,6 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         }
     }
 
-    public function createByUserAndShop(array $attributes, $shopId)
-    {
-        $attributes['shop_id'] = $shopId;
-        $attributes['client_id'] = $attributes['user_id'];
-        $client  = $this->client->selectOneByShopIdAndId($shopId, $attributes['user_id']);
-
-        $this->model->fill($attributes);
-        $this->model->save();
-
-        if (isset($attributes['products'])) {
-            foreach ($attributes['products'] as $product) {
-                $product['product_id'] = $product['id'];
-                $products[] = new InvoiceRule($product);
-            }
-
-            $this->model->products()->saveMany($products);
-        }
-
-        $deliveryInvoiceAddress = new $this->invoiceAddress(new InvoiceAddress());
-        $deliveryInvoiceAddress = $deliveryInvoiceAddress->create($client->clientDeliveryAddress->toArray(), $this->model->id);
-
-        $billInvoiceAddress = new $this->invoiceAddress(new InvoiceAddress());
-        $billInvoiceAddress = $billInvoiceAddress->create($client->clientBillAddress->toArray(), $this->model->id);
-
-        $this->model->fill(array('delivery_order_address_id' => $deliveryInvoiceAddress->id, 'bill_order_address_id' => $billInvoiceAddress->id));
-        $this->model->save();
-
-        if (isset($attributes['sending_method'])) {
-            $sendingMethod = $this->sendingMethod->find($attributes['sending_method']);
-            $price = $sendingMethod->getPriceDetails();
-
-            $sendingMethodArray = $sendingMethod->toArray();
-            $sendingMethodArray['price_with_tax'] = $price['orginal_price_inc_tax'];
-            $sendingMethodArray['price_without_tax'] = $price['orginal_price_ex_tax'];
-            $sendingMethodArray['tax_rate'] = $price['tax_rate'];
-            $sendingMethodArray['sending_method_id'] = $attributes['sending_method'];
-
-            $orderSendingMethod = new InvoiceSendingMethod($sendingMethodArray);
-            $this->model->orderSendingMethod()->save($orderSendingMethod);
-        }
-
-        if (isset($attributes['payment_method'])) {
-            $paymentMethod = $this->paymentMethod->find($attributes['payment_method']);
-            $price = $paymentMethod->getPriceDetails();
-
-            $paymentMethodArray = $paymentMethod->toArray();
-            $paymentMethodArray['price_with_tax'] = $price['orginal_price_inc_tax'];
-            $paymentMethodArray['price_without_tax'] = $price['orginal_price_ex_tax'];
-            $paymentMethodArray['tax_rate'] = $price['tax_rate'];
-            $paymentMethodArray['payment_method_id'] = $attributes['payment_method'];
-
-            $orderPaymentMethod = new InvoicePaymentMethod($paymentMethodArray);
-            $this->model->orderPaymentMethod()->save($orderPaymentMethod);
-        }
-
-        return $this->model;
-    }
-
     public function updateById(array $attributes, $id)
     {
         $this->model = $this->find($id);

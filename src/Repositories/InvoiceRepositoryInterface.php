@@ -14,6 +14,4 @@ interface InvoiceRepositoryInterface
     public function generateInvoiceFromOrder($orderId);
     
     public function find($id);
-
-    public function createByUserAndShop(array $attributes, $shopId);
 }
