@@ -10,6 +10,7 @@ use Image;
 use File;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Validator;
+use Auth;
  
 class BrandRepository implements BrandRepositoryInterface
 {
@@ -50,14 +51,14 @@ class BrandRepository implements BrandRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
             
         $this->model->fill($attributes);
         $this->model->save();
@@ -65,11 +66,10 @@ class BrandRepository implements BrandRepositoryInterface
         return $this->model;
     }
 
-
     public function createImage(array $attributes, $brandId)
     {
-        $userId = \Auth::guard('hideyobackend')->user()->id;
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $userId = Auth::guard('hideyobackend')->user()->id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
        
         $rules = array(
@@ -92,11 +92,11 @@ class BrandRepository implements BrandRepositoryInterface
             $attributes['size'] = $attributes['file']->getSize();
 
             $filename =  str_replace(" ", "_", strtolower($attributes['file']->getClientOriginalName()));
-            $upload_success = $attributes['file']->move($destinationPath, $filename);
+            $uploadSuccess = $attributes['file']->move($destinationPath, $filename);
 
-            if ($upload_success) {
+            if ($uploadSuccess) {
                 $attributes['file'] = $filename;
-                $attributes['path'] = $upload_success->getRealPath();
+                $attributes['path'] = $uploadSuccess->getRealPath();
          
                 $this->modelImage->fill($attributes);
                 $this->modelImage->save();
@@ -105,7 +105,7 @@ class BrandRepository implements BrandRepositoryInterface
                     $sizes = explode(',', $shop->square_thumbnail_sizes);
                     if ($sizes) {
                         foreach ($sizes as $key => $value) {
-                            $image = Image::make($upload_success->getRealPath());
+                            $image = Image::make($uploadSuccess->getRealPath());
                             $explode = explode('x', $value);
                             $image->resize($explode[0], $explode[1]);
                             $image->interlace();
@@ -126,12 +126,12 @@ class BrandRepository implements BrandRepositoryInterface
     public function updateById(array $attributes, $brandId)
     {
         $validator = Validator::make($attributes, $this->rules($brandId, $attributes));
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model = $this->find($brandId);
 
         $result = $this->updateEntity($attributes);
@@ -154,7 +154,7 @@ class BrandRepository implements BrandRepositoryInterface
         $this->model = $this->find($brandId);
 
         if($this->model) {
-            $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+            $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
             $this->modelImage = $this->findImage($imageId);
             return $this->updateImageEntity($attributes);            
         }
@@ -189,7 +189,7 @@ class BrandRepository implements BrandRepositoryInterface
     {
         $this->modelImage = $this->findImage($imageId);
         $filename = storage_path() ."/app/files/brand/".$this->modelImage->brand_id."/".$this->modelImage->file;
-        $shopId = \Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (File::exists($filename)) {
@@ -239,7 +239,7 @@ class BrandRepository implements BrandRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->orderBy('title', 'asc')->get();
     }
     
     public function find($brandId)
