@@ -8,11 +8,13 @@ use Hideyo\Ecommerce\Backend\Models\InvoiceSendingMethod;
 use Hideyo\Ecommerce\Backend\Models\InvoicePaymentMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Hideyo\Repositories\OrderRepositoryInterface;
-use Hideyo\Repositories\ClientRepositoryInterface;
-use Hideyo\Repositories\InvoiceAddressRepositoryInterface;
-use Hideyo\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Backend\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Backend\InvoiceAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\PaymentMethodRepositoryInterface;
+use Validator;
+use Auth;
  
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
@@ -54,8 +56,8 @@ class InvoiceRepository implements InvoiceRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::user()->selected_shop_id;
-        $attributes['modified_by_user_id'] = \Auth::user()->id;
+        $attributes['shop_id'] = Auth::user()->selected_shop_id;
+        $attributes['modified_by_user_id'] = Auth::user()->id;
         $this->model->fill($attributes);
         $this->model->save();
 
@@ -75,7 +77,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             $attributes = $order->toArray();
             $attributes['order_id'] = $order->id;
 
-            $validator = \Validator::make($attributes, $this->rules());
+            $validator = Validator::make($attributes, $this->rules());
 
             if ($validator->fails()) {
                 return $validator;
@@ -160,8 +162,8 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     public function updateById(array $attributes, $id)
     {
         $this->model = $this->find($id);
-        $attributes['shop_id'] = \Auth::user()->selected_shop_id;
-        $attributes['modified_by_user_id'] = \Auth::user()->id;
+        $attributes['shop_id'] = Auth::user()->selected_shop_id;
+        $attributes['modified_by_user_id'] = Auth::user()->id;
         return $this->updateEntity($attributes);
     }
 
@@ -196,7 +198,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::user()->selected_shop_id)->get();
     }
     
     public function find($id)
