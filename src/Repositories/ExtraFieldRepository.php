@@ -24,27 +24,27 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $extraFieldId id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    private function rules($extraFieldId = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
         );
         
-        if ($id) {
+        if ($extraFieldId) {
             $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$id.' = id';
         }
 
         return $rules;
     }
 
-    private function rulesValue($id = false)
+    private function rulesValue($defaultValueId = false)
     {
-        if ($id) {
+        if ($defaultValueId) {
             return [
-                'value' => 'required|unique_with:'.$this->modelValue->getTable().',extra_field_id,'.$id,
+                'value' => 'required|unique_with:'.$this->modelValue->getTable().',extra_field_id,'.$defaultValueId,
             ];
         } else {
             return [
@@ -89,11 +89,11 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
     }
 
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $extraFieldId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($extraFieldId);
         $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules($id));
+        $validator = Validator::make($attributes, $this->rules($extraFieldId));
 
         if ($validator->fails()) {
             return $validator;
@@ -120,16 +120,16 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
     }
 
 
-    public function updateValueById(array $attributes, $extraFieldId, $id)
+    public function updateValueById(array $attributes, $extraFieldId, $defaultValueId)
     {
         $attributes['extra_field_id'] = $extraFieldId;
-        $validator = Validator::make($attributes, $this->rulesValue($id));
+        $validator = Validator::make($attributes, $this->rulesValue($defaultValueId));
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $this->modelValue = $this->findValue($id);
+        $this->modelValue = $this->findValue($defaultValueId);
         $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         return $this->updateValueEntity($attributes);
     }
@@ -145,17 +145,17 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
     }
 
 
-    public function destroy($id)
+    public function destroy($extraFieldId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($extraFieldId);
         $this->model->save();
 
         return $this->model->delete();
     }
 
-    public function destroyValue($id)
+    public function destroyValue($defaultValueId)
     {
-        $this->modelValue = $this->findValue($id);
+        $this->modelValue = $this->findValue($defaultValueId);
         $this->modelValue->save();
 
         return $this->modelValue->delete();
@@ -167,14 +167,14 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
         return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
     
-    public function find($id)
+    public function find($extrafieldId)
     {
         return $this->model->find($id);
     }
 
-    public function findValue($id)
+    public function findValue($defaultValueId)
     {
-        return $this->modelValue->find($id);
+        return $this->modelValue->find($defaultValueId);
     }
 
     public function getModel()
