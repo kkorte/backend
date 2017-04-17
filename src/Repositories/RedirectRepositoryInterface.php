@@ -13,8 +13,6 @@ interface RedirectRepositoryInterface
     
     public function find($id);
 
-    public function checkApiToken($token, $title);
-
     public function findByUrl($url);
 
     public function findByUrlAndActive($url);
