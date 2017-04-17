@@ -20,7 +20,7 @@ First install laravel and have a database connection running on: https://laravel
 
 Install via [composer](https://getcomposer.org/) - In the terminal:
 ```bash
-composer require hideyo/backend
+composer require hideyo/ecommerce-backend
 ```
 
 Now add the following to the `providers` array in your `config/app.php`
