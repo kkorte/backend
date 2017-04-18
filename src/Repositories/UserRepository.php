@@ -3,6 +3,10 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\User;
 use Hash;
+use Validator;
+use Config;
+use Mail;
+use Lang;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -19,19 +23,19 @@ class UserRepository implements UserRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $userId id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($userId = false, $attributes = false)
     {
         $rules = array(
             'email'         => 'required|between:4,65|unique_with:'.$this->model->getTable(),
             'username'      => 'required|between:4,65|unique_with:'.$this->model->getTable()
         );
         
-        if ($id) {
-            $rules['email']     =   'required|between:4,65|unique_with:'.$this->model->getTable().', '.$id.' = id';
-            $rules['username']  =   'required|between:4,65|unique_with:'.$this->model->getTable().', '.$id.' = id';
+        if ($userId) {
+            $rules['email']     =   'required|between:4,65|unique_with:'.$this->model->getTable().', '.$userId.' = id';
+            $rules['username']  =   'required|between:4,65|unique_with:'.$this->model->getTable().', '.$userId.' = id';
         }
 
         return $rules;
@@ -48,9 +52,9 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->all();
     }
     
-    public function find($id)
+    public function find($userId)
     {
-        return $this->model->find($id);
+        return $this->model->find($userId);
     }
 
     /**
@@ -63,7 +67,7 @@ class UserRepository implements UserRepositoryInterface
     public function signup($input)
     {
 
-        $validator = \Validator::make($input, $this->rules());
+        $validator = Validator::make($input, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -93,16 +97,16 @@ class UserRepository implements UserRepositoryInterface
             // $this->model->detachAllRoles($roles);
             // $this->model->attachRole( $role ); // Parameter can be an Role object, array or id.
 
-            if (\Config::get('confide::signup_email')) {
+            if (Config::get('confide::signup_email')) {
                 $user = $this->model;
-                \Mail::queueOn(
-                    \Config::get('confide::email_queue'),
-                    \Config::get('confide::email_account_confirmation'),
+                Mail::queueOn(
+                    Config::get('confide::email_queue'),
+                    Config::get('confide::email_account_confirmation'),
                     compact('user'),
                     function ($message) use ($user) {
                         $message
                             ->to($user->email, $user->username)
-                            ->subject(\Lang::get('confide::confide.email.account_confirmation.subject'));
+                            ->subject(Lang::get('confide::confide.email.account_confirmation.subject'));
                     }
                 );
             }
@@ -111,9 +115,9 @@ class UserRepository implements UserRepositoryInterface
         return $this->model;
     }
 
-    public function updateProfileById(array $attributes, $avatar, $id)
+    public function updateProfileById(array $attributes, $avatar, $userId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($userId);
         if ($this->validator->validate($this->model, 'update')) {
             return $this->updateProfileEntity($attributes, $avatar);
         }
@@ -147,26 +151,22 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function updateById(array $attributes, $avatar, $id)
+    public function updateById(array $attributes, $avatar, $userId)
     {
 
-        $validator = \Validator::make($attributes, $this->rules($id));
+        $validator = Validator::make($attributes, $this->rules($userId));
 
         if ($validator->fails()) {
             return $validator;
         }
 
 
-        $this->model = $this->find($id);
+        $this->model = $this->find($userId);
         return $this->updateEntity($attributes, $avatar);
     }
 
     private function updateEntity(array $attributes = array(), $avatar)
     {
-
-
-
-
         if (count($attributes) > 0) {
             $this->model->username = array_get($attributes, 'username');
             $this->model->email    = array_get($attributes, 'email');
@@ -192,7 +192,7 @@ class UserRepository implements UserRepositoryInterface
             $input['password'] = null;
         }
 
-        return \Confide::logAttempt($input, \Config::get('confide::signup_confirm'));
+        return \Confide::logAttempt($input, Config::get('confide::signup_confirm'));
     }
 
     /**
@@ -221,7 +221,7 @@ class UserRepository implements UserRepositoryInterface
         $user = \Confide::getUserByEmailOrUsername($input);
 
         if ($user) {
-            $correctPassword = \Hash::check(
+            $correctPassword = Hash::check(
                 isset($input['password']) ? $input['password'] : false,
                 $user->password
             );
@@ -268,9 +268,9 @@ class UserRepository implements UserRepositoryInterface
         return $instance->save();
     }
 
-    public function destroy($id)
+    public function destroy($userId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($userId);
         return $this->model->delete();
     }
 
