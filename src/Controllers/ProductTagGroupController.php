@@ -74,7 +74,6 @@ class ProductTagGroupController extends Controller
 
     public function edit($productTagGroupId)
     {
-    
         return view('hideyo_backend::product_tag_group.edit')->with(array(
             'products' => $this->product->selectAll()->pluck('title', 'id'),
             'productTagGroup' => $this->productTagGroup->find($productTagGroupId)

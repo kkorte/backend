@@ -144,9 +144,9 @@ class ProductCombinationController extends Controller
                     return Response::json($attributeGroup->attributes);
                 }
             }
-        } else {
-            return view('hideyo_backend::product-combination.create')->with(array('taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
         }
+        
+        return view('hideyo_backend::product-combination.create')->with(array('taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
     }
 
     public function changeAmount($productId, $id, $amount)

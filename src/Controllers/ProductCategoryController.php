@@ -51,9 +51,9 @@ class ProductCategoryController extends Controller
                     return '<strong>Root:</strong> '.$productCategory->title;
                 } elseif ($productCategory->isChild()) {
                     return '<strong>Child:</strong> '.$productCategory->title;
-                } else {
-                    return $productCategory->title;
                 }
+                
+                return $productCategory->title;
             })
 
             ->addColumn('products', function ($productCategory) {
@@ -69,9 +69,9 @@ class ProductCategoryController extends Controller
             ->addColumn('active', function ($product) {
                 if ($product->active) {
                     return '<a href="#" class="change-active" data-url="/admin/product-category/change-active/'.$product->id.'"><span class="glyphicon glyphicon-ok icon-green"></span></a>';
-                } else {
-                    return '<a href="#" class="change-active" data-url="/admin/product-category/change-active/'.$product->id.'"><span class="glyphicon glyphicon-remove icon-red"></span></a>';
                 }
+                
+                return '<a href="#" class="change-active" data-url="/admin/product-category/change-active/'.$product->id.'"><span class="glyphicon glyphicon-remove icon-red"></span></a>';
             })
 
 
@@ -80,8 +80,6 @@ class ProductCategoryController extends Controller
                     return '<i class="fa fa-check"></i>';
                 }
             })
-
-
             ->addColumn('action', function ($productCategory) {
                 $deleteLink = Form::deleteajax(url()->route('hideyo.product-category.destroy', $productCategory->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $productCategory->title);
                 $links = '<a href="'.url()->route('hideyo.product-category.edit', $productCategory->id).'" class="btn btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
