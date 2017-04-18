@@ -50,9 +50,9 @@ class ProductAmountSeriesController extends Controller
             ->addColumn('active', function ($query) {
                 if ($query->active) {
                     return '<a href="#" class="change-active" data-url="/admin/html-block/change-active/'.$query->id.'"><span class="glyphicon glyphicon-ok icon-green"></span></a>';
-                } else {
-                    return '<a href="#" class="change-active" data-url="/admin/html-block/change-active/'.$query->id.'"><span class="glyphicon glyphicon-remove icon-red"></span></a>';
                 }
+                
+                return '<a href="#" class="change-active" data-url="/admin/html-block/change-active/'.$query->id.'"><span class="glyphicon glyphicon-remove icon-red"></span></a>';
             })
             ->addColumn('action', function ($query) use ($productId) {
                 $deleteLink = Form::deleteajax(url()->route('hideyo.product.amount-series.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
@@ -63,9 +63,9 @@ class ProductAmountSeriesController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::product-amount-series.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
         }
+        
+        return view('hideyo_backend::product-amount-series.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
     }
 
     public function create(Request $request, $productId)

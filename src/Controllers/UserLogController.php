@@ -22,9 +22,9 @@ class UserLogController extends BaseController
                 ->orderColumns('id')
                 ->make();
 
-        } else {
-            return \View::make('user_log.index')->with('user_log', $this->user_log->selectAll());
         }
+        
+        return \View::make('user_log.index')->with('user_log', $this->user_log->selectAll());
     }
 
     public function create()

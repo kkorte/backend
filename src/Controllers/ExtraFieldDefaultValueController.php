@@ -43,9 +43,9 @@ class ExtraFieldDefaultValueController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::extra-field-default-value.index')->with('extraField', $this->extraField->find($extraFieldId));
         }
+        
+        return view('hideyo_backend::extra-field-default-value.index')->with('extraField', $this->extraField->find($extraFieldId));
     }
 
     public function create($extraFieldId)

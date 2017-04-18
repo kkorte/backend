@@ -210,9 +210,9 @@ class ProductController extends Controller
             return $datatables->make(true);
 
 
-        } else {
-            return view('hideyo_backend::product.index')->with('product', $this->product->selectAll());
         }
+        
+        return view('hideyo_backend::product.index')->with('product', $this->product->selectAll());
     }
 
 

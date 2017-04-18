@@ -46,7 +46,6 @@ class ClientTable extends Migration
             $table->unique(array('email','shop_id'), 'unique_email');
         });
 
-
         Schema::create(config('hideyo.db_prefix').'client_address', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client_id')->unsigned();

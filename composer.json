@@ -33,7 +33,7 @@
 
     "autoload": {    
         "psr-4": {
-            "Hideyo\\Ecommere\\Backend\\": "src/"
+            "Hideyo\\Ecommerce\\Backend\\": "src/"
         }
     }
 

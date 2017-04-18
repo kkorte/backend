@@ -40,9 +40,9 @@ class CouponGroupController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::coupon-group.index')->with('couponGroup', $this->coupon->selectAll());
         }
+        
+        return view('hideyo_backend::coupon-group.index')->with('couponGroup', $this->coupon->selectAll());
     }
 
     public function create()

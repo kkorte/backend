@@ -35,7 +35,6 @@ class ExtraFieldTable extends Migration
             $table->timestamps();
             $table->unique(array('extra_field_id','value'), 'unique_extra_field_default_value');
         });
-        
     }
 
     /**

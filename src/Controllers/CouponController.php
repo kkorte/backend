@@ -68,9 +68,9 @@ class CouponController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::coupon.index')->with('coupon', $this->coupon->selectAll());
         }
+        
+        return view('hideyo_backend::coupon.index')->with('coupon', $this->coupon->selectAll());
     }
 
     public function create()

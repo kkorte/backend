@@ -31,9 +31,9 @@ class TaxRateController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::tax_rate.index')->with('taxRate', $this->taxRate->selectAll());
         }
+        
+        return view('hideyo_backend::tax_rate.index')->with('taxRate', $this->taxRate->selectAll());
     }
 
     public function create()

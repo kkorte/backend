@@ -45,9 +45,9 @@ class SendingMethodController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::sending_method.index')->with('sendingMethod', $this->sendingMethod->selectAll());
         }
+        
+        return view('hideyo_backend::sending_method.index')->with('sendingMethod', $this->sendingMethod->selectAll());
     }
 
     public function create()

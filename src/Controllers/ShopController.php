@@ -46,9 +46,9 @@ class ShopController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::shop.index')->with('shop', $this->shop->selectAll());
         }
+        
+        return view('hideyo_backend::shop.index')->with('shop', $this->shop->selectAll());
     }
 
     public function create()

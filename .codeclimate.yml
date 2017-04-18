@@ -1,0 +1,16 @@
+engines:
+  phpmd:
+    enabled: true
+    checks:
+      CleanCode/StaticAccess:
+        enabled: false
+  duplication:
+    enabled: true
+    config:
+      languages:
+        php:
+          mass_threshold: 28
+        javascript:
+ratings:
+  paths:
+  - "**.php"

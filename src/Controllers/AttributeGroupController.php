@@ -113,12 +113,12 @@ class AttributeGroupController extends Controller
         if (isset($result->id)) {
             Notification::success('Attribute group was updated.');
             return redirect()->route('hideyo.attribute-group.index');
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
         }
 
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+    
         return redirect()->back()->withInput();
     }
 

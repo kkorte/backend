@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use File;
 use Image;
+use Validator;
 
 class RedirectRepository implements RedirectRepositoryInterface
 {
@@ -41,7 +42,7 @@ class RedirectRepository implements RedirectRepositoryInterface
     {
         $attributes['modified_by_user_id'] = null;
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
@@ -61,15 +62,10 @@ class RedirectRepository implements RedirectRepositoryInterface
             $attributes['shop_id'] = $shopId;
             $attributes['active'] = 0;
      
-            $validator = \Validator::make($attributes, $this->rules());
+            $validator = Validator::make($attributes, $this->rules());
 
-            if (!$validator->fails()) {
-                $redirect = new Redirect;
-
-                $redirect->fill($attributes);
-                $redirect->save();
-            } else {
-
+            if ($validator->fails()) {
+    
                 $result = $this->model->where('url', '=', $attributes['url'])->get()->first();
                 if ($result) {
                     $attributes['active'] = 0;
@@ -79,6 +75,12 @@ class RedirectRepository implements RedirectRepositoryInterface
                     $this->model = $this->find($result->id);
                     $this->updateEntity($attributes);
                 }
+
+            } else {
+                $redirect = new Redirect;
+                $redirect->fill($attributes);
+                $redirect->save();
+         
             }
         }
 
@@ -99,7 +101,7 @@ class RedirectRepository implements RedirectRepositoryInterface
     public function updateById(array $attributes, $redirectId)
     {
         $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($redirectId));
+        $validator = Validator::make($attributes, $this->rules($redirectId));
 
         if ($validator->fails()) {
             return $validator;

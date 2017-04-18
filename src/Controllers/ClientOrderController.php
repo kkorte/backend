@@ -95,8 +95,6 @@ class ClientOrderController extends Controller
             });
 
             return $datatables->make(true);
-
-
         }
         
         return view('hideyo_backend::client_order.index')->with(array('client' => $client));

@@ -49,9 +49,9 @@ class RedirectController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::redirect.index')->with('redirect', $this->redirect->selectAll());
         }
+        
+        return view('hideyo_backend::redirect.index')->with('redirect', $this->redirect->selectAll());
     }
 
     public function create()
@@ -66,14 +66,14 @@ class RedirectController extends Controller
  
 
         if (isset($result->id)) {
-            \Notification::success('The redirect was created.');
+            Notification::success('The redirect was created.');
             return redirect()->route('hideyo.redirect.index');
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
-            }
         }
 
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        
         return redirect()->back()->withInput();
     }
 
@@ -102,11 +102,11 @@ class RedirectController extends Controller
             if ($results->count()) {
                 $result = $this->redirect->importCsv($results, \Auth::guard('hideyobackend')->user()->selected_shop_id);
 
-                \Notification::success('The redirects are imported.');
+                Notification::success('The redirects are imported.');
        
                 return redirect()->route('hideyo.redirect.index');
             } else {
-                \Notification::success('The redirects imported are failed.');
+                Notification::success('The redirects imported are failed.');
                 return redirect()->route('hideyo.redirect.import');
             }
         });
@@ -138,14 +138,14 @@ class RedirectController extends Controller
         $result  = $this->redirect->updateById(Request::all(), $redirectId);
 
         if (isset($result->id)) {
-            \Notification::success('The redirect was updated.');
+            Notification::success('The redirect was updated.');
             return redirect()->route('hideyo.redirect.index');
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
-            }
         }
 
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
+        
         return redirect()->back()->withInput();
     }
 

@@ -13,6 +13,8 @@ use Hideyo\Ecommerce\Backend\Repositories\AttributeRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
+use Datatables;
+use Form;
 
 class AttributeController extends Controller
 {
@@ -39,9 +41,9 @@ class AttributeController extends Controller
             ->select(['id','value'])
             ->where('attribute_group_id', '=', $attributeGroupId);
             
-            $datatables = \Datatables::of($query)
+            $datatables = Datatables::of($query)
             ->addColumn('action', function ($query) use ($attributeGroupId) {
-                $deleteLink = \Form::deleteajax(url()->route('hideyo.attribute.destroy', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $deleteLink = Form::deleteajax(url()->route('hideyo.attribute.destroy', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = ' <a href="'.url()->route('hideyo.attribute.edit', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>'.$deleteLink;
             
                 return $links;
@@ -78,25 +80,24 @@ class AttributeController extends Controller
         if (isset($result->id)) {
             Notification::success('The extra field was inserted.');
             return redirect()->route('hideyo.attribute.index', $attributeGroupId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
         }
 
+        foreach ($result->errors()->all() as $error) {
+            Notification::error($error);
+        }
         return redirect()->back()->withInput();
     }
 
     /**
      * Show the form for editing the specified resource.
      * @param  integer $attributeGroupId for relation with attributeGroup
-     * @param  int  $id
+     * @param  int  $attributeId
      * @return Redirect
      */
-    public function edit($attributeGroupId, $id)
+    public function edit($attributeGroupId, $attributeId)
     {
         return view('hideyo_backend::attribute.edit')->with(
-            array('attribute' => $this->attribute->find($id))
+            array('attribute' => $this->attribute->find($attributeId))
         );
     }
 
@@ -104,12 +105,12 @@ class AttributeController extends Controller
      * Update the specified resource in storage.
      * @param  \Illuminate\Http\Request  $request
      * @param  integer $attributeGroupId for relation with attributeGroup
-     * @param  int  $id
+     * @param  int  $attributeId
      * @return Redirect
      */
-    public function update(Request $request, $attributeGroupId, $id)
+    public function update(Request $request, $attributeGroupId, $attributeId)
     {
-        $result  = $this->attribute->updateById($request->all(), $attributeGroupId, $id);
+        $result  = $this->attribute->updateById($request->all(), $attributeGroupId, $attributeId);
 
         if (isset($result->id)) {
             Notification::success('Attribute was updated.');
@@ -126,12 +127,12 @@ class AttributeController extends Controller
     /**
      * Remove the specified resource from storage
      * @param  integer $attributeGroupId for relation with attributeGroup
-     * @param  int  $id
+     * @param  int  $attributeId
      * @return Redirect
      */
-    public function destroy($attributeGroupId, $id)
+    public function destroy($attributeGroupId, $attributeId)
     {
-        $result  = $this->attribute->destroy($id);
+        $result  = $this->attribute->destroy($attributeId);
 
         if ($result) {
             Notification::success('Atrribute was deleted.');

@@ -54,9 +54,9 @@ class UserController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::user.index')->with('users', $this->user->selectAll());
         }
+        
+        return view('hideyo_backend::user.index')->with('users', $this->user->selectAll());
     }
 
     public function show($id)
