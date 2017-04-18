@@ -13,9 +13,6 @@ class ConfideSetupUsersTable extends Migration
         Schema::dropIfExists(config('hideyo.db_prefix').'users_groups');
         Schema::dropIfExists(config('hideyo.db_prefix').'users');
 
-
-
-
         // Creates the users table
         Schema::create(config('hideyo.db_prefix').'user', function ($table) {
             $table->increments('id');

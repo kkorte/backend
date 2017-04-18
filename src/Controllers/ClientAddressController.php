@@ -37,7 +37,6 @@ class ClientAddressController extends Controller
 
             $addresses = $this->clientAddress->getModel()->select(
                 [
-                
                 'id',
                 'firstname',
                 'street',
@@ -53,18 +52,19 @@ class ClientAddressController extends Controller
             })
             ->addColumn('delivery', function ($addresses) {
                 if ($addresses->clientDeliveryAddress()->count()) {
-                          return '<span class="glyphicon glyphicon-ok icon-green"></span>';
-                } else {
-                        return '<span class="glyphicon glyphicon-remove icon-red"></span>';
+                    return '<span class="glyphicon glyphicon-ok icon-green"></span>';
                 }
+                
+                return '<span class="glyphicon glyphicon-remove icon-red"></span>';
+                
             })
 
             ->addColumn('bill', function ($addresses) {
                 if ($addresses->clientBillAddress()->count()) {
                           return '<span class="glyphicon glyphicon-ok icon-green"></span>';
-                } else {
-                        return '<span class="glyphicon glyphicon-remove icon-red"></span>';
                 }
+
+                return '<span class="glyphicon glyphicon-remove icon-red"></span>';
             })
             ->addColumn('action', function ($addresses) use ($clientId) {
                 $deleteLink = Form::deleteajax(url()->route('hideyo.client-address.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
@@ -92,10 +92,9 @@ class ClientAddressController extends Controller
         if ($result->id) {
             Notification::success('The client address is inserted.');
             return redirect()->route('hideyo.client-address.index', $clientId);
-        } else {
-            Notification::error('field are required');
         }
-
+        
+        Notification::error('field are required');
         return redirect()->back()->withInput()->withErrors($result->errors()->all());
     }
 
@@ -107,15 +106,14 @@ class ClientAddressController extends Controller
 
     public function update($clientId, $id)
     {
-
         $result  = $this->clientAddress->updateById($this->request->all(), $clientId, $id);
 
         if (!$result->id) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
-        } else {
-            Notification::success('The client address is updated.');
-            return redirect()->route('hideyo.client-address.index', $clientId);
         }
+    
+        Notification::success('The client address is updated.');    
+        return redirect()->route('hideyo.client-address.index', $clientId); 
     }
 
     public function destroy($clientId, $id)

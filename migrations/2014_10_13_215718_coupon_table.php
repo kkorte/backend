@@ -46,8 +46,6 @@ class CouponTable extends Migration
             $table->integer('modified_by_user_id')->unsigned()->nullable();
             $table->foreign('modified_by_user_id')->references('id')->on(config('hideyo.db_prefix').'user')->onDelete('set null');
             $table->unique(array('title','shop_id'), 'unique_coupon_group_title');
-
-
             $table->timestamps();
         });
 
@@ -96,8 +94,6 @@ class CouponTable extends Migration
             $table->unique(array('coupon_id','payment_method_id'), 'unique_payment_method_id');
             $table->timestamps();
         });
-        
-
     }
 
     /**
