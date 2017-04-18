@@ -41,7 +41,6 @@ class NewsGroupController extends Controller
                 return $links;
             });
 
-
             return $datatables->make(true);
 
         }
