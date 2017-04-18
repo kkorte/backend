@@ -9,7 +9,7 @@ engines:
     config:
       languages:
         php:
-          mass_threshold: 20
+          mass_threshold: 28
         javascript:
 ratings:
   paths:
