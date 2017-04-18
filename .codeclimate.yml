@@ -1,4 +1,6 @@
 engines:
+  phpmd:
+    enabled: true
   phpcodesniffer:
     enabled: true
     config:
