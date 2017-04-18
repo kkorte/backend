@@ -5,7 +5,7 @@ namespace Hideyo\Ecommerce\Backend\Models;
 use Hideyo\Ecommerce\Backend\Models\BaseModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class FaqItem extends BaseModel
+class FaqItem extends BaseModel {
 
     use Sluggable;
 
@@ -23,7 +23,7 @@ class FaqItem extends BaseModel
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'question'
             ]
         ];
     }

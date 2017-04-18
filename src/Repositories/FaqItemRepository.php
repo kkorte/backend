@@ -20,22 +20,22 @@ class FaqItemRepository implements FaqItemRepositoryInterface
     /**
      * The validation rules for the model.
      *
-     * @param  integer  $id id attribute model    
+     * @param  integer  $faqItemId id attribute model    
      * @return array
      */
-    private function rules($id = false, $attributes = false)
+    private function rules($faqItemId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
-                'meta_title'                 => 'required|between:4,65|unique_with:faq_item, shop_id'
+                'meta_title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
             );
         } else {
             $rules = array(
-                'question'                 => 'required|between:4,65|unique:faq_item'
+                'question'                 => 'required|between:4,65|unique:'.$this->model->getTable().''
             );
             
-            if ($id) {
-                $rules['question'] =   'required|between:4,65|unique:faq_item,question,'.$id;
+            if ($faqItemId) {
+                $rules['question'] =   'required|between:4,65|unique:'.$this->model->getTable().',question,'.$faqItemId;
             }
         }
 
@@ -63,16 +63,16 @@ class FaqItemRepository implements FaqItemRepositoryInterface
         return $this->model;
     }
 
-    public function updateById(array $attributes, $id)
+    public function updateById(array $attributes, $faqItemId)
     {
-        $validator = \Validator::make($attributes, $this->rules($id, $attributes));
+        $validator = \Validator::make($attributes, $this->rules($faqItemId, $attributes));
 
         if ($validator->fails()) {
             return $validator;
         }
 
         $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-        $this->model = $this->find($id);
+        $this->model = $this->find($faqItemId);
         return $this->updateEntity($attributes);
     }
 
@@ -86,9 +86,9 @@ class FaqItemRepository implements FaqItemRepositoryInterface
         return $this->model;
     }
 
-    public function destroy($id)
+    public function destroy($faqItemId)
     {
-        $this->model = $this->find($id);
+        $this->model = $this->find($faqItemId);
         $this->model->save();
 
         return $this->model->delete();
@@ -106,9 +106,9 @@ class FaqItemRepository implements FaqItemRepositoryInterface
     }
 
 
-    function selectOneById($id)
+    function selectOneById($faqItemId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $faqItemId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -120,42 +120,10 @@ class FaqItemRepository implements FaqItemRepositoryInterface
     {
          return $this->model->where('shop_id', '=', $shopId)->get();
     }
-
-    function selectAllActiveByShopIdAndGroupSlug($shopId, $faqItemGroupSlug)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->whereHas('faqItemGroup', function ($query) use ($faqItemGroupSlug) {
-            $query->where('slug', '=', $faqItemGroupSlug);
-         })->get();
-    }
-
-    function selectOneByShopIdAndId($shopId, $id)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
-            $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
-    }
-
-
-
-    function selectOneByShopIdAndSlug($shopId, $slug)
-    {
-        $result = $this->model->where('shop_id', '=', $shopId)->where('slug', '=', $slug)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
-    }
-
     
-    public function find($id)
+    public function find($faqItemId)
     {
-        return $this->model->find($id);
+        return $this->model->find($faqItemId);
     }
 
     public function getModel()

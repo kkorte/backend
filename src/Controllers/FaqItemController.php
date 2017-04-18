@@ -33,20 +33,23 @@ class FaqItemController extends Controller
             $query = $this->faq->getModel()->select(
                 [
                 
-                'faq_item.id', 'faq_item.faq_item_group_id',
-                'faq_item.question', 'faq_item.answer', 'faq_item_group.title as grouptitle']
+                config()->get('hideyo.db_prefix').'faq_item.id', 
+                config()->get('hideyo.db_prefix').'faq_item.faq_item_group_id',
+                config()->get('hideyo.db_prefix').'faq_item.question', 
+                config()->get('hideyo.db_prefix').'faq_item.answer', 
+                config()->get('hideyo.db_prefix').'faq_item_group.title as grouptitle']
             )
             ->with(array('faqItemGroup'))
-            ->leftJoin('faq_item_group', 'faq_item_group.id', '=', 'faq_item.faq_item_group_id')
-            ->where('faq_item.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->leftJoin(config()->get('hideyo.db_prefix').'faq_item_group', config()->get('hideyo.db_prefix').'faq_item_group.id', '=', config()->get('hideyo.db_prefix').'faq_item.faq_item_group_id')
+            ->where(config()->get('hideyo.db_prefix').'faq_item.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
 
             $datatables = Datatables::of($query)
             ->addColumn('faqitemgroup', function ($query) {
                 return $query->grouptitle;
             })
             ->addColumn('action', function ($query) {
-                $deleteLink = Form::deleteajax('/admin/faq/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $links = '<a href="/admin/faq/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.faq.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $links = '<a href="'.url()->route('hideyo.faq.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $links;
             });
