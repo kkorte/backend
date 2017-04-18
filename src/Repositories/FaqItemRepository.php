@@ -99,12 +99,10 @@ class FaqItemRepository implements FaqItemRepositoryInterface
         return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
-
     public function selectAllGroups()
     {
         return $this->modelFaqItemGroup->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
-
 
     function selectOneById($faqItemId)
     {
