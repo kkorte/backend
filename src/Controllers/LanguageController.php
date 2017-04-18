@@ -36,9 +36,9 @@ class LanguageController extends BaseController
                 ->make();
 
 
-        } else {
-            return \View::make('language.index')->with('language', $this->language->selectAll());
         }
+        
+        return \View::make('language.index')->with('language', $this->language->selectAll());
     }
 
     public function create()

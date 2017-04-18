@@ -62,9 +62,9 @@ class InvoiceController extends Controller
             return $datatables->make(true);
 
 
-        } else {
-            return view('hideyo_backend::invoice.index')->with('invoice', $this->invoice->selectAll());
         }
+        
+        return view('hideyo_backend::invoice.index')->with('invoice', $this->invoice->selectAll());
     }
 
     public function show($id)

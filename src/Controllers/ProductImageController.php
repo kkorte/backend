@@ -43,9 +43,9 @@ class ProductImageController extends Controller
             });
 
             return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::product_image.index')->with(array('product' => $product));
         }
+        
+        return view('hideyo_backend::product_image.index')->with(array('product' => $product));
     }
 
     public function create($productId)

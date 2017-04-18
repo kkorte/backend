@@ -60,7 +60,6 @@ class HtmlBlockController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('hideyo_backend::html-block.index')->with('htmlBlock', $this->htmlBlock->selectAll());

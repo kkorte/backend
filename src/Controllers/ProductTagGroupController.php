@@ -44,9 +44,9 @@ class ProductTagGroupController extends Controller
             return $datatables->make(true);
 
 
-        } else {
-            return view('hideyo_backend::product_tag_group.index')->with('productTagGroup', $this->productTagGroup->selectAll());
         }
+        
+        return view('hideyo_backend::product_tag_group.index')->with('productTagGroup', $this->productTagGroup->selectAll());
     }
 
     public function create()

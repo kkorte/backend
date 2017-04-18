@@ -60,9 +60,9 @@ class ExtraFieldController extends Controller
             return $datatables->make(true);
 
 
-        } else {
-            return view('hideyo_backend::extra-field.index')->with('extraField', $this->extraField->selectAll());
         }
+        
+        return view('hideyo_backend::extra-field.index')->with('extraField', $this->extraField->selectAll());
     }
 
     public function create()

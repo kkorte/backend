@@ -49,9 +49,9 @@ class RedirectController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::redirect.index')->with('redirect', $this->redirect->selectAll());
         }
+        
+        return view('hideyo_backend::redirect.index')->with('redirect', $this->redirect->selectAll());
     }
 
     public function create()

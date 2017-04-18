@@ -34,12 +34,7 @@ class GeneralSettingController extends Controller
                 return $links;
             });
 
-
-
-
-
             return $datatables->make(true);
-
         }
         
         return view('hideyo_backend::general-setting.index')->with('generalSetting', $this->generalSetting->selectAll());

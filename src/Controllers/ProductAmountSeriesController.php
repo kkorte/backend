@@ -63,9 +63,9 @@ class ProductAmountSeriesController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::product-amount-series.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
         }
+        
+        return view('hideyo_backend::product-amount-series.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
     }
 
     public function create(Request $request, $productId)

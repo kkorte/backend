@@ -68,8 +68,6 @@ class ClientController extends Controller
             });
 
             return $datatables->make(true);
-
-
         }
         
         return view('hideyo_backend::client.index')->with('client', $this->client->selectAll());    

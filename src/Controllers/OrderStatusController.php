@@ -57,9 +57,9 @@ class OrderStatusController extends Controller
             return $datatables->make(true);
 
 
-        } else {
-            return view('hideyo_backend::order-status.index')->with('content', $this->orderStatus->selectAll());
         }
+        
+        return view('hideyo_backend::order-status.index')->with('content', $this->orderStatus->selectAll());
     }
 
     public function create()

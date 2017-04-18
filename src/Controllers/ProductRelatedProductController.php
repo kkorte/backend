@@ -29,7 +29,7 @@ class ProductRelatedProductController extends Controller
 
     public function index($productId)
     {
-           $product = $this->product->find($productId);
+        $product = $this->product->find($productId);
         if ($this->request->wantsJson()) {
 
             $query = $this->productRelatedProduct->getModel()->where('product_id', '=', $productId);
@@ -48,9 +48,9 @@ class ProductRelatedProductController extends Controller
                 });
 
                 return $datatables->make(true);
-        } else {
-            return view('hideyo_backend::product_related_product.index')->with(array('product' => $product));
         }
+        
+        return view('hideyo_backend::product_related_product.index')->with(array('product' => $product));
     }
 
     public function create($productId)

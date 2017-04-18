@@ -53,9 +53,9 @@ class FaqItemController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return view('hideyo_backend::faq-item.index')->with('faq', $this->faq->selectAll());
         }
+        
+        return view('hideyo_backend::faq-item.index')->with('faq', $this->faq->selectAll());
     }
 
     public function create()

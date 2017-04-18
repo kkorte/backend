@@ -117,8 +117,8 @@ class InventoryController extends Controller
 
             return $datatables->make(true);
 
-        } else {
-            return \View::make('inventory.index')->with('inventory', $this->inventory->selectAll());
         }
+        
+        return \View::make('inventory.index')->with('inventory', $this->inventory->selectAll());
     }
 }
