@@ -8,11 +8,11 @@ use Hideyo\Ecommerce\Backend\Models\InvoiceSendingMethod;
 use Hideyo\Ecommerce\Backend\Models\InvoicePaymentMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Hideyo\Ecommerce\Backend\OrderRepositoryInterface;
-use Hideyo\Ecommerce\Backend\ClientRepositoryInterface;
-use Hideyo\Ecommerce\Backend\InvoiceAddressRepositoryInterface;
-use Hideyo\Ecommerce\Backend\SendingMethodRepositoryInterface;
-use Hideyo\Ecommerce\Backend\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\InvoiceAddressRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
 use Validator;
 use Auth;
  

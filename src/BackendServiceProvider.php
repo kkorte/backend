@@ -13,6 +13,7 @@ use Yajra\Datatables\DatatablesServiceProvider;
 use Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider;
 use Auth;
 use Schema;
+use Route;
 
 class BackendServiceProvider extends ServiceProvider
 {
@@ -315,4 +316,20 @@ class BackendServiceProvider extends ServiceProvider
         }
     }
 
+
+    protected function generateCrud($path, $controllerName, $routeName = false) {
+
+        if(!$routeName) {
+            $routeName = $path;
+        }
+
+        Route::resource($path, $controllerName, ['names' => [
+            'index'     => 'hideyo.'.$routeName.'.index',
+            'create'    => 'hideyo.'.$routeName.'.create',
+            'store'     => 'hideyo.'.$routeName.'.store',
+            'edit'      => 'hideyo.'.$routeName.'.edit',
+            'update'    => 'hideyo.'.$routeName.'.update',
+            'destroy'   => 'hideyo.'.$routeName.'.destroy'
+        ]]);
+    }
 }
