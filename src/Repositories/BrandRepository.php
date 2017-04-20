@@ -16,12 +16,16 @@ class BrandRepository implements BrandRepositoryInterface
 {
     protected $model;
 
-    public function __construct(Brand $model, BrandImage $modelImage, RedirectRepositoryInterface $redirect, ShopRepositoryInterface $shop)
+    public function __construct(
+        Brand $model, 
+        BrandImage $modelImage, 
+        RedirectRepositoryInterface $redirect, 
+        ShopRepositoryInterface $shop)
     {
-        $this->model = $model;
-        $this->modelImage = $modelImage;
-        $this->redirect = $redirect;
-        $this->shop = $shop;
+        $this->model        = $model;
+        $this->modelImage   = $modelImage;
+        $this->redirect     = $redirect;
+        $this->shop         = $shop;
     }
 
     /**
@@ -34,18 +38,19 @@ class BrandRepository implements BrandRepositoryInterface
     {
         if (isset($attributes['seo'])) {
             $rules = array(
-                'meta_title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
+                'meta_title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
             );
 
             return $rules;
         } 
 
         $rules = array(
-            'title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'rank'  => 'required|integer'
         );
         
         if ($brandId) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$brandId.' = id';
+            $rules['title'] =   $rules['title'].', '.$brandId.' = id';
         }
      
         return $rules;
@@ -182,7 +187,6 @@ class BrandRepository implements BrandRepositoryInterface
         // $redirectResult = $this->redirect->create(array('active' => 1, 'url' => $url, 'redirect_url' => $newUrl, 'shop_id' => $this->model->shop_id));
 
         $this->model->save();
-
         return $this->model->delete();
     }
 
@@ -199,7 +203,7 @@ class BrandRepository implements BrandRepositoryInterface
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        \File::delete(public_path() . "/files/brand/".$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
+                        File::delete(public_path() . "/files/brand/".$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
                     }
                 }
             }
