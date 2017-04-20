@@ -34,13 +34,12 @@ class UserRepository implements UserRepositoryInterface
         );
         
         if ($userId) {
-            $rules['email']     =   'required|between:4,65|unique_with:'.$this->model->getTable().', '.$userId.' = id';
-            $rules['username']  =   'required|between:4,65|unique_with:'.$this->model->getTable().', '.$userId.' = id';
+            $rules['email']     =   $rules['email'].', '.$userId.' = id';
+            $rules['username']  =   $rules['email'].', '.$userId.' = id';
         }
 
         return $rules;
     }
-
 
     public function getValidator()
     {
@@ -66,7 +65,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function signup($input)
     {
-
         $validator = Validator::make($input, $this->rules());
 
         if ($validator->fails()) {

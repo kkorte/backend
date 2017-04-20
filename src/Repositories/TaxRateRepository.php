@@ -26,12 +26,12 @@ class TaxRateRepository implements TaxRateRepositoryInterface
     private function rules($taxRateId = false)
     {
         $rules = array(
-            'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
-
+            'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'rate'  => 'numeric|required'
         );
         
-        if ($taxRateId) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$taxRateId.' = id';
+        if($taxRateId) {
+            $rules['title'] =   $rules['title'].','.$taxRateId.' = id';
         }
 
         return $rules;
@@ -92,7 +92,6 @@ class TaxRateRepository implements TaxRateRepositoryInterface
         return $this->model;
     }
 
-    
     public function find($taxRateId)
     {
         return $this->model->find($taxRateId);

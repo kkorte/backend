@@ -4,6 +4,8 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
 use Hideyo\Ecommerce\Backend\Models\SendingMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Auth;
+use Validator;
  
 class SendingMethodRepository implements SendingMethodRepositoryInterface
 {
@@ -24,33 +26,28 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
     private function rules($sendingMethodId = false)
     {
         $rules = array(
-            'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
-
+            'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'price'  => 'numeric|required'
         );
         
-        if ($sendingMethodId) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$sendingMethodId.' = id';
+        if($sendingMethodId) {
+            $rules['title'] =   $rules['title'].','.$sendingMethodId.' = id';
         }
 
         return $rules;
     }
 
-  
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
-           
-        if (empty($attributes['total_price_discount_value'])) {
-            $attributes['total_price_discount_value'] = null;
-        }
-            
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
+                       
         $this->model->fill($attributes);
         $this->model->save();
 
@@ -64,17 +61,13 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
     public function updateById(array $attributes, $sendingMethodId)
     {
         $this->model = $this->find($sendingMethodId);
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($sendingMethodId));
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules($sendingMethodId));
        
-        if (empty($attributes['total_price_discount_value'])) {
-            $attributes['total_price_discount_value'] = null;
-        }
-
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
     }
 
@@ -102,12 +95,12 @@ class SendingMethodRepository implements SendingMethodRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectOneById($sendingMethodId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $sendingMethodId)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $sendingMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;

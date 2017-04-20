@@ -26,12 +26,12 @@ class GeneralSettingRepository implements GeneralSettingRepositoryInterface
     private function rules($settingId = false)
     {
         $rules = array(
-            'name' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
-
+            'name' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'value' => 'required'
         );
         
         if ($settingId) {
-            $rules['name'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$settingId.' = id';
+            $rules['name'] =   $rules['name'].','.$settingId.' = id';
         }
 
         return $rules;
@@ -94,8 +94,7 @@ class GeneralSettingRepository implements GeneralSettingRepositoryInterface
     }
 
     function selectOneByShopIdAndName($shopId, $name)
-    {
-        
+    {     
         $result = $this->model
         ->where('shop_id', '=', $shopId)->where('name', '=', $name)->get();
         
@@ -108,6 +107,5 @@ class GeneralSettingRepository implements GeneralSettingRepositoryInterface
     public function getModel()
     {
         return $this->model;
-    }
-    
+    } 
 }
