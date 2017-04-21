@@ -108,8 +108,8 @@ class BrandRepository implements BrandRepositoryInterface
             $this->modelImage->fill($attributes);
             $this->modelImage->save();
 
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
                         $image = Image::make($uploadSuccess->getRealPath());
@@ -199,8 +199,8 @@ class BrandRepository implements BrandRepositoryInterface
 
         if (File::exists($filename)) {
             File::delete($filename);
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
                         File::delete(public_path().config('hideyo.public_path')."/brand/".$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
@@ -216,10 +216,10 @@ class BrandRepository implements BrandRepositoryInterface
     {
         $result = $this->modelImage->get();
         $shop = $this->shop->find($shopId);
-        if($result AND $shop->square_thumbnail_sizes) {
+        if($result AND $shop->thumbnail_square_sizes) {
             foreach ($result as $productImage) {
-                if ($shop->square_thumbnail_sizes) {
-                    $sizes = explode(',', $shop->square_thumbnail_sizes);
+                if ($shop->thumbnail_square_sizes) {
+                    $sizes = explode(',', $shop->thumbnail_square_sizes);
                     if ($sizes) {
                         foreach ($sizes as $key => $value) {
                             if (!File::exists(public_path().config('hideyo.public_path')."/brand/".$value."/".$productImage->brand_id."/")) {

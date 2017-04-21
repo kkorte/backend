@@ -102,8 +102,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
                 $this->imageModel->fill($attributes);
                 $this->imageModel->save();
 
-                if ($shop->square_thumbnail_sizes) {
-                    $sizes = explode(',', $shop->square_thumbnail_sizes);
+                if ($shop->thumbnail_square_sizes) {
+                    $sizes = explode(',', $shop->thumbnail_square_sizes);
                     if ($sizes) {
                         foreach ($sizes as $key => $value) {
                             $image = Image::make($uploadSuccess->getRealPath());
@@ -129,8 +129,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         $result = $this->model->get();
         $shop = $this->shop->find($shopId);
         foreach ($result as $productImage) {
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
                         if (!File::exists(public_path() . config('hideyo.public_path') . "/product_category/".$value."/".$productImage->product_category_id."/")) {
@@ -269,8 +269,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 
         if (File::exists($filename)) {
             File::delete($filename);
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
                         File::delete(public_path() . "/files/product_category/".$value."/".$this->imageModel->product_category_id."/".$this->imageModel->file);

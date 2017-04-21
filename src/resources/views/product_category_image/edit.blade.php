@@ -33,7 +33,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             {!! Form::label('rank', 'Rank', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
