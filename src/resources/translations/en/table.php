@@ -28,6 +28,7 @@ return [
     'combinations'                  => 'Combinations',
     'status'                        => 'Status',
     'price'                         => 'Price', 
+    'file'                          => 'File',
     'sending-method'                => 'Sendingway', 
     'payment-method'                => 'Paymentway',
     'pdf-text'                      => 'Pdf text',
