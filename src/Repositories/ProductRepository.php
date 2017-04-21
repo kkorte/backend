@@ -126,7 +126,7 @@ class ProductRepository implements ProductRepositoryInterface
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
 
-        $destinationPath = storage_path() . "/app/files/product/".$productId;
+        $destinationPath = storage_path().config('hideyo.storage_path'). "/product/".$productId;
         $attributes['user_id'] = $userId;
         $attributes['product_id'] = $productId;
 
@@ -155,8 +155,8 @@ class ProductRepository implements ProductRepositoryInterface
                 $file = new ProductImage;
                 $file->fill($attributes);
                 $file->save();
-                if ($shop->square_thumbnail_sizes) {
-                    $sizes = explode(',', $shop->square_thumbnail_sizes);
+                if ($shop->thumbnail_square_sizes) {
+                    $sizes = explode(',', $shop->thumbnail_square_sizes);
                     if ($sizes) {
                         foreach ($sizes as $key => $value) {
                             $image = Image::make($upload_success->getRealPath());
@@ -167,13 +167,13 @@ class ProductRepository implements ProductRepositoryInterface
                             }
 
 
-                            if (!File::exists(public_path() . "/files/product/".$value."/".$productId."/")) {
-                                File::makeDirectory(public_path() . "/files/product/".$value."/".$productId."/", 0777, true);
+                            if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/")) {
+                                File::makeDirectory(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/", 0777, true);
                             }
 
                             $image->interlace();
 
-                            $image->save(public_path() . "/files/product/".$value."/".$productId."/".$filename);
+                            $image->save(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/".$filename);
                         }
                     }
                 }
@@ -200,23 +200,23 @@ class ProductRepository implements ProductRepositoryInterface
         $result = $this->model->get();
         $shop = $this->shop->find($shopId);
         foreach ($result as $productImage) {
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        if (!File::exists(public_path() . "/files/product/".$value."/".$productImage->product_id."/")) {
-                            File::makeDirectory(public_path() . "/files/product/".$value."/".$productImage->product_id."/", 0777, true);
+                        if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productImage->product_id."/")) {
+                            File::makeDirectory(public_path().config('hideyo.public_path').  "/product/".$value."/".$productImage->product_id."/", 0777, true);
                         }
 
-                        if (!File::exists(public_path() . "/files/product/".$value."/".$productImage->product_id."/".$productImage->file)) {
-                            if (File::exists(storage_path() ."/app/files/product/".$productImage->product_id."/".$productImage->file)) {
-                                $image = Image::make(storage_path() ."/app/files/product/".$productImage->product_id."/".$productImage->file);
+                        if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productImage->product_id."/".$productImage->file)) {
+                            if (File::exists(storage_path() .config('hideyo.storage_path'). "/product/".$productImage->product_id."/".$productImage->file)) {
+                                $image = Image::make(storage_path() .config('hideyo.storage_path'). "/product/".$productImage->product_id."/".$productImage->file);
                                 $explode = explode('x', $value);
                                 $image->fit($explode[0], $explode[1]);
                             
                                 $image->interlace();
 
-                                $image->save(public_path() . "/files/product/".$value."/".$productImage->product_id."/".$productImage->file);
+                                $image->save(public_path().config('hideyo.storage_path') .config('hideyo.storage_path').  "/product/".$value."/".$productImage->product_id."/".$productImage->file);
                             }
                         }
                     }
@@ -340,11 +340,11 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
 
-        $directory = storage_path() . "/app/files/product/".$this->model->id;
+        $directory = storage_path() .config('hideyo.storage_path'). "/product/".$this->model->id;
         File::deleteDirectory($directory);
 
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
-        File::deleteDirectory(public_path() . "/files/product/".$this->model->id);
+        File::deleteDirectory(public_path().config('hideyo.public_path').  "/product/".$this->model->id);
         $this->model->addAllToIndex();
         return $this->model->delete();
     }
@@ -361,11 +361,11 @@ class ProductRepository implements ProductRepositoryInterface
             File::delete($filename);
 
 
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        File::delete(public_path() . "/files/product/".$value."/".$this->modelImage->product_id."/".$this->modelImage->file);
+                        File::delete(public_path().config('hideyo.public_path').  "/product/".$value."/".$this->modelImage->product_id."/".$this->modelImage->file);
                     }
                 }
             }
