@@ -13,16 +13,16 @@
           <li><a href="{!! URL::route('hideyo.product-category.index') !!}">Product categories</a></li>
             <li><a href="{!! URL::route('hideyo.product-category.edit', $productCategory->id) !!}">edit</a></li>
             <li><a href="{!! URL::route('hideyo.product-category.edit', $productCategory->id) !!}">{!! $productCategory->title !!}</a></li>
-            <li><a href="{!! URL::route('hideyo.product-category.{productCategoryId}.images.index', $productCategory->id) !!}">images</a></li>
+            <li><a href="{!! URL::route('hideyo.product-category-images.index', $productCategory->id) !!}">images</a></li>
           <li class="active">edit image</li> 
         </ol>
 
-        <a href="{!! URL::route('hideyo.product-category.{productCategoryId}.images.index', $productCategory->id) !!}" class="btn btn-green btn-icon icon-left pull-right">back to images<i class="entypo-plus"></i></a>
+        <a href="{!! URL::route('hideyo.product-category-images.index', $productCategory->id) !!}" class="btn btn-green btn-icon icon-left pull-right">back to images<i class="entypo-plus"></i></a>
 
         <h2>Productcategory <small>images edit</small></h2>
         {!! Notification::showAll() !!}
         <hr/>
-        {!! Form::model($productCategoryImage, array('method' => 'put', 'route' => array('hideyo.product-category.{productCategoryId}.images.update', $productCategory->id, $productCategoryImage->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($productCategoryImage, array('method' => 'put', 'route' => array('hideyo.product-category-images.update', $productCategory->id, $productCategoryImage->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
 
@@ -44,7 +44,7 @@
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-5">
                 {!! Form::submit('Save', array('class' => 'btn btn-default')) !!}
-                <a href="{!! URL::route('hideyo.product-category.{productCategoryId}.images.store', $productCategory->id) !!}" class="btn btn-large">Cancel</a>
+                <a href="{!! URL::route('hideyo.product-category-images.store', $productCategory->id) !!}" class="btn btn-large">Cancel</a>
             </div>
         </div>
 

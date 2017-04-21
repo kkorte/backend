@@ -39,9 +39,8 @@ class ProductCategoryImageController extends Controller
                 return '<img src="/files/product_category/100x100/'.$image->product_category_id.'/'.$image->file.'"  />';
             })
             ->addColumn('action', function ($image) use ($productCategoryId) {
-                $deleteLink = Form::deleteajax('/admin/product-category/'.$productCategoryId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $links = '<a href="/admin/product-category/'.$productCategoryId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
-
+                $deleteLink = Form::deleteajax(url()->route('hideyo.product-category-images.destroy', array('productCategoryId' => $productCategoryId, 'id' => $image->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $links = '<a href="'.url()->route('hideyo.product-category-images.edit', array('productCategoryId' => $productCategoryId, 'id' => $image->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 return $links;
             });
 
@@ -67,7 +66,7 @@ class ProductCategoryImageController extends Controller
  
         if (isset($result->id)) {
             Notification::success('The category image was inserted.');
-            return redirect()->route('hideyo.product-category.{productCategoryId}.images.index', $productCategoryId);
+            return redirect()->route('hideyo.product-category-images.index', $productCategoryId);
         } else {
             foreach ($result->errors()->all() as $error) {
                 Notification::error($error);
@@ -88,7 +87,7 @@ class ProductCategoryImageController extends Controller
 
         if (isset($result->id)) {
             Notification::success('The category image was updated.');
-            return redirect()->route('hideyo.product-category.{productCategoryId}.images.index', $productCategoryId);
+            return redirect()->route('hideyo.product-category-images.index', $productCategoryId);
         }
 
         foreach ($result->errors()->all() as $error) {
@@ -103,7 +102,7 @@ class ProductCategoryImageController extends Controller
 
         if ($result) {
             Notification::success('The file was deleted.');
-            return redirect()->route('hideyo.product-category.{productCategoryId}.images.index', $productCategoryId);
+            return redirect()->route('hideyo.product-category-images.index', $productCategoryId);
         }
     }
 }

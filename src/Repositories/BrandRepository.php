@@ -92,7 +92,7 @@ class BrandRepository implements BrandRepositoryInterface
 
         $attributes['modified_by_user_id'] = $userId;
 
-        $destinationPath = storage_path() . "/app/files/brand/".$brandId;
+        $destinationPath = storage_path().config('hideyo.storage_path')."/brand/".$brandId;
         $attributes['user_id'] = $userId;
         $attributes['brand_id'] = $brandId;
         $attributes['extension'] = $attributes['file']->getClientOriginalExtension();
@@ -117,10 +117,10 @@ class BrandRepository implements BrandRepositoryInterface
                         $image->resize($explode[0], $explode[1]);
                         $image->interlace();
 
-                        if (!File::exists(public_path() . "/files/brand/".$value."/".$brandId."/")) {
-                            File::makeDirectory(public_path() . "/files/brand/".$value."/".$brandId."/", 0777, true);
+                        if (!File::exists(public_path().config('hideyo.public_path')."/brand/".$value."/".$brandId."/")) {
+                            File::makeDirectory(public_path().config('hideyo.public_path')."/brand/".$value."/".$brandId."/", 0777, true);
                         }
-                        $image->save(public_path() . "/files/brand/".$value."/".$brandId."/".$filename);
+                        $image->save(public_path().config('hideyo.public_path')."/brand/".$value."/".$brandId."/".$filename);
                     }
                 }
             }
@@ -193,7 +193,7 @@ class BrandRepository implements BrandRepositoryInterface
     public function destroyImage($imageId)
     {
         $this->modelImage = $this->findImage($imageId);
-        $filename = storage_path() ."/app/files/brand/".$this->modelImage->brand_id."/".$this->modelImage->file;
+        $filename = storage_path().config('hideyo.public_path')."/brand/".$this->modelImage->brand_id."/".$this->modelImage->file;
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
@@ -203,7 +203,7 @@ class BrandRepository implements BrandRepositoryInterface
                 $sizes = explode(',', $shop->square_thumbnail_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        File::delete(public_path() . "/files/brand/".$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
+                        File::delete(public_path().config('hideyo.public_path')."/brand/".$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
                     }
                 }
             }
@@ -216,24 +216,24 @@ class BrandRepository implements BrandRepositoryInterface
     {
         $result = $this->modelImage->get();
         $shop = $this->shop->find($shopId);
-        foreach ($result as $productImage) {
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
-                if ($sizes) {
-                    foreach ($sizes as $key => $value) {
-                        if (!File::exists(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/")) {
-                            File::makeDirectory(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/", 0777, true);
-                        }
+        if($result AND $shop->square_thumbnail_sizes) {
+            foreach ($result as $productImage) {
+                if ($shop->square_thumbnail_sizes) {
+                    $sizes = explode(',', $shop->square_thumbnail_sizes);
+                    if ($sizes) {
+                        foreach ($sizes as $key => $value) {
+                            if (!File::exists(public_path().config('hideyo.public_path')."/brand/".$value."/".$productImage->brand_id."/")) {
+                                File::makeDirectory(public_path().config('hideyo.public_path')."/brand/".$value."/".$productImage->brand_id."/", 0777, true);
+                            }
 
-                        if (!File::exists(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/".$productImage->file)) {
-                            if (File::exists(storage_path() ."/app/files/brand/".$productImage->brand_id."/".$productImage->file)) {
-                                $image = Image::make(storage_path() ."/app/files/brand/".$productImage->brand_id."/".$productImage->file);
-                                $explode = explode('x', $value);
-                                $image->fit($explode[0], $explode[1]);
-                            
-                                $image->interlace();
-
-                                $image->save(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/".$productImage->file);
+                            if (!File::exists(public_path().config('hideyo.public_path')."/brand/".$value."/".$productImage->brand_id."/".$productImage->file)) {
+                                if (File::exists(storage_path().config('hideyo.public_path')."/brand/".$productImage->brand_id."/".$productImage->file)) {
+                                    $image = Image::make(storage_path().config('hideyo.public_path')."/brand/".$productImage->brand_id."/".$productImage->file);
+                                    $explode = explode('x', $value);
+                                    $image->fit($explode[0], $explode[1]);
+                                    $image->interlace();
+                                    $image->save(public_path().config('hideyo.public_path')."/brand/".$value."/".$productImage->brand_id."/".$productImage->file);
+                                }
                             }
                         }
                     }
