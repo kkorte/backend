@@ -25,6 +25,9 @@ class ProductRepository implements ProductRepositoryInterface
         $this->modelImage = $modelImage;
         $this->redirect = $redirect;
         $this->shop = $shop;
+        $this->storageImagePath = storage_path() .config('hideyo.storage_path'). "/product/";
+        $this->publicImagePath = public_path() .config('hideyo.public_path'). "/product/";
+
     }
 
     /**
@@ -126,7 +129,7 @@ class ProductRepository implements ProductRepositoryInterface
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
 
-        $destinationPath = storage_path().config('hideyo.storage_path'). "/product/".$productId;
+        $destinationPath = $this->storageImagePath.$productId;
         $attributes['user_id'] = $userId;
         $attributes['product_id'] = $productId;
 
@@ -166,13 +169,13 @@ class ProductRepository implements ProductRepositoryInterface
                                 $image->resize($explode[0], $explode[1]);
                             }
 
-                            if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/")) {
-                                File::makeDirectory(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/", 0777, true);
+                            if (!File::exists($this->publicImagePath.$value."/".$productId."/")) {
+                                File::makeDirectory($this->publicImagePath.$value."/".$productId."/", 0777, true);
                             }
 
                             $image->interlace();
 
-                            $image->save(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/".$filename);
+                            $image->save($this->publicImagePath.$value."/".$productId."/".$filename);
                         }
                     }
                 }
@@ -200,19 +203,19 @@ class ProductRepository implements ProductRepositoryInterface
                 $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productImage->product_id."/")) {
-                            File::makeDirectory(public_path().config('hideyo.public_path').  "/product/".$value."/".$productImage->product_id."/", 0777, true);
+                        if (!File::exists($this->publicImagePath.$value."/".$productImage->product_id."/")) {
+                            File::makeDirectory($this->publicImagePath.$value."/".$productImage->product_id."/", 0777, true);
                         }
 
-                        if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productImage->product_id."/".$productImage->file)) {
-                            if (File::exists(storage_path() .config('hideyo.storage_path'). "/product/".$productImage->product_id."/".$productImage->file)) {
-                                $image = Image::make(storage_path() .config('hideyo.storage_path'). "/product/".$productImage->product_id."/".$productImage->file);
+                        if (!File::exists($this->publicImagePath.$value."/".$productImage->product_id."/".$productImage->file)) {
+                            if (File::exists($this->storageImagePath.$productImage->product_id."/".$productImage->file)) {
+                                $image = Image::make($this->storageImagePath.$productImage->product_id."/".$productImage->file);
                                 $explode = explode('x', $value);
                                 $image->fit($explode[0], $explode[1]);
                             
                                 $image->interlace();
 
-                                $image->save(public_path().config('hideyo.storage_path') .config('hideyo.storage_path').  "/product/".$value."/".$productImage->product_id."/".$productImage->file);
+                                $image->save($this->publicImagePath.$value."/".$productImage->product_id."/".$productImage->file);
                             }
                         }
                     }
@@ -336,11 +339,11 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
 
-        $directory = storage_path() .config('hideyo.storage_path'). "/product/".$this->model->id;
+        $directory = $this->storageImagePath.$this->model->id;
         File::deleteDirectory($directory);
 
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
-        File::deleteDirectory(public_path().config('hideyo.public_path').  "/product/".$this->model->id);
+        File::deleteDirectory($this->publicImagePath.$this->model->id);
         $this->model->addAllToIndex();
         return $this->model->delete();
     }
@@ -361,7 +364,7 @@ class ProductRepository implements ProductRepositoryInterface
                 $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        File::delete(public_path().config('hideyo.public_path').  "/product/".$value."/".$this->modelImage->product_id."/".$this->modelImage->file);
+                        File::delete($this->publicImagePath.$value."/".$this->modelImage->product_id."/".$this->modelImage->file);
                     }
                 }
             }
