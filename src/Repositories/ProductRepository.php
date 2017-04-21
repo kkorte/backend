@@ -166,7 +166,6 @@ class ProductRepository implements ProductRepositoryInterface
                                 $image->resize($explode[0], $explode[1]);
                             }
 
-
                             if (!File::exists(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/")) {
                                 File::makeDirectory(public_path().config('hideyo.public_path').  "/product/".$value."/".$productId."/", 0777, true);
                             }
@@ -189,11 +188,8 @@ class ProductRepository implements ProductRepositoryInterface
         }
 
         $file->save();
-
-
         return $file;
     }
-
 
     public function refactorAllImagesByShopId($shopId)
     {

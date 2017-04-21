@@ -13,11 +13,11 @@
 
             <li><a href="{!! URL::route('hideyo.news.edit', $news->id) !!}">edit</a></li>
             <li><a href="{!! URL::route('hideyo.news.edit', $news->id) !!}">{!! $news->title !!}</a></li>
-            <li><a href="{!! URL::route('hideyo.news.{newsId}.images.index', $news->id) !!}">images</a></li>
+            <li><a href="{!! URL::route('hideyo.news-images.index', $news->id) !!}">images</a></li>
           <li class="active">upload image</li>            
         </ol>
 
-        <a href="{!! URL::route('hideyo.news.{newsId}.images.index', $news->id) !!}" class="btn btn-danger pull-right">back to images<i class="entypo-plus"></i></a>
+        <a href="{!! URL::route('hideyo.news-images.index', $news->id) !!}" class="btn btn-danger pull-right">back to images<i class="entypo-plus"></i></a>
 
         <h2>News <small>images create</small></h2>
         <hr/>
@@ -26,7 +26,7 @@
                 <div class="panel-body">
 
                     {!! Notification::showAll() !!}
-    			    {!! Form::open(array('route' => array('hideyo.news.{newsId}.images.store', $news->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+    			    {!! Form::open(array('route' => array('hideyo.news-images.store', $news->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
     				    <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
     			        <div class="form-group">
@@ -54,7 +54,7 @@
     			        <div class="form-group">
     			            <div class="col-sm-offset-3 col-sm-5">
     			                {!! Form::submit('Save', array('class' => 'btn btn-default')) !!}
-    			                <a href="{!! URL::route('hideyo.news.{newsId}.images.store', $news->id) !!}" class="btn btn-large">Cancel</a>
+    			                <a href="{!! URL::route('hideyo.news-images.store', $news->id) !!}" class="btn btn-large">Cancel</a>
     			            </div>
     			        </div>
 
