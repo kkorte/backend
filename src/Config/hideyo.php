@@ -6,7 +6,7 @@ return [
     |--------------------------------------------------------------------------
     | Database prefix
     |--------------------------------------------------------------------------
-    | We work with a prefix to prefend conflicts. 
+    | We work with a prefix to prevent conflicts. 
     |
     */
 

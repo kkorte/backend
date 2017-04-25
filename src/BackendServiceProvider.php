@@ -43,7 +43,8 @@ class BackendServiceProvider extends ServiceProvider
     
         $this->publishes([
             __DIR__.'/config/hideyo.php' => config_path('hideyo.php'),
-            __DIR__.'/../seeds' => database_path('seeds/'),            
+            __DIR__.'/../seeds' => database_path('seeds/'),
+            __DIR__.'/../factories' => database_path('factories/'),
             __DIR__.'/Resources/views' => resource_path('views/vendor/hideyobackend'),
             __DIR__.'/Resources/scss' => resource_path('assets/vendor/hideyobackend/scss'),
             __DIR__.'/Resources/javascript' => resource_path('assets/vendor/hideyobackend/javascript'),
