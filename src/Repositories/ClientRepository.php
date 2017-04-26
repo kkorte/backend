@@ -2,11 +2,8 @@
 namespace Hideyo\Ecommerce\Backend\Repositories;
 
 use Hideyo\Ecommerce\Backend\Models\Client;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
-use Mail;
 use Config;
 use Carbon\Carbon;
 use Validator;
@@ -474,6 +471,11 @@ class ClientRepository implements ClientRepositoryInterface
         $address = $this->clientAddress->updateByIdAndShopId($shopId, $attributes, $clientId, $addressId);
     }
 
+    /**
+     * @param string $salt
+     * @param integer $count
+     * @param integer $length
+     */
     public static function protectPassword($password, $salt, $count, $length, $algorithm = 'sha256', $start = 0)
     {
         $keyblock = $start + $length;                        // Key blocks to compute
@@ -481,12 +483,12 @@ class ClientRepository implements ClientRepositoryInterface
 
         // Create key
         for ($block=1; $block <= $keyblock; $block++) {
-          // Initial hash for this block
+            // Initial hash for this block
             $ib = $hash = hash_hmac($algorithm, $salt . pack('N', $block), $password, true);
 
-          // Perform block iterations
+            // Perform block iterations
             for ($i=1; $i<$count; $i++) {
-              // XOR each iterate
+                // XOR each iterate
                 $ib ^= ($hash = hash_hmac($algorithm, $hash, $password, true));
             }
 

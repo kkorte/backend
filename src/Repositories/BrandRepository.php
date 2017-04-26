@@ -3,8 +3,6 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\Brand;
 use Hideyo\Ecommerce\Backend\Models\BrandImage;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface;
 use Image;
 use File;

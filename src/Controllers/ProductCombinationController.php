@@ -9,11 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-
-
 use Hideyo\Ecommerce\Backend\Repositories\ProductCombinationRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
 

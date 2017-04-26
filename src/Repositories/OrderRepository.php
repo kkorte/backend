@@ -3,11 +3,6 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\Order;
 use Hideyo\Ecommerce\Backend\Models\OrderProduct;
-use Hideyo\Ecommerce\Backend\Models\OrderAddress;
-use Hideyo\Ecommerce\Backend\Models\OrderSendingMethod;
-use Hideyo\Ecommerce\Backend\Models\OrderPaymentMethod;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\OrderAddressRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\SendingMethodRepositoryInterface;

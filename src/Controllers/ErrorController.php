@@ -1,11 +1,8 @@
 <?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 use App\Http\Controllers\Controller;
-
 use Hideyo\Ecommerce\Backend\Repositories\ExceptionRepositoryInterface;
-
 use Illuminate\Http\Request;
-use Notification;
 
 class ErrorController extends Controller
 {

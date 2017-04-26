@@ -11,7 +11,6 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Auth;
 use Notification;

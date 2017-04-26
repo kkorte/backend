@@ -9,12 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-
-use Dutchbridge\Validators\UserValidator;
-use Dutchbridge\Datatable\UserNumberDatatable;
 use Hideyo\Ecommerce\Backend\Repositories\UserRepositoryInterface;
-
-use Hideyo\Ecommerce\Backend\Repositories\UserLogRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Auth;
 use Notification;

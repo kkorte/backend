@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use Hideyo\Ecommerce\Backend\Models\Shop as Shop;
 use Hideyo\Ecommerce\Backend\Models\User as User;
 

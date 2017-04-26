@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\GeneralSettingRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

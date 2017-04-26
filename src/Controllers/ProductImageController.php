@@ -11,7 +11,6 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 

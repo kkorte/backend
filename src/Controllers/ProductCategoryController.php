@@ -9,11 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-
-use Dutchbridge\Datatable\ProductCategoryDatatable;
 use Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Auth;

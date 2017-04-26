@@ -17,12 +17,9 @@ use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface;
-use Dutchbridge\Services\AssembleOrder;
-
 use Carbon\Carbon;
 use Request;
 use Notification;
-use App\ProductAttribute;
 use App\Events\OrderChangeStatus;
 use Event;
 use Response;

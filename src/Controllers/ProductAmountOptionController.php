@@ -9,17 +9,13 @@
  */
 
 use App\Http\Controllers\Controller;
-
 use Dutchbridge\Datatable\ProductAmountOptionDatatable;
 use Hideyo\Ecommerce\Backend\Repositories\ProductAmountOptionRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\AttributeGroupRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
-
 use Request;
 use Notification;
-use Redirect;
 use Response;
 use Datatables;
 use Form;

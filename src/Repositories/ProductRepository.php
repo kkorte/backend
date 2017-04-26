@@ -1,7 +1,6 @@
 <?php
 namespace Hideyo\Ecommerce\Backend\Repositories;
  
-use Hideyo\Ecommerce\Backend\Repositories\ProductImageRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Models\Product;
