@@ -1,4 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/hideyo/ecommerce-backend.png)](https://codeclimate.com/github/hideyo/ecommerce-backend)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kkorte/ecommerce-backend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kkorte/ecommerce-backend/?branch=master)
 <a href="https://packagist.org/packages/hideyo/ecommerce-backend"><img src="https://poser.pugx.org/hideyo/ecommerce-backend/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/hideyo/ecommerce-backend"><img src="https://poser.pugx.org/hideyo/ecommerce-backend/license.svg" alt="License"></a>
 # Hideyo e-commerce backend
