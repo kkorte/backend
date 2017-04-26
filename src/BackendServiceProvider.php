@@ -15,6 +15,7 @@ use Intervention\Image\ImageServiceProvider;
 use Auth;
 use Schema;
 use Route;
+use Laravel\Dusk\DuskServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider
 {
@@ -297,6 +298,9 @@ class BackendServiceProvider extends ServiceProvider
             'Hideyo\Ecommerce\Backend\Repositories\ExceptionRepository'
         );
 
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 
     /**

@@ -27,7 +27,8 @@
         "khill/lavacharts": "~3.0",
         "tylercd100/lern": "^3.6",
         "unisharp/laravel-ckeditor": "^4.5",
-        "unisharp/laravel-filemanager": "^1.6"
+        "unisharp/laravel-filemanager": "^1.6",
+        "laravel/dusk": "^1.0@dev"
     },
 
 
