@@ -22,3 +22,10 @@ build:
             version: 7.1
             ini:
                 'date.timezone': 'Europe/Amsterdam'
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=tests/output/coverage.xml'
+                coverage:
+                    file: 'coverage.xml'
+                    format: 'clover'
