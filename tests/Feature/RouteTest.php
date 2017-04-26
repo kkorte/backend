@@ -23,28 +23,28 @@ class RouteTest extends TestCase
 
     public function testApplication()
     {
-    	$user = $this->_getUser();
+        $user = $this->_getUser();
 
         $response = $this->actingAs($user, 'hideyobackend')
-                         ->get('/hideyo/admin/order-status');
+                            ->get('/hideyo/admin/order-status');
 
         $response->assertSuccessful();
     }
 
     private function _getUser() {
-    	$result = \Auth::guard('hideyobackend')->attempt([
-    		'email'    => 'admin@admin.com',
-    		'password' => 'admin'
-		]);
+        $result = \Auth::guard('hideyobackend')->attempt([
+            'email'    => 'admin@admin.com',
+            'password' => 'admin'
+        ]);
 
-    	if ($result) {
-    		return \Auth::guard('hideyobackend')->user();
-    	}
+        if ($result) {
+            return \Auth::guard('hideyobackend')->user();
+        }
 
         return factory(\Hideyo\Ecommerce\Backend\Models\User::class)->create([
-        	'username' => 'admin@admin.com',
-        	'email'    => 'admin@admin.com',
-        	'password' => \Hash::make('admin')
-    	]);
+            'username' => 'admin@admin.com',
+            'email'    => 'admin@admin.com',
+            'password' => \Hash::make('admin')
+        ]);
     }
 }

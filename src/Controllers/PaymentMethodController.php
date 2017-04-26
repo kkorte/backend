@@ -11,8 +11,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\OrderStatusRepositoryInterface;
-
-
 use Illuminate\Http\Request;
 use Notification;
 use Form;

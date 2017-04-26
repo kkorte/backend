@@ -1,17 +1,10 @@
 <?php namespace Hideyo\Ecommerce\Backend\Controllers;
 
 use App\Http\Controllers\Controller;
-use Dutchbridge\Datatable\OrderDatatable;
-use Dutchbridge\Datatable\OrderWholesaleDatatable;
 use Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\UserRepositoryInterface;
-
-use Request;
 use Auth;
-use Notification;
-use Lava;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {

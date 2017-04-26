@@ -10,10 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\NewsRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\NewsGroupRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

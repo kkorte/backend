@@ -13,9 +13,7 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\ClientAddressRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ClientRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\OrderRepositoryInterface;
-
 use Illuminate\Http\Request;
-use Form;
 use Datatables;
 
 class ClientOrderController extends Controller

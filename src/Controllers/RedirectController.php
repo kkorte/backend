@@ -11,12 +11,6 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\RedirectRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
-
-use Session;
-use Apiclient;
-use Input;
-use Response;
-use View;
 use Request;
 use Notification;
 use Excel;

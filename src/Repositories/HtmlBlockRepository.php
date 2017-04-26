@@ -2,8 +2,6 @@
 namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\HtmlBlock;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use File;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Image;

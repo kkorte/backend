@@ -3,8 +3,6 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
 
 use Hideyo\Ecommerce\Backend\Models\ExtraField;
 use Hideyo\Ecommerce\Backend\Models\ExtraFieldDefaultValue;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Auth;
 use Validator;
 

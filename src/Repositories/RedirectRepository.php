@@ -2,10 +2,6 @@
 namespace Hideyo\Ecommerce\Backend\Repositories;
 
 use Hideyo\Ecommerce\Backend\Models\Redirect;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use File;
-use Image;
 use Validator;
 
 class RedirectRepository implements RedirectRepositoryInterface

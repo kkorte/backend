@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(Hideyo\Ecommerce\Backend\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(Hideyo\Ecommerce\Backend\Models\User::class, function(Faker\Generator $faker) {
     static $password;
 
     return [

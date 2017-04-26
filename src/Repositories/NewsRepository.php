@@ -4,7 +4,6 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
 use Hideyo\Ecommerce\Backend\Models\News;
 use Hideyo\Ecommerce\Backend\Models\NewsImage;
 use Hideyo\Ecommerce\Backend\Models\NewsGroup;
-use Carbon\Carbon;
 use Image;
 use File;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
@@ -322,7 +321,7 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function selectAllGroups()
     {
-       return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     public function find($newsId)

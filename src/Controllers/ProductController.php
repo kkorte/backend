@@ -9,21 +9,14 @@
  */
 
 use App\Http\Controllers\Controller;
-
-
 use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ProductCategoryRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\ProductWeightTypeRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\ProductExtraFieldValueRepositoryInterface;
-use Hideyo\Ecommerce\Backend\Repositories\ExtraFieldRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\ProductCombinationRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\BrandRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Excel;
-use DB;
 
 class ProductController extends Controller
 {

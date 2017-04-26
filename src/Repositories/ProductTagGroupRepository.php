@@ -2,8 +2,6 @@
 namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\ProductTagGroup;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
  
 class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
 {

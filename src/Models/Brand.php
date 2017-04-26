@@ -3,7 +3,6 @@
 namespace Hideyo\Ecommerce\Backend\Models;
 
 use Hideyo\Ecommerce\Backend\Models\BaseModel;
-
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Brand extends BaseModel

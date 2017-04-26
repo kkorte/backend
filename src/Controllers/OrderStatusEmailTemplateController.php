@@ -11,7 +11,6 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\OrderStatusEmailTemplateRepositoryInterface;
 use Hideyo\Ecommerce\Backend\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

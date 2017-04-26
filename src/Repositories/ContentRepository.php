@@ -6,8 +6,6 @@ use Hideyo\Ecommerce\Backend\Models\ContentImage;
 use Hideyo\Ecommerce\Backend\Models\ContentGroup;
 use Image;
 use File;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Hideyo\Ecommerce\Backend\Repositories\ShopRepositoryInterface;
 use Validator;
 use Auth;

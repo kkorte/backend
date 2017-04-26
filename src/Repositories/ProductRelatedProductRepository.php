@@ -2,7 +2,6 @@
 namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\ProductRelatedProduct;
-use Hideyo\Ecommerce\Backend\Models\Product;
 use Hideyo\Ecommerce\Backend\Repositories\ProductRepositoryInterface;
 use Auth;
  

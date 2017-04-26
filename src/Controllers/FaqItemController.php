@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Backend\Repositories\FaqItemRepositoryInterface;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

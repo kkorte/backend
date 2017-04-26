@@ -2,8 +2,6 @@
 namespace Hideyo\Ecommerce\Backend\Repositories;
  
 use Hideyo\Ecommerce\Backend\Models\AttributeGroup;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Validator;
  
 class AttributeGroupRepository implements AttributeGroupRepositoryInterface
