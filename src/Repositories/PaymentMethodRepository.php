@@ -4,6 +4,8 @@ namespace Hideyo\Ecommerce\Backend\Repositories;
 use Hideyo\Ecommerce\Backend\Models\PaymentMethod;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Validator;
+use Auth;
  
 class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 {
@@ -25,12 +27,11 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
-            'price' => 'nullable'
-
+            'price'  => 'numeric|required'
         );
         
         if ($paymentMethodId) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$paymentMethodId.' = id';
+            $rules['title'] =   $rules['title'].','.$paymentMethodId.' = id';
         }
 
         return $rules;
@@ -38,13 +39,13 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -54,13 +55,13 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
     public function updateById(array $attributes, $paymentMethodId)
     {
         $this->model = $this->find($paymentMethodId);
-        $attributes['shop_id'] = \Auth::guard('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules($paymentMethodId));
+        $attributes['shop_id'] = Auth::guard('hideyobackend')->user()->selected_shop_id;
+        $validator = Validator::make($attributes, $this->rules($paymentMethodId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \Auth::guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = Auth::guard('hideyobackend')->user()->id;
 
 
         return $this->updateEntity($attributes);
@@ -86,7 +87,7 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllActiveByShopId($shopId)
@@ -106,7 +107,7 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 
     function selectOneById($paymentMethodId)
     {
-        $result = $this->model->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
+        $result = $this->model->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;

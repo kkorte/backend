@@ -19,6 +19,9 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     {
         $this->model = $model;
         $this->shop = $shop;
+        $this->storageImagePath = storage_path() .config('hideyo.storage_path'). "/html_block/";
+        $this->publicImagePath = public_path() .config('hideyo.public_path'). "/html_block/";
+
     }
 
     /**
@@ -68,7 +71,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
             if ($validator->fails()) {
                 return $validator;
             } else {
-                $destinationPath = storage_path() . "/app/files/html_block/".$this->model->id;
+                $destinationPath = $this->storageImagePath.$this->model->id;
                 $filename =  str_replace(" ", "_", strtolower($attributes['image']->getClientOriginalName()));
                 $uploadSuccess = $attributes['image']->move($destinationPath, $filename);
 
@@ -79,18 +82,16 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
                     $this->model->fill($attributes);
                     $this->model->save();
 
-
-
                     if ($this->model->thumbnail_height and $this->model->thumbnail_width) {
                         $image = Image::make($uploadSuccess->getRealPath());
                
                         $image->resize($this->model->thumbnail_width, $this->model->thumbnail_height);
                         $image->interlace();
 
-                        if (!File::exists(public_path() . "/files/html_block/".$this->model->id."/")) {
-                            File::makeDirectory(public_path() . "/files/html_block/".$this->model->id."/", 0777, true);
+                        if (!File::exists($this->publicImagePath.$this->model->id."/")) {
+                            File::makeDirectory($this->publicImagePath.$this->model->id."/", 0777, true);
                         }
-                        $image->save(public_path() . "/files/html_block/".$this->model->id."/".$filename);
+                        $image->save($this->publicImagePath.$this->model->id."/".$filename);
                     }
                 }
             }
@@ -98,16 +99,16 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 
 
         if ($this->model->thumbnail_height and $this->model->thumbnail_width and $this->model->image_file_name) {
-            File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id."/");
+            File::deleteDirectory($this->publicImagePath.$this->model->id."/");
             $image = Image::make($this->model->image_file_path);
    
             $image->resize($this->model->thumbnail_width, $this->model->thumbnail_height);
             $image->interlace();
 
-            if (!File::exists(public_path() . "/files/html_block/".$this->model->id."/")) {
-                File::makeDirectory(public_path() . "/files/html_block/".$this->model->id."/", 0777, true);
+            if (!File::exists($this->publicImagePath.$this->model->id."/")) {
+                File::makeDirectory($this->publicImagePath.$this->model->id."/", 0777, true);
             }
-            $image->save(public_path() . "/files/html_block/".$this->model->id."/".$this->model->image_file_name);
+            $image->save($this->publicImagePath.$this->model->id."/".$this->model->image_file_name);
         }
 
    
@@ -203,7 +204,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
             if ($validator->fails()) {
                 return $validator;
             } else {
-                $destinationPath = storage_path() . "/app/files/html_block/".$this->model->id;
+                $destinationPath = $this->storageImagePath.$this->model->id;
                 $filename =  str_replace(" ", "_", strtolower($attributes['image']->getClientOriginalName()));
                 File::deleteDirectory($destinationPath);
 
@@ -223,16 +224,16 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
             $image = Image::make($this->model->image_file_path);
    
 
-            File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id);
+            File::deleteDirectory($this->publicImagePath.$this->model->id);
 
 
             $image->resize($this->model->thumbnail_width, $this->model->thumbnail_height);
             $image->interlace();
 
-            if (!File::exists(public_path() . "/files/html_block/".$this->model->id."/")) {
-                File::makeDirectory(public_path() . "/files/html_block/".$this->model->id."/", 0777, true);
+            if (!File::exists($this->publicImagePath.$this->model->id."/")) {
+                File::makeDirectory($this->publicImagePath.$this->model->id."/", 0777, true);
             }
-            $image->save(public_path() . "/files/html_block/".$this->model->id."/".$this->model->image_file_name);
+            $image->save($this->publicImagePath.$this->model->id."/".$this->model->image_file_name);
         }
 
 
@@ -242,9 +243,9 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     public function destroy($htmlBlockId)
     {
         $this->model = $this->find($htmlBlockId);
-        File::deleteDirectory(public_path() . "/files/html_block/".$this->model->id."/");
+        File::deleteDirectory($this->publicImagePath.$this->model->id."/");
 
-        $destinationPath = storage_path() . "/app/files/html_block/".$this->model->id;
+        $destinationPath = $this->storageImagePath.$this->model->id;
 
         File::deleteDirectory($destinationPath);
         $this->model->save();
@@ -313,5 +314,4 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     {
         return $this->model;
     }
-
 }

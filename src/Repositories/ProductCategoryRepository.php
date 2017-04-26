@@ -50,6 +50,10 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         $this->imageModel = $imageModel;
         $this->redirect = $redirect;
         $this->shop = $shop;
+        $this->storageImagePath = storage_path() .config('hideyo.storage_path'). "/product_category/";
+        $this->publicImagePath = public_path() .config('hideyo.public_path'). "/product_category/";
+
+
     }
   
     public function create(array $attributes)
@@ -76,7 +80,7 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
 
-        $destinationPath = storage_path() . "/app/files/product_category/".$productCategoryId;
+        $destinationPath = $this->storageImagePath.$productCategoryId;
         $attributes['user_id'] = $userId;
         $attributes['product_category_id'] = $productCategoryId;
         $attributes['extension'] = $attributes['file']->getClientOriginalExtension();
@@ -102,8 +106,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
                 $this->imageModel->fill($attributes);
                 $this->imageModel->save();
 
-                if ($shop->square_thumbnail_sizes) {
-                    $sizes = explode(',', $shop->square_thumbnail_sizes);
+                if ($shop->thumbnail_square_sizes) {
+                    $sizes = explode(',', $shop->thumbnail_square_sizes);
                     if ($sizes) {
                         foreach ($sizes as $key => $value) {
                             $image = Image::make($uploadSuccess->getRealPath());
@@ -111,10 +115,10 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
                             $image->resize($explode[0], $explode[1]);
                             $image->interlace();
 
-                            if (!File::exists(public_path() . "/files/product_category/".$value."/".$productCategoryId."/")) {
-                                File::makeDirectory(public_path() . "/files/product_category/".$value."/".$productCategoryId."/", 0777, true);
+                            if (!File::exists($this->publicImagePath.$value."/".$productCategoryId."/")) {
+                                File::makeDirectory($this->publicImagePath.$value."/".$productCategoryId."/", 0777, true);
                             }
-                            $image->save(public_path() . "/files/product_category/".$value."/".$productCategoryId."/".$filename);
+                            $image->save($this->publicImagePath.$value."/".$productCategoryId."/".$filename);
                         }
                     }
                 }
@@ -129,23 +133,23 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         $result = $this->model->get();
         $shop = $this->shop->find($shopId);
         foreach ($result as $productImage) {
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        if (!File::exists(public_path() . "/files/product_category/".$value."/".$productImage->product_category_id."/")) {
-                            File::makeDirectory(public_path() . "/files/product_category/".$value."/".$productImage->product_category_id."/", 0777, true);
+                        if (!File::exists($this->publicImagePath.$value."/".$productImage->product_category_id."/")) {
+                            File::makeDirectory($this->publicImagePath.$value."/".$productImage->product_category_id."/", 0777, true);
                         }
 
-                        if (!File::exists(public_path() . "/files/product_category/".$value."/".$productImage->product_category_id."/".$productImage->file)) {
-                            if (File::exists(storage_path() ."/app/files/product_category/".$productImage->product_category_id."/".$productImage->file)) {
-                                $image = Image::make(storage_path() ."/app/files/product_category/".$productImage->product_category_id."/".$productImage->file);
+                        if (!File::exists($this->publicImagePath.$value."/".$productImage->product_category_id."/".$productImage->file)) {
+                            if (File::exists($this->storageImagePath.$productImage->product_category_id."/".$productImage->file)) {
+                                $image = Image::make($this->storageImagePath.$productImage->product_category_id."/".$productImage->file);
                                 $explode = explode('x', $value);
                                 $image->fit($explode[0], $explode[1]);
                             
                                 $image->interlace();
 
-                                $image->save(public_path() . "/files/product_category/".$value."/".$productImage->product_category_id."/".$productImage->file);
+                                $image->save($this->publicImagePath.$value."/".$productImage->product_category_id."/".$productImage->file);
                             }
                         }
                     }
@@ -269,8 +273,8 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
 
         if (File::exists($filename)) {
             File::delete($filename);
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
                         File::delete(public_path() . "/files/product_category/".$value."/".$this->imageModel->product_category_id."/".$this->imageModel->file);

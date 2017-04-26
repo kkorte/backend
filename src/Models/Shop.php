@@ -18,7 +18,7 @@ class Shop extends BaseModel
     protected $table = 'shop';
 
     // Add the 'avatar' attachment to the fillable array so that it's mass-assignable on this model.
-    protected $fillable = ['active', 'email', 'wholesale', 'currency_code', 'title', 'url', 'description', 'meta_title', 'meta_description', 'meta_keywords', 'logo_file_name', 'logo_file_path'];
+    protected $fillable = ['active', 'email', 'wholesale', 'currency_code', 'title', 'url', 'description', 'meta_title', 'meta_description', 'meta_keywords', 'logo_file_name', 'logo_file_path', 'thumbnail_square_sizes', 'thumbnail_widescreen_sizes'];
 
     protected $sluggable = array(
         'build_from'        => 'title',
@@ -57,16 +57,16 @@ class Shop extends BaseModel
         return $this->hasMany('Hideyo\Ecommerce\Backend\Models\Product');
     }
 
-    public function setSquareThumbnailSizesAttribute($value = null)
+    public function setThumbnailSquareSizesAttribute($value = null)
     {
         $values  = explode(',', $value);
 
         $newValues = serialize($values);
 
-        $this->attributes['square_thumbnail_sizes'] = $newValues;
+        $this->attributes['thumbnail_square_sizes'] = $newValues;
     }
 
-    public function getSquareThumbnailSizesAttribute($value = null)
+    public function getThumbnailSquareSizesAttribute($value = null)
     {
         if ($value) {
             $values = unserialize($value);
@@ -77,16 +77,16 @@ class Shop extends BaseModel
         }
     }
 
-    public function setWidescreenThumbnailSizesAttribute($value = null)
+    public function setThumbnailWidescreenSizesAttribute($value = null)
     {
         $values  = explode(',', $value);
 
         $newValues = serialize($values);
 
-        $this->attributes['widescreen_thumbnail_sizes'] = $newValues;
+        $this->attributes['thumbnail_widescreen_sizes'] = $newValues;
     }
 
-    public function getWidescreenThumbnailSizesAttribute($value = null)
+    public function getThumbnailWidescreenSizesAttribute($value = null)
     {
         if ($value) {
             $values = unserialize($value);

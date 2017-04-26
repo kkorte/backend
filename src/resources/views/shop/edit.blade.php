@@ -69,18 +69,18 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('square_thumbnail_sizes', 'Square thumbnail sizes', array('class' => 'col-sm-3 control-label')) !!}
+            {!! Form::label('thumbnail_square_sizes', 'Square thumbnail sizes', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('square_thumbnail_sizes', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                {!! Form::text('thumbnail_square_sizes', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('widescreen_thumbnail_sizes', 'Widescreen thumbnail sizes', array('class' => 'col-sm-3 control-label')) !!}
+            {!! Form::label('thumbnail_widescreen_sizes', 'Widescreen thumbnail sizes', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('widescreen_thumbnail_sizes', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                {!! Form::text('thumbnail_widescreen_sizes', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
             </div>
         </div>
 

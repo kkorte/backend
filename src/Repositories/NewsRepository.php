@@ -29,6 +29,8 @@ class NewsRepository implements NewsRepositoryInterface
         $this->modelImage = $modelImage;
         $this->shop = $shop;
         $this->modelGroup = $modelGroup;
+        $this->storageImagePath = storage_path() .config('hideyo.storage_path'). "/news/";
+        $this->publicImagePath = public_path() .config('hideyo.public_path'). "/news/";
     }
   
     /**
@@ -102,8 +104,7 @@ class NewsRepository implements NewsRepositoryInterface
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
-
-        $destinationPath = storage_path() . "/app/files/news/".$newsId;
+        $destinationPath = $this->storageImagePath.$newsId;
         $attributes['user_id'] = $userId;
         $attributes['news_id'] = $newsId;
         $attributes['extension'] = $attributes['file']->getClientOriginalExtension();
@@ -130,8 +131,8 @@ class NewsRepository implements NewsRepositoryInterface
             $this->modelImage->fill($attributes);
             $this->modelImage->save();
 
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $keyImage => $valueImage) {
                         $image = Image::make($uploadSuccess->getRealPath());
@@ -139,10 +140,10 @@ class NewsRepository implements NewsRepositoryInterface
                         $image->resize($explode[0], $explode[1]);
                         $image->interlace();
 
-                        if (!File::exists(public_path() . "/files/news/".$valueImage."/".$newsId."/")) {
-                            File::makeDirectory(public_path() . "/files/news/".$valueImage."/".$newsId."/", 0777, true);
+                        if (!File::exists($this->publicImagePath.$valueImage."/".$newsId."/")) {
+                            File::makeDirectory($this->publicImagePath.$valueImage."/".$newsId."/", 0777, true);
                         }
-                        $image->save(public_path() . "/files/news/".$valueImage."/".$newsId."/".$filename);
+                        $image->save($this->publicImagePath.$valueImage."/".$newsId."/".$filename);
                     }
                 }
             }
@@ -177,23 +178,23 @@ class NewsRepository implements NewsRepositoryInterface
         $result = $this->modelImage->get();
         $shop = $this->shop->find($shopId);
         foreach ($result as $productImage) {
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $keyImage => $valueImage) {
-                        if (!File::exists(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/")) {
-                            File::makeDirectory(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/", 0777, true);
+                        if (!File::exists($this->publicImagePath.$valueImage."/".$productImage->news_id."/")) {
+                            File::makeDirectory($this->publicImagePath.$valueImage."/".$productImage->news_id."/", 0777, true);
                         }
 
-                        if (!File::exists(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/".$productImage->file)) {
-                            if (File::exists(storage_path() ."/app/files/news/".$productImage->news_id."/".$productImage->file)) {
-                                $image = Image::make(storage_path() ."/app/files/news/".$productImage->news_id."/".$productImage->file);
+                        if (!File::exists($this->publicImagePath.$valueImage."/".$productImage->news_id."/".$productImage->file)) {
+                            if (File::exists($this->storageImagePath.$productImage->news_id."/".$productImage->file)) {
+                                $image = Image::make(storage_path() .config('hideyo.storage_path'). "//news/".$productImage->news_id."/".$productImage->file);
                                 $explode = explode('x', $valueImage);
                                 $image->fit($explode[0], $explode[1]);
                             
                                 $image->interlace();
 
-                                $image->save(public_path() . "/files/news/".$valueImage."/".$productImage->news_id."/".$productImage->file);
+                                $image->save(public_path() .config('hideyo.storage_path'). "/news/".$valueImage."/".$productImage->news_id."/".$productImage->file);
                             }
                         }
                     }
@@ -287,17 +288,17 @@ class NewsRepository implements NewsRepositoryInterface
     public function destroyImage($newsImageId)
     {
         $this->modelImage = $this->findImage($newsImageId);
-        $filename = storage_path() ."/app/files/news/".$this->modelImage->news_id."/".$this->modelImage->file;
+        $filename = $this->storageImagePath.$this->modelImage->news_id."/".$this->modelImage->file;
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (File::exists($filename)) {
             File::delete($filename);
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $keyImage => $valueImage) {
-                        File::delete(public_path() . "/files/news/".$valueImage."/".$this->modelImage->news_id."/".$this->modelImage->file);
+                        File::delete($this->publicImagePath.$valueImage."/".$this->modelImage->news_id."/".$this->modelImage->file);
                     }
                 }
             }

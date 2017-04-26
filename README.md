@@ -11,7 +11,7 @@ Author: Matthijs Neijenhuijs
 
 ## Hideyo backend requirements
 
-For now: Elasticsearch, npm, Bower and Gulp. 
+For now: <a href="https://www.elastic.co/">Elasticsearch</a>, <a href="https://www.npmjs.com/">npm</a>, <a href="https://bower.io/">Bower</a> and <a href="http://gulpjs.com/">gulp.js</a>. 
 
 
 ## Installation

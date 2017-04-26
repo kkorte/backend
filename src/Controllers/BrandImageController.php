@@ -35,11 +35,11 @@ class BrandImageController extends Controller
             $datatables = Datatables::of($image)
 
             ->addColumn('thumb', function ($image) use ($brandId) {
-                return '<img src="/files/brand/100x100/'.$image->brand_id.'/'.$image->file.'"  />';
+                return '<img src="'.config('hideyo.public_path').'/brand/100x100/'.$image->brand_id.'/'.$image->file.'"  />';
             })
             ->addColumn('action', function ($image) use ($brandId) {
-                $deleteLink = Form::deleteajax('/admin/brand/'.$brandId.'/images/'. $image->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $links = '<a href="/admin/brand/'.$brandId.'/images/'.$image->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                $deleteLink = Form::deleteajax(url()->route('hideyo.brand-image.destroy', array('brandId' => $brandId, 'id' => $image->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $links = '<a href="'.url()->route('hideyo.brand-image.edit', array('brandId' => $brandId, 'id' => $image->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 return $links;
             });
 

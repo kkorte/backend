@@ -46,7 +46,7 @@ class HtmlBlockController extends Controller
             })
             ->addColumn('image', function ($query) {
                 if ($query->image_file_name) {
-                    return '<img src="/files/html_block/'.$query->id.'/'.$query->image_file_name.'" width="200px" />';
+                    return '<img src="'.config('hideyo.public_path').'/html_block/'.$query->id.'/'.$query->image_file_name.'" width="200px" />';
                 }
             })
             ->addColumn('action', function ($query) {

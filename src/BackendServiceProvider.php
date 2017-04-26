@@ -11,6 +11,7 @@ use Hideyo\Ecommerce\Backend\Services\HtmlServiceProvider as CustomHtmlServicePr
 use Krucas\Notification\NotificationServiceProvider;
 use Yajra\Datatables\DatatablesServiceProvider;
 use Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider;
+use Intervention\Image\ImageServiceProvider;
 use Auth;
 use Schema;
 use Route;
@@ -43,6 +44,7 @@ class BackendServiceProvider extends ServiceProvider
     
         $this->publishes([
             __DIR__.'/config/hideyo.php' => config_path('hideyo.php'),
+            __DIR__.'/config/elasticquent.php' => config_path('elasticquent.php'),
             __DIR__.'/../seeds' => database_path('seeds/'),
             __DIR__.'/../factories' => database_path('factories/'),
             __DIR__.'/Resources/views' => resource_path('views/vendor/hideyobackend'),
@@ -308,12 +310,14 @@ class BackendServiceProvider extends ServiceProvider
         $this->app->register(DatatablesServiceProvider::class);
         $this->app->register(CustomHtmlServiceProvider::class);
         $this->app->register(UniqueWithValidatorServiceProvider::class);
+        $this->app->register(ImageServiceProvider::class);
 
         if (class_exists('Illuminate\Foundation\AliasLoader')) {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Form', \Collective\Html\FormFacade::class);
             $loader->alias('Html', \Collective\Html\HtmlFacade::class);
             $loader->alias('Notification', \Krucas\Notification\Facades\Notification::class);
+            $loader->alias('Image', \Intervention\Image\Facades\Image::class);
         }
     }
 

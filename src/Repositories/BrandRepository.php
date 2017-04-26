@@ -16,12 +16,18 @@ class BrandRepository implements BrandRepositoryInterface
 {
     protected $model;
 
-    public function __construct(Brand $model, BrandImage $modelImage, RedirectRepositoryInterface $redirect, ShopRepositoryInterface $shop)
+    public function __construct(
+        Brand $model, 
+        BrandImage $modelImage, 
+        RedirectRepositoryInterface $redirect, 
+        ShopRepositoryInterface $shop)
     {
-        $this->model = $model;
-        $this->modelImage = $modelImage;
-        $this->redirect = $redirect;
-        $this->shop = $shop;
+        $this->model        = $model;
+        $this->modelImage   = $modelImage;
+        $this->redirect     = $redirect;
+        $this->shop         = $shop;
+        $this->storageImagePath = storage_path() .config('hideyo.storage_path'). "/brand/";
+        $this->publicImagePath = public_path() .config('hideyo.public_path'). "/brand/";
     }
 
     /**
@@ -34,18 +40,19 @@ class BrandRepository implements BrandRepositoryInterface
     {
         if (isset($attributes['seo'])) {
             $rules = array(
-                'meta_title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
+                'meta_title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id'
             );
 
             return $rules;
         } 
 
         $rules = array(
-            'title'                 => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
+            'rank'  => 'required|integer'
         );
         
         if ($brandId) {
-            $rules['title'] =   'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id, '.$brandId.' = id';
+            $rules['title'] =   $rules['title'].', '.$brandId.' = id';
         }
      
         return $rules;
@@ -87,7 +94,7 @@ class BrandRepository implements BrandRepositoryInterface
 
         $attributes['modified_by_user_id'] = $userId;
 
-        $destinationPath = storage_path() . "/app/files/brand/".$brandId;
+        $destinationPath = $this->storageImagePath.$brandId;
         $attributes['user_id'] = $userId;
         $attributes['brand_id'] = $brandId;
         $attributes['extension'] = $attributes['file']->getClientOriginalExtension();
@@ -103,8 +110,8 @@ class BrandRepository implements BrandRepositoryInterface
             $this->modelImage->fill($attributes);
             $this->modelImage->save();
 
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
                         $image = Image::make($uploadSuccess->getRealPath());
@@ -112,10 +119,10 @@ class BrandRepository implements BrandRepositoryInterface
                         $image->resize($explode[0], $explode[1]);
                         $image->interlace();
 
-                        if (!File::exists(public_path() . "/files/brand/".$value."/".$brandId."/")) {
-                            File::makeDirectory(public_path() . "/files/brand/".$value."/".$brandId."/", 0777, true);
+                        if (!File::exists($this->publicImagePath.$value."/".$brandId."/")) {
+                            File::makeDirectory($this->publicImagePath.$value."/".$brandId."/", 0777, true);
                         }
-                        $image->save(public_path() . "/files/brand/".$value."/".$brandId."/".$filename);
+                        $image->save($this->publicImagePath.$value."/".$brandId."/".$filename);
                     }
                 }
             }
@@ -182,24 +189,23 @@ class BrandRepository implements BrandRepositoryInterface
         // $redirectResult = $this->redirect->create(array('active' => 1, 'url' => $url, 'redirect_url' => $newUrl, 'shop_id' => $this->model->shop_id));
 
         $this->model->save();
-
         return $this->model->delete();
     }
 
     public function destroyImage($imageId)
     {
         $this->modelImage = $this->findImage($imageId);
-        $filename = storage_path() ."/app/files/brand/".$this->modelImage->brand_id."/".$this->modelImage->file;
+        $filename = $this->storageImagePath.$this->modelImage->brand_id."/".$this->modelImage->file;
         $shopId = Auth::guard('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (File::exists($filename)) {
             File::delete($filename);
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
+            if ($shop->thumbnail_square_sizes) {
+                $sizes = explode(',', $shop->thumbnail_square_sizes);
                 if ($sizes) {
                     foreach ($sizes as $key => $value) {
-                        \File::delete(public_path() . "/files/brand/".$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
+                        File::delete($this->publicImagePath.$value."/".$this->modelImage->brand_id."/".$this->modelImage->file);
                     }
                 }
             }
@@ -212,24 +218,24 @@ class BrandRepository implements BrandRepositoryInterface
     {
         $result = $this->modelImage->get();
         $shop = $this->shop->find($shopId);
-        foreach ($result as $productImage) {
-            if ($shop->square_thumbnail_sizes) {
-                $sizes = explode(',', $shop->square_thumbnail_sizes);
-                if ($sizes) {
-                    foreach ($sizes as $key => $value) {
-                        if (!File::exists(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/")) {
-                            File::makeDirectory(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/", 0777, true);
-                        }
+        if($result AND $shop->thumbnail_square_sizes) {
+            foreach ($result as $productImage) {
+                if ($shop->thumbnail_square_sizes) {
+                    $sizes = explode(',', $shop->thumbnail_square_sizes);
+                    if ($sizes) {
+                        foreach ($sizes as $key => $value) {
+                            if (!File::exists($this->publicImagePath.$value."/".$productImage->brand_id."/")) {
+                                File::makeDirectory($this->publicImagePath.$value."/".$productImage->brand_id."/", 0777, true);
+                            }
 
-                        if (!File::exists(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/".$productImage->file)) {
-                            if (File::exists(storage_path() ."/app/files/brand/".$productImage->brand_id."/".$productImage->file)) {
-                                $image = Image::make(storage_path() ."/app/files/brand/".$productImage->brand_id."/".$productImage->file);
-                                $explode = explode('x', $value);
-                                $image->fit($explode[0], $explode[1]);
-                            
-                                $image->interlace();
-
-                                $image->save(public_path() . "/files/brand/".$value."/".$productImage->brand_id."/".$productImage->file);
+                            if (!File::exists($this->publicImagePath.$value."/".$productImage->brand_id."/".$productImage->file)) {
+                                if (File::exists($this->storageImagePath.$productImage->brand_id."/".$productImage->file)) {
+                                    $image = Image::make($this->storageImagePath.$productImage->brand_id."/".$productImage->file);
+                                    $explode = explode('x', $value);
+                                    $image->fit($explode[0], $explode[1]);
+                                    $image->interlace();
+                                    $image->save($this->publicImagePath.$value."/".$productImage->brand_id."/".$productImage->file);
+                                }
                             }
                         }
                     }
